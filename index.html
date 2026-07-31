@@ -1,0 +1,3024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>The Celestial Codex — A Stoic Almanac</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+:root{
+  --ink:#182a3d; --ink-dim:rgba(24,42,61,.62); --ink-faint:rgba(24,42,61,.4);
+  --card:#ffffff; --card-soft:#f4faff; --hairline:rgba(21,64,97,.11);
+  --shadow-sm:0 1px 3px rgba(23,64,97,.06); --shadow-md:0 6px 22px rgba(23,64,97,.09);
+  --blue:#2f8fd6; --blue-dim:rgba(47,143,214,.14); --blue-glow:rgba(47,143,214,.4);
+  --green:#279a6b; --green-dim:rgba(39,154,107,.13); --green-glow:rgba(39,154,107,.4);
+  --marigold:#dd8f2c; --marigold-dim:rgba(221,143,44,.15); --marigold-glow:rgba(221,143,44,.45);
+  --rose:#c1604f; --rose-dim:rgba(193,96,79,.12);
+}
+body{
+  background:#efe2c8;
+  background:radial-gradient(130% 65% at 50% -6%, #fbf6ec 0%, #f5ecd9 30%, #efe2c8 55%, #e8d8ba 78%, #e0cca8 100%);
+  background-attachment:fixed;
+  color:var(--ink);
+  font-family:'Inter',sans-serif;
+  overflow:hidden;
+}
+/* ---------- design tokens ----------
+  ink: #182a3d (deep navy)   card: #ffffff on a pale sky wash
+  blue = sky/cosmic + primary action   green = rooted/personal   marigold = streak/volatility, the hero accent
+  display face: Fraunces (light, italic for reflective text)   body/ui: Inter
+------------------------------------------------------------------------------------------------------ */
+#stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.7}
+.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(130% 65% at 50% -6%, #fbf6ec 0%, #f5ecd9 30%, #efe2c8 55%, #e8d8ba 78%, #e0cca8 100%);display:flex;align-items:center;justify-content:center;z-index:50;transition:opacity 0.5s ease;overflow-y:auto}
+.overlay.hidden{opacity:0;pointer-events:none}
+.panel{width:400px;max-width:90vw;padding:2.6rem 1.7rem;margin:auto;text-align:center}
+.panel h2{font-family:'Fraunces',serif;font-size:1.55rem;font-weight:300;font-style:italic;color:var(--ink);letter-spacing:0.01em;margin-bottom:0.4rem}
+.panel .subtitle{font-size:0.72rem;color:var(--ink-faint);margin-bottom:2.1rem;font-weight:400;letter-spacing:0.01em}
+.btn{display:inline-block;background:var(--blue);border:none;color:#ffffff;font-family:'Inter',sans-serif;font-weight:600;font-size:0.78rem;letter-spacing:0.01em;padding:0.9rem 1.9rem;cursor:pointer;transition:all 0.2s ease;border-radius:100px;box-shadow:0 6px 16px rgba(47,143,214,.28)}
+.btn:hover{background:#2680c2;transform:translateY(-1px)}
+.btn.ghost{background:#ffffff;color:var(--ink);border:1px solid var(--hairline);box-shadow:var(--shadow-sm)}
+.btn.ghost:hover{border-color:rgba(21,64,97,.22)}
+.skip-link{display:block;margin:1.5rem auto 0;font-size:0.7rem;color:var(--ink-dim);text-transform:none;cursor:pointer;background:none;border:none;font-family:'Inter',sans-serif;text-decoration:underline;text-underline-offset:3px}
+.input-row{display:flex;gap:0.7rem;justify-content:center;margin-bottom:1.8rem}
+.input-group{display:flex;flex-direction:column;align-items:center}
+.input-group label{font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:0.4rem;font-weight:500}
+.input-group input{width:70px;background:#ffffff;border:1px solid var(--hairline);border-radius:10px;color:var(--ink);font-family:'Inter',sans-serif;font-size:1.05rem;text-align:center;padding:0.65rem 0;outline:none;box-shadow:var(--shadow-sm)}
+.input-group input[type=password]{width:220px;font-size:0.95rem;text-align:left;padding-left:0.9rem}
+.input-group input:focus{border-color:var(--blue)}
+.err{display:none;margin-top:1rem;font-size:0.72rem;color:var(--rose)}
+#app{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;display:none;flex-direction:column}
+#app.on{display:flex}
+header{position:relative;z-index:2;padding:1.5rem 1.3rem 0.7rem;display:flex;justify-content:space-between;align-items:baseline}
+header .h-title{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:400;color:var(--ink);letter-spacing:0.01em}
+header .h-identity{font-size:0.66rem;color:var(--ink-dim);margin-top:0.3rem;cursor:pointer;max-width:210px}
+header .h-identity:hover{color:var(--blue)}
+header .h-date{font-size:0.66rem;color:var(--ink-faint);text-align:right;line-height:1.8}
+header .h-date a{color:var(--ink-dim);text-decoration:none;border-bottom:1px solid var(--hairline);cursor:pointer}
+#views{flex:1;position:relative;overflow:hidden;z-index:2}
+.view{position:absolute;top:0;left:0;width:100%;height:100%;overflow-y:auto;padding:0.5rem 1.3rem 1.6rem;display:none;-webkit-overflow-scrolling:touch}
+.view.on{display:block}
+#tabbar{position:relative;z-index:3;display:flex;border-top:1px solid var(--hairline);background:rgba(255,255,255,0.82);backdrop-filter:blur(10px);padding-bottom:env(safe-area-inset-bottom)}
+.tab{flex:1;background:none;border:none;padding:0.85rem 0 0.75rem;cursor:pointer;font-family:'Inter',sans-serif;font-weight:500;font-size:0.66rem;letter-spacing:0.01em;color:var(--ink-faint);transition:color 0.25s ease;position:relative}
+.tab.on{color:var(--ink)}
+.tab.on::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:22px;height:2px;border-radius:2px;background:var(--blue)}
+.tab .badge{display:inline-block;min-width:14px;padding:1px 5px;margin-left:4px;border-radius:8px;background:var(--green-dim);color:var(--green);font-size:0.56rem}
+.pf-head{text-align:center;padding-top:0.5rem}
+.pf-head img{width:92px;height:92px;border-radius:50%;object-fit:cover;border:1px solid var(--hairline)}
+#pf-fortune{font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:1.08rem;line-height:1.6;color:var(--ink);padding:0.4rem 0.5rem 0.9rem;text-align:center;border-radius:10px;transition:background 0.2s ease}
+#pf-fortune:hover{background:var(--card-soft)}
+.char-card{position:relative;width:min(220px,58vw);margin:0 auto 0.6rem;border:1px solid var(--hairline);border-radius:16px;overflow:hidden;box-shadow:var(--shadow-md)}
+.char-card img{width:100%;height:auto;display:block;border:none;border-radius:0;box-shadow:none}
+#spread-row{display:flex;gap:3%;justify-content:center;margin:0.3rem auto 0;width:100%;max-width:390px}
+.spread-slot{width:31%;cursor:pointer;perspective:700px}
+.spread-slot .slot-inner{position:relative;transition:transform 0.55s cubic-bezier(0.22,1,0.36,1);transform-style:preserve-3d}
+.spread-slot.flipping .slot-inner{transform:rotateY(90deg)}
+.spread-slot img{width:100%;height:auto;display:block;border:1px solid var(--hairline);border-radius:10px;box-shadow:var(--shadow-sm)}
+.spread-slot.rev img.face{transform:rotate(180deg)}
+.spread-slot.on img.face{border-color:var(--blue)}
+.spread-pos{text-align:center;font-family:'Inter',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-faint);margin-top:0.5rem}
+#spread-detail{margin:0.5rem auto 0;width:100%;max-width:390px}
+.cull{display:flex;gap:0.9rem;align-items:center;justify-content:flex-end;margin:0.3rem 0 0.6rem;font-family:'Inter',sans-serif;font-size:0.66rem;color:var(--ink-faint)}
+.cull .chip{background:none;border:1px solid rgba(193,96,79,.38);border-radius:100px;padding:0.3rem 0.7rem;font:inherit;color:var(--rose);cursor:pointer}
+.cull .chip:hover{border-color:var(--rose)}
+.cull .chip.armed{background:var(--rose);border-color:var(--rose);color:#fff}
+.jacts{display:flex;gap:1.2rem;justify-content:flex-end;margin-top:0.6rem}
+.jact{background:none;border:none;padding:0;font-family:'Inter',sans-serif;font-size:0.66rem;color:var(--ink-faint);cursor:pointer}
+.jact:hover{color:var(--ink)}
+.jact.danger{color:#a86a5e}
+.jact.danger:hover{color:var(--rose)}
+.jact.on{color:var(--green)}
+.dcard .c-plate{display:block;width:112px;height:auto;margin:0 auto 0.6rem;border:1px solid var(--hairline);border-radius:10px}
+.char-plate{position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,0.9);backdrop-filter:blur(6px);border-top:1px solid var(--hairline);padding:0.55rem 0.5rem;text-align:center}
+.char-plate .cn{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:400;color:var(--ink)}
+.char-plate .ct{font-size:0.6rem;letter-spacing:0.04em;color:var(--ink-faint);margin-top:0.15rem}
+.ent-strip{display:flex;gap:0.65rem;overflow-x:auto;scroll-snap-type:x mandatory;padding:0.2rem 0.1rem 0.8rem;-webkit-overflow-scrolling:touch}
+.ent-strip::-webkit-scrollbar{height:3px}
+.ent-strip::-webkit-scrollbar-thumb{background:var(--hairline);border-radius:2px}
+.ent-card{flex:0 0 78%;scroll-snap-align:start;background:var(--card);border:1px solid var(--hairline);border-radius:14px;padding:0.9rem 1.1rem;text-align:left;box-shadow:var(--shadow-sm)}
+.ent-card .d{font-size:0.6rem;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:0.35rem}
+.ent-card .x{font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:0.92rem;line-height:1.5;color:var(--ink)}
+.ent-card.more{display:flex;align-items:center;justify-content:center;font-size:0.66rem;color:var(--blue);cursor:pointer;font-weight:500}
+.lrow,.ent-card,.flip-card .blk,.post,.action-card{background:var(--card);border-color:var(--hairline)}
+.pf-name{font-family:'Fraunces',serif;font-size:1.7rem;font-weight:300;color:var(--ink);margin-top:0.8rem}
+.pf-union{font-size:0.68rem;color:var(--ink-faint);margin:0.25rem 0 1.1rem}
+.blk{background:var(--card);border:1px solid var(--hairline);padding:1.1rem 1.2rem;margin:0.8rem 0;border-radius:14px;text-align:left;position:relative;box-shadow:var(--shadow-sm)}
+.blk .t{font-size:0.62rem;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:0.5rem;font-weight:500}
+.blk .b{font-family:'Fraunces',serif;font-style:italic;font-size:0.98rem;line-height:1.6;color:var(--ink);font-weight:300}
+.blk-wrap{position:relative;margin:0.8rem 0}
+.blk-wrap .blk{position:relative;z-index:2;margin:0}
+.blk-wrap .hang{position:absolute;z-index:1;right:1.2rem;bottom:0;white-space:nowrap;padding:0.9rem 0.85rem 0.35rem;border:1px solid var(--hairline);border-top:none;border-radius:0 0 10px 10px;background:var(--card-soft);font-size:0.58rem;letter-spacing:0.04em;color:var(--ink-faint);cursor:pointer;transition:transform 0.3s cubic-bezier(0.22,1,0.36,1),color 0.2s ease;transform:translateY(calc(100% - 0.7rem))}
+.blk-wrap .hang:hover{color:var(--ink);transform:translateY(100%)}
+.blk-wrap:has(.hang){margin-bottom:1.5rem}
+#journal-filter{display:flex;flex-wrap:wrap;gap:0.5rem;margin:0 0 1rem}
+.fchip{display:inline-flex;align-items:center;gap:0.4rem;background:#ffffff;border:1px solid var(--hairline);border-radius:100px;padding:0.35rem 0.8rem 0.35rem 0.65rem;font-family:'Inter',sans-serif;font-size:0.62rem;color:var(--ink-dim);cursor:pointer;transition:all 0.2s ease}
+.fchip .dot{width:6px;height:6px;border-radius:50%;flex:0 0 auto}
+.fchip:hover{border-color:rgba(21,64,97,.22);color:var(--ink)}
+.fchip.on{border-color:var(--fc,var(--blue));color:var(--ink);background:var(--card-soft)}
+.blk.green{border-color:rgba(39,154,107,.3);background:var(--green-dim)}
+.blk.green .t{color:var(--green)}
+.stats{text-align:center;font-size:0.66rem;color:var(--ink-faint);margin:1rem 0;line-height:2}
+.btn-row{display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;margin:0.9rem 0 0.4rem}
+.post{border-left:2px solid var(--hairline);padding:0.4rem 0 0.4rem 1rem;margin:0 0 0.9rem;text-align:left}
+.post .d{font-size:0.6rem;color:var(--ink-faint);margin-bottom:0.3rem}
+.post .x{font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:0.94rem;line-height:1.5;color:var(--ink)}
+.sec-label{font-size:0.64rem;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-faint);margin:1.5rem 0 0.7rem;text-align:left;font-weight:500}
+#deck-stage{position:relative;height:min(540px,60vh);overflow:hidden}
+.dcard{position:absolute;left:50%;top:52%;width:min(340px,86vw);height:min(480px,68vh);transform:translate(-50%,-50%);background:linear-gradient(180deg,#ffffff,#f4faff);border:1px solid var(--hairline);border-radius:20px;box-shadow:0 24px 60px rgba(23,64,97,.16);touch-action:none;user-select:none;-webkit-user-select:none;will-change:transform;display:flex;flex-direction:column;padding:1.5rem 1.4rem}
+.dcard .glyph{width:100%;height:110px;margin-bottom:0.4rem}
+.dcard .c-img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:1px solid var(--hairline);margin:0 auto 0.5rem;display:block}
+.dcard .c-name{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:300;color:var(--ink);text-align:center;letter-spacing:0.01em}
+.dcard .c-sub{font-size:0.62rem;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-faint);text-align:center;margin:0.3rem 0 1rem}
+.dcard .c-practice{font-family:'Fraunces',serif;font-style:italic;font-size:1rem;line-height:1.6;color:var(--ink-dim);text-align:center;font-weight:300}
+.dcard .c-hint{margin-top:auto;text-align:center;font-size:0.58rem;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-faint);line-height:2}
+.swipe-ov{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:20px;pointer-events:none;opacity:0;display:flex;align-items:center;justify-content:center;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;font-family:'Inter',sans-serif}
+.swipe-ov.right{background:rgba(24,42,61,0.06);color:var(--ink-dim);border:2px solid var(--hairline)}
+.swipe-ov.left{background:var(--green-dim);color:var(--green);border:2px solid rgba(39,154,107,.5)}
+.swipe-ov.down{background:var(--rose-dim);color:var(--rose);border:2px solid rgba(193,96,79,.5)}
+#deck-empty{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);text-align:center;display:none;width:86vw}
+#deck-empty .big{font-family:'Fraunces',serif;font-size:1.3rem;color:var(--ink);font-weight:300;margin-bottom:0.5rem}
+#deck-empty .sm{font-size:0.66rem;color:var(--ink-faint);line-height:2}
+#flash{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(39,154,107,0.10);pointer-events:none;opacity:0;z-index:40;transition:opacity 0.5s ease}
+#write-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(20,40,60,0.5);backdrop-filter:blur(4px);z-index:45;display:none;overflow-y:auto}
+#write-overlay.on{display:flex}
+.write-card{width:min(440px,92vw);margin:auto;padding:1.8rem 1.4rem;text-align:center;background:var(--card);border-radius:22px;box-shadow:0 24px 60px rgba(23,64,97,.22)}
+.write-card img{width:72px;height:72px;border-radius:50%;object-fit:cover;border:1px solid var(--hairline)}
+.write-card .w-name{font-family:'Fraunces',serif;font-size:1.4rem;font-weight:300;color:var(--ink);margin:0.6rem 0 0.1rem}
+.write-card .w-sub{font-size:0.62rem;color:var(--ink-faint);margin-bottom:1.2rem}
+.write-card textarea{width:100%;min-height:150px;background:var(--card-soft);border:1px solid var(--hairline);color:var(--ink);font-family:'Fraunces',serif;font-size:1rem;line-height:1.6;padding:1rem;outline:none;resize:vertical;border-radius:12px}
+.write-card textarea:focus{border-color:var(--blue)}
+.lrow{display:flex;align-items:center;gap:0.9rem;border:1px solid var(--hairline);border-radius:14px;padding:0.8rem 0.95rem;margin-bottom:0.65rem;box-shadow:var(--shadow-sm)}
+.lrow img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:1px solid var(--hairline);flex:0 0 auto}
+.lrow .li{flex:1;min-width:0;text-align:left}
+.lrow .ln{font-family:'Fraunces',serif;font-size:1rem;font-weight:400;color:var(--ink)}
+.lrow .ld{font-size:0.6rem;color:var(--ink-faint);margin-top:0.15rem}
+.lrow .lb{flex:0 0 auto;background:none;border:1px solid var(--hairline);color:var(--ink-dim);font-family:'Inter',sans-serif;font-size:0.58rem;padding:0.5rem 0.85rem;border-radius:100px;cursor:pointer}
+.empty{text-align:center;font-family:'Fraunces',serif;font-style:italic;font-weight:300;color:var(--ink-faint);padding:3rem 1rem;font-size:1rem;line-height:1.8}
+.flip-card{perspective:1200px;cursor:pointer}
+.flip-inner{position:relative;transform-style:preserve-3d;transition:transform 0.7s cubic-bezier(0.22,1,0.36,1)}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg)}
+.flip-face{backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.flip-back{position:absolute;top:0;left:0;width:100%;height:100%;transform:rotateY(180deg);overflow-y:auto}
+.flip-hint{margin-top:0.7rem;font-family:'Inter',sans-serif;font-size:0.58rem;letter-spacing:0.04em;color:var(--ink-faint)}
+@keyframes shufflePulse{0%,100%{box-shadow:0 0 0 0 rgba(39,154,107,0.35)}50%{box-shadow:0 0 0 10px rgba(39,154,107,0)}}
+#reshuffle-btn{position:absolute;bottom:1.1rem;left:50%;transform:translateX(-50%);z-index:6;animation:shufflePulse 3s ease-in-out infinite}
+
+/* ---------- dot convention: green = rooted/personal, blue = sky/cosmic, marigold = volatility/streak ---------- */
+.dot-g{background:var(--green);box-shadow:0 0 6px var(--green-glow)}
+.dot-b{background:var(--blue);box-shadow:0 0 6px var(--blue-glow)}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;flex:0 0 auto}
+
+/* ---------- onboarding sequence ---------- */
+.ob-step{display:none}
+.ob-step.on{display:block}
+.ob-progress{display:flex;gap:0.35rem;justify-content:center;margin-bottom:1.8rem}
+.ob-progress i{width:18px;height:3px;border-radius:2px;background:var(--hairline)}
+.ob-progress i.on{background:var(--blue)}
+.ob-orb{width:64px;height:64px;margin:0 auto 1.2rem;border-radius:50%;background:conic-gradient(from 200deg,var(--blue),var(--marigold),var(--blue));animation:orbspin 6s linear infinite;box-shadow:0 8px 24px rgba(47,143,214,.3)}
+@keyframes orbspin{to{transform:rotate(360deg)}}
+.ob-wheeltext{font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:1.1rem;color:var(--ink);letter-spacing:0.01em}
+
+/* ---------- reveal card ---------- */
+.reveal-card{background:var(--card);border:1px solid var(--hairline);border-radius:18px;padding:1.6rem 1.4rem;margin-top:1.4rem;box-shadow:var(--shadow-md)}
+
+/* ---------- paywall ---------- */
+.plan-card{background:var(--card);border:1px solid var(--hairline);border-radius:16px;padding:1.1rem 1.2rem;margin-bottom:0.8rem;text-align:left;cursor:pointer;transition:border-color 0.2s ease;box-shadow:var(--shadow-sm)}
+.plan-card.sel{border-color:var(--blue);background:var(--blue-dim)}
+.plan-card .pt{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:400;color:var(--ink)}
+.plan-card .pp{font-size:0.68rem;color:var(--ink-faint);margin-top:0.2rem}
+.plan-card .pb{display:inline-block;font-size:0.56rem;letter-spacing:0.04em;text-transform:uppercase;color:#ffffff;background:var(--marigold);padding:0.15rem 0.5rem;border-radius:100px;margin-left:0.5rem;vertical-align:middle}
+.feature-row{display:flex;gap:0.7rem;align-items:flex-start;padding:0.55rem 0;text-align:left}
+.feature-row .fi{color:var(--blue);flex:0 0 auto;margin-top:0.1rem}
+.feature-row .ft{font-size:0.84rem;color:var(--ink-dim)}
+.feature-row.featured{border-radius:12px;background:var(--marigold-dim);padding:0.7rem 0.8rem;margin:0.3rem 0}
+.feature-row.featured .fi{color:var(--marigold)}
+.feature-row.featured .ft{color:var(--ink);font-weight:500}
+.binding-ring{display:grid;grid-template-columns:repeat(13,1fr);gap:6px;margin:1.4rem 0}
+.bw{aspect-ratio:1;border-radius:4px;background:var(--hairline)}
+.bw.kept{background:var(--green)}
+.bw.now{outline:2px solid var(--blue);outline-offset:1px}
+
+/* ---------- Logic / Cycle in-app views ---------- */
+.doc-wrap{max-width:640px;margin:0 auto;padding:0.5rem 0 2rem}
+.doc-wrap h2{font-family:'Fraunces',serif;font-weight:400;font-size:1.15rem;color:var(--ink);margin:1.8rem 0 0.6rem;letter-spacing:0.01em}
+.doc-wrap p,.doc-wrap li{font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:0.96rem;line-height:1.75;color:var(--ink-dim);margin-bottom:0.9rem}
+.doc-wrap ul{padding-left:1.3rem;margin-bottom:0.9rem}
+.doc-wrap .formula{background:var(--card-soft);border:1px solid var(--hairline);padding:1rem 1.2rem;margin:1.1rem 0;font-family:'Inter',monospace;font-size:0.74rem;color:#2b6a8f;line-height:1.85;border-radius:10px;font-style:normal}
+.doc-wrap .note{border-left:2px solid rgba(39,154,107,.4);padding-left:1.1rem;margin:1.2rem 0}
+.doc-wrap table{width:100%;border-collapse:collapse;margin:1.2rem 0}
+.doc-wrap td,.doc-wrap th{font-family:'Inter',sans-serif;font-style:normal;font-size:0.68rem;color:var(--ink-dim);padding:0.5rem 0.5rem;border-bottom:1px solid var(--hairline);text-align:left}
+.doc-wrap th{color:var(--ink-faint);text-transform:uppercase;font-size:0.54rem;letter-spacing:0.06em}
+.doc-wrap strong{color:var(--ink);font-weight:500;font-style:normal}
+.cy-legend{display:flex;gap:1rem;flex-wrap:wrap;margin:0.8rem 0 1.4rem}
+.cy-legend span{font-size:0.58rem;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-faint)}
+.cy-legend i{display:inline-block;width:13px;height:4px;border-radius:2px;vertical-align:1px;margin-right:5px}
+.cy-svg{display:block;width:100%;height:auto;cursor:pointer}
+.cy-detail{background:var(--card);border:1px solid var(--hairline);border-radius:14px;padding:1.2rem 1.2rem;margin-top:1.2rem;min-height:110px;box-shadow:var(--shadow-sm)}
+.cy-detail .dn{font-family:'Fraunces',serif;font-size:1.2rem;font-weight:300;color:var(--blue)}
+.cy-detail .dd{font-size:0.6rem;color:var(--ink-faint);margin:0.25rem 0 0.7rem}
+.cy-detail .dx{font-family:'Fraunces',serif;font-style:italic;font-size:0.94rem;line-height:1.65;color:var(--ink-dim);font-weight:300}
+.cy-hint{text-align:center;font-size:0.58rem;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-faint);margin-top:0.6rem}
+
+/* ---------- lock / upsell ---------- */
+.lock-card{text-align:center;padding:2.4rem 1.4rem;background:var(--card);border:1px solid var(--hairline);border-radius:18px;margin-top:1rem;box-shadow:var(--shadow-sm)}
+.lock-card .lt{font-family:'Fraunces',serif;font-size:1.15rem;font-weight:300;color:var(--ink);margin-bottom:0.5rem}
+.lock-card .ld{font-size:0.82rem;color:var(--ink-dim);line-height:1.6;margin-bottom:1.3rem}
+
+/* ---------- Path/Practice slide carousel ---------- */
+.pp-carousel{overflow:hidden;border-radius:14px}
+.pp-track{display:flex;width:200%;transition:transform 0.4s cubic-bezier(0.22,1,0.36,1)}
+.pp-track.at-1{transform:translateX(-50%)}
+.pp-panel{width:50%;flex:0 0 50%}
+.pp-dots{display:flex;gap:0.4rem;justify-content:center;margin:0.6rem 0 0.3rem}
+.pp-dots i{width:16px;height:3px;border-radius:2px;background:var(--hairline);cursor:pointer}
+.pp-dots i.on{background:var(--blue)}
+
+/* ---------- Today's Notes list ---------- */
+.note-row{display:flex;align-items:flex-start;gap:0.7rem;padding:0.75rem 0;border-bottom:1px solid var(--hairline);cursor:pointer}
+.note-row:last-child{border-bottom:none}
+.note-row .nl{font-size:0.62rem;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-faint)}
+.note-row .nx{font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:0.9rem;color:var(--ink-dim);margin-top:0.15rem}
+.note-row .nx.empty-hint{color:var(--ink-faint);font-style:normal;font-family:'Inter',sans-serif}
+
+/* ---------- streak badge (header) ---------- */
+.streak-badge{display:flex;align-items:center;gap:0.4rem;justify-content:flex-end;cursor:pointer}
+.streak-badge .sn{font-family:'Fraunces',serif;font-size:1.15rem;color:var(--ink);font-weight:400}
+.streak-badge .sg{font-size:0.85rem;padding:0.25rem 0.5rem;border-radius:100px;background:var(--marigold-dim);border:1px solid rgba(221,143,44,.3)}
+@keyframes streakPulse{0%{box-shadow:0 0 0 0 rgba(221,143,44,0.5)}70%{box-shadow:0 0 0 8px rgba(221,143,44,0)}100%{box-shadow:0 0 0 0 rgba(221,143,44,0)}}
+.streak-badge.pulse .sg{animation:streakPulse 0.9s ease-out}
+
+/* ---------- profile plaque (signature element) ---------- */
+.plaque{text-align:center;padding:1.6rem 0 0.6rem}
+.plaque-ring-wrap{position:relative;width:118px;height:118px;margin:0 auto 0.7rem;cursor:pointer}
+.plaque-ring{position:absolute;top:0;left:0;width:100%;height:100%;transform:rotate(-90deg)}
+.plaque-ring .ring-bg{fill:none;stroke:var(--hairline);stroke-width:4}
+.plaque-ring .ring-fg{fill:none;stroke:var(--ring-color,var(--marigold));stroke-width:4;stroke-linecap:round;stroke-dasharray:339.3;stroke-dashoffset:339.3;transition:stroke-dashoffset 0.6s ease,stroke 0.6s ease;filter:drop-shadow(0 0 5px var(--ring-color,var(--marigold)))}
+.plaque-img{position:absolute;top:9px;left:9px;width:100px;height:100px;border-radius:50%;object-fit:cover;border:1px solid var(--hairline);box-shadow:var(--shadow-sm)}
+.plaque-name{font-family:'Fraunces',serif;font-size:1.55rem;font-weight:300;color:var(--ink);letter-spacing:0.01em}
+.plaque-title{font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);margin-top:0.15rem}
+.plaque-union{font-size:0.78rem;color:var(--ink-dim);margin-top:0.4rem}
+.plaque-binding{display:inline-block;margin-top:0.6rem;font-size:0.64rem;color:var(--marigold);cursor:pointer;border-bottom:1px solid rgba(221,143,44,.35)}
+.plaque-more{display:inline-block;margin-top:0.5rem;font-size:0.66rem;color:var(--blue);cursor:pointer;font-weight:500;text-decoration:none}
+
+/* ---------- Profile page (full identity view) ---------- */
+.plaque.plaque-full .plaque-ring-wrap{width:148px;height:148px}
+.plaque.plaque-full .plaque-img{width:130px;height:130px;top:9px;left:9px}
+.plaque.plaque-full .plaque-name{font-size:1.9rem}
+.prof-birth{font-size:0.68rem;color:var(--ink-faint);margin-top:0.5rem}
+.stat-tiles{display:flex;gap:0.6rem;margin:1.2rem 0}
+.stat-tile{flex:1;background:var(--card);border:1px solid var(--hairline);border-radius:14px;padding:0.9rem 0.4rem;text-align:center;box-shadow:var(--shadow-sm)}
+.stat-tile .sv{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:400;color:var(--ink)}
+.stat-tile .sl{font-size:0.56rem;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-faint);margin-top:0.2rem}
+.prof-link-row{display:flex;align-items:center;justify-content:space-between;padding:0.95rem 1.1rem;background:var(--card);border:1px solid var(--hairline);border-radius:14px;margin-bottom:0.65rem;cursor:pointer;box-shadow:var(--shadow-sm);font-size:0.82rem;color:var(--ink)}
+.lock-hint{font-size:0.56rem;letter-spacing:0.04em;text-transform:uppercase;color:var(--marigold);background:var(--marigold-dim);padding:0.15rem 0.45rem;border-radius:100px;margin-left:0.4rem;vertical-align:1px}
+.prof-link-row .chev{color:var(--ink-faint);font-size:0.9rem}
+.prof-link-row .w-dot{margin-right:0.6rem}
+
+/* ---------- unified Today widget: shared row language across streak / chakra / cycle ---------- */
+.widget-card{background:var(--card);border:1px solid var(--hairline);border-radius:18px;padding:1rem 1.2rem 1.05rem;box-shadow:var(--shadow-md)}
+.widget-caption{display:flex;align-items:center;justify-content:center;gap:0.5rem;font-size:0.64rem;color:var(--ink-faint);text-align:center;padding-bottom:0.85rem}
+.widget-divider{height:1px;background:var(--hairline);margin:0.85rem 0}
+.w-dot{display:inline-block;width:7px;height:7px;border-radius:50%;flex:0 0 auto;box-shadow:0 0 6px currentColor}
+.w-label{display:flex;align-items:center;gap:0.5rem;font-size:0.62rem;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-faint);font-weight:500;margin-bottom:0.55rem}
+.w-tap{margin-left:auto;font-size:0.6rem;letter-spacing:0;text-transform:none;color:var(--ink-faint);font-weight:400}
+.widget-streak{cursor:default}
+.widget-streak .wrow{display:flex;align-items:baseline;justify-content:center;gap:0.5rem}
+.widget-streak .wn{font-family:'Fraunces',serif;font-size:2.1rem;font-weight:400;color:var(--ink)}
+.widget-streak .wl{font-size:0.66rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-faint)}
+.widget-streak .wg{font-size:1.4rem}
+.widget-streak.pulse .wg{animation:streakPulse 0.9s ease-out;border-radius:50%}
+.widget-chakra{cursor:pointer}
+.widget-chakra-hero{padding:0.7rem;margin:0 -0.7rem;border-radius:12px;display:flex;align-items:center;gap:0.8rem}
+.widget-chakra-hero .w-label{font-size:0.72rem;letter-spacing:0.02em;color:var(--ink);font-weight:600;margin-bottom:0;flex:1}
+.chakra-icon{flex:0 0 auto;width:34px;height:34px}
+.chakra-dot-hero{width:10px;height:10px}
+.note-typebox{position:relative;background:var(--card-soft);border:1px solid var(--hairline);border-radius:14px;padding:1.5rem 1.2rem 1.1rem;min-height:64px;font-family:'Fraunces',serif;font-style:italic;font-size:0.92rem;color:var(--ink-faint);cursor:text;box-shadow:var(--shadow-sm);transition:border-color 0.2s ease}
+.note-typebox:hover{border-color:var(--blue)}
+.note-typebox-label{position:absolute;top:0.55rem;left:1.2rem;font-family:'Inter',sans-serif;font-style:normal;font-size:0.58rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-faint);font-weight:500}
+.widget-cycle-row{cursor:pointer}
+
+/* ---------- reading recap: three small drawn cards ---------- */
+.reading-mini-row{display:flex;gap:0.6rem;justify-content:center}
+.reading-mini-row img{width:64px;height:auto;border-radius:8px;border:1px solid var(--hairline);box-shadow:var(--shadow-sm)}
+.reading-mini-row .rm-item{text-align:center}
+.reading-mini-row .rm-pos{font-size:0.5rem;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-faint);margin-top:0.3rem}
+
+/* ---------- write teaser (free-tier paywall preview inside the write overlay) ---------- */
+.write-teaser{background:linear-gradient(180deg,var(--marigold-dim),rgba(221,143,44,.04));border:1px solid rgba(221,143,44,.3);border-radius:14px;padding:1.3rem 1.1rem;text-align:center}
+.write-teaser .wt-icon{font-size:1.4rem;margin-bottom:0.4rem}
+.write-teaser .wt-title{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:400;color:var(--ink);margin-bottom:0.4rem}
+.write-teaser .wt-body{font-size:0.78rem;color:var(--ink-dim);line-height:1.55;margin-bottom:1rem}
+.write-teaser .wt-fake{background:rgba(255,255,255,.6);border:1px dashed rgba(221,143,44,.4);border-radius:10px;padding:0.9rem;font-family:'Fraunces',serif;font-style:italic;font-size:0.86rem;color:var(--ink-faint);margin-bottom:1rem;filter:blur(0.3px)}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+<div id="flash"></div>
+<div id="gate-overlay" class="overlay">
+<div class="panel">
+<h2>The Celestial Codex</h2>
+<p class="subtitle">This circle is private &mdash; speak the word to enter</p>
+<div class="input-row"><div class="input-group"><input type="password" id="gate-pass" placeholder="Password" onkeydown="if(event.key==='Enter')tryGate()"></div></div>
+<button class="btn" onclick="tryGate()">Enter</button>
+<div class="err" id="gate-error">Not the word. Try again.</div>
+</div>
+</div>
+<div id="codex-overlay" class="overlay hidden">
+<div class="panel" style="width:420px">
+<div class="ob-progress" id="ob-progress">
+<i class="on" data-s="1"></i><i data-s="2"></i><i data-s="3"></i><i data-s="4"></i>
+</div>
+
+<div class="ob-step on" id="ob-fields">
+<h2>The Celestial Codex</h2>
+<p class="subtitle">A working almanac for Stoics &mdash; enter your birthday</p>
+<div class="input-row">
+<div class="input-group"><label>Month</label><input type="number" id="in-month" min="1" max="12"></div>
+<div class="input-group"><label>Day</label><input type="number" id="in-day" min="1" max="31"></div>
+<div class="input-group"><label>Year</label><input type="number" id="in-year" min="1900" max="2100"></div>
+</div>
+<button class="btn" onclick="revealDeity()">Find My Sign</button>
+<div class="err" id="codex-error"></div>
+<button class="skip-link" onclick="skipCodex()">Browse without a birthday</button>
+</div>
+
+<div class="ob-step" id="reveal-wait" style="display:none">
+<div class="ob-orb"></div>
+<div class="ob-wheeltext" id="wait-name"></div>
+<p class="subtitle" style="margin-top:0.7rem">the wheels are turning&hellip;</p>
+</div>
+
+<div class="ob-step" id="codex-result" style="display:none">
+<div class="reveal-card">
+<div class="pf-name" id="res-deity" style="margin-top:0"></div>
+<div class="pf-union" id="res-union"></div>
+<div style="font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:0.85rem;color:var(--green);margin-bottom:0.3rem" id="res-mexica"></div>
+</div>
+<div class="btn-row"><button class="btn" onclick="goToPaywall()">Continue</button></div>
+<div class="btn-row" style="margin-top:0"><button class="skip-link" onclick="shareCard()">Share Your Card</button></div>
+</div>
+
+<div class="ob-step" id="ob-paywall">
+<h2 style="font-size:1.3rem">Two ways to keep the Codex</h2>
+<p class="subtitle">You can change this anytime</p>
+<div class="plan-card sel" id="plan-premium" onclick="selectPlan('premium')">
+<span class="pt">The Full Codex <span class="pb">$4.99/mo</span></span>
+<div class="pp">Saved journal, the full deck &amp; archive, Threaded connections, and the 52&#8209;week Binding</div>
+</div>
+<div class="plan-card" id="plan-free" onclick="selectPlan('free')">
+<span class="pt">Free</span>
+<div class="pp">Today's pull, your Union &amp; deity reveal, and the Cycle</div>
+</div>
+<div class="feature-row"><span class="fi">&#10022;</span><span class="ft">Save and revisit your own journal entries</span></div>
+<div class="feature-row"><span class="fi">&#10022;</span><span class="ft">Browse and archive the full 22&#8209;card deck</span></div>
+<div class="feature-row"><span class="fi">&#10022;</span><span class="ft">The 52&#8209;week Binding, tracked from your first entry</span></div>
+<div class="btn-row" style="margin-top:1.2rem"><button class="btn" onclick="goToEmail()" id="ob-paywall-cta">Continue</button></div>
+</div>
+
+<div class="ob-step" id="ob-email">
+<h2 style="font-size:1.3rem">Early access</h2>
+<p class="subtitle">Leave your email &mdash; we'll let you know when the Full Codex opens up</p>
+<div class="input-row"><div class="input-group" style="width:100%"><input type="email" id="ob-email-input" placeholder="you@email.com" style="width:100%;text-align:left;padding-left:0.9rem"></div></div>
+<div class="btn-row"><button class="btn" onclick="submitEmailCapture()">Get Early Access</button></div>
+<button class="skip-link" onclick="goToApp()">Maybe later</button>
+</div>
+
+</div>
+</div>
+<div id="daily-reveal-overlay" class="overlay hidden">
+<div class="panel" style="width:460px">
+<h2 id="dr-deity" style="font-size:1.3rem"></h2>
+<p class="subtitle" id="dr-union"></p>
+<div id="dr-fortune" style="font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:1rem;color:var(--ink-dim);margin-bottom:1.2rem"></div>
+<div class="sec-label" style="text-align:center">Today's Pull</div>
+<div id="spread-row"></div>
+<div id="spread-detail"></div>
+<div class="btn-row" style="margin-top:1.3rem">
+<button class="btn" onclick="dismissDailyReveal(true)">Write about today</button>
+</div>
+<button class="skip-link" onclick="dismissDailyReveal(false)">Skip for now</button>
+</div>
+</div>
+<div id="chakra-popup-overlay" class="overlay hidden">
+<div class="panel" style="width:400px" id="chakra-popup-body"></div>
+</div>
+<div id="info-popup-overlay" class="overlay hidden">
+<div class="panel" style="width:380px" id="info-popup-body"></div>
+</div>
+<div id="app">
+<header>
+<div>
+<div class="h-title">The Celestial Codex</div>
+<div class="h-identity" id="h-identity" onclick="showView('profile')"></div>
+</div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.4rem">
+<div class="h-date"><span id="h-date"></span><br><a onclick="showView('logic')">how this works</a></div>
+<div class="streak-badge" id="streak-badge" onclick="openStreakInfo()"></div>
+</div>
+</header>
+<div id="views">
+<div class="view" id="view-home">
+
+<div class="sec-label" style="margin-top:0.4rem">Today</div>
+<div class="widget-card">
+<div class="widget-caption" id="pf-celestial"></div>
+<div class="widget-divider"></div>
+<div class="widget-cycle-row" onclick="showView('cycle')">
+<div class="w-label"><span class="w-dot" style="background:var(--blue);box-shadow:0 0 6px var(--blue-glow)"></span>The Cycle<span class="w-tap">tap for more &rarr;</span></div>
+<div id="pf-cycle"></div>
+</div>
+<div class="widget-divider"></div>
+<div class="widget-chakra widget-chakra-hero" id="pf-dash-chakra" onclick="openChakraPopup()">
+<div class="chakra-icon" id="pf-chakra-icon"></div>
+<div class="w-label" id="pf-chk-day-t" style="margin-bottom:0"></div>
+</div>
+</div>
+
+<div class="sec-label" style="display:flex;justify-content:space-between;align-items:center">
+<span>Today's Reading</span>
+<a onclick="shareFortune()" style="color:var(--blue);text-decoration:none;font-size:0.62rem;cursor:pointer;text-transform:none;letter-spacing:0;font-weight:500">Share &#8599;</a>
+</div>
+<div class="blk" style="text-align:center">
+<div id="pf-reading-cards" class="reading-mini-row"></div>
+<div id="pf-fortune" style="cursor:pointer;margin-top:0.9rem" onclick="reopenDailyReveal()"></div>
+<button class="skip-link" style="margin:1rem auto 0" onclick="toggleReadingExpand()"><span id="reading-expand-label">What do these cards mean? &darr;</span></button>
+<div id="reading-expand" style="display:none;text-align:left;margin-top:0.9rem"></div>
+</div>
+
+<div class="sec-label">Path &amp; Practice</div>
+<div class="pp-carousel" id="pp-carousel">
+<div class="pp-track" id="pp-track">
+<div class="pp-panel"><div class="blk" style="margin:0"><div class="t">The Path</div><div class="b" id="pf-path"></div><div class="b" id="pf-watch" style="margin-top:0.5rem;font-size:0.85rem;color:var(--ink-dim)"></div></div></div>
+<div class="pp-panel"><div class="blk" style="margin:0"><div class="t" style="display:flex;justify-content:space-between"><span>The Practice</span><a onclick="quickNote('practice')" style="color:var(--blue);text-decoration:none;font-size:0.6rem;text-transform:none;letter-spacing:0;cursor:pointer">+ note</a></div><div class="b" id="pf-story"></div></div></div>
+</div>
+</div>
+<div class="pp-dots" style="margin-bottom:0.5rem"><i class="on" data-i="0" onclick="ppGoTo(0)"></i><i data-i="1" onclick="ppGoTo(1)"></i></div>
+
+<div id="pf-action"></div>
+
+<div class="note-typebox" onclick="openSelfWrite()"><span class="note-typebox-label">Notes</span>What's on your mind today&hellip;</div>
+
+<div class="ent-strip" id="pf-strip"></div>
+<div class="stats" id="pf-stats"></div>
+</div>
+<div class="view" id="view-deck">
+<button class="skip-link" style="text-align:left;margin:0.2rem 0 0.8rem" onclick="showView('journal')">&larr; Back to Journal</button>
+<div class="blk" style="text-align:center;margin-top:0.4rem;cursor:pointer" onclick="reopenDailyReveal()"><div class="t">Today's Pull</div><div class="b" style="font-size:0.82rem">Tap to review today's three-card reading</div></div>
+<div class="blk" style="text-align:center;margin-top:1rem" id="deck-full-intro"><div class="t">The Full Deck &middot; Twenty-Two Majors</div><div class="b" style="font-size:0.82rem">Held back until you ask for it.</div><button class="btn" style="margin-top:0.7rem" onclick="openFullDeck()">Browse the Full Deck</button></div>
+<div id="deck-full-wrap" style="display:none">
+<div class="blk" style="text-align:center;margin-top:1rem"><div class="t">The Full Deck &middot; Twenty-Two Majors</div><div class="b" style="font-size:0.82rem">tap to read &middot; skip &rarr; &middot; &darr; set aside</div></div>
+<div id="deck-stage"><div id="deck-empty"><div class="big">The deck is clear.</div><div class="sm">The sky reshuffles itself.</div></div></div>
+<div id="deck-peek" style="margin:0.4rem auto;width:min(430px,94vw)"></div>
+</div>
+</div>
+<div class="view" id="view-profile">
+<div class="plaque plaque-full" id="profile-plaque-full">
+<div class="plaque-ring-wrap" onclick="showView('binding')">
+<svg class="plaque-ring" viewBox="0 0 120 120">
+<circle class="ring-bg" cx="60" cy="60" r="54"></circle>
+<circle class="ring-fg" id="prof-plaque-ring-fg" cx="60" cy="60" r="54"></circle>
+</svg>
+<img id="prof-image" class="plaque-img" src="" alt="">
+</div>
+<div class="plaque-name" id="prof-deity"></div>
+<div class="plaque-title" id="prof-title"></div>
+<div class="plaque-union" id="prof-union"></div>
+<div class="prof-birth" id="prof-birth"></div>
+<div class="plaque-binding" id="prof-binding-line" onclick="showView('binding')"></div>
+<a class="plaque-more" style="font-size:0.62rem" onclick="event.stopPropagation();openBindingInfo()">What's the Binding? &rarr;</a>
+</div>
+<div class="blk" style="text-align:left" id="prof-essence-blk"><div class="t">The Current</div><div class="b" id="prof-essence"></div></div>
+<div class="stat-tiles" id="prof-stats"></div>
+<div class="blk" style="text-align:left" id="prof-path-blk"><div class="t">Today's Path</div><div class="b" id="prof-path"></div></div>
+<div class="prof-link-row" id="prof-chakra-link" onclick="openChakraPopup()"></div>
+<div class="prof-link-row" id="prof-lore-link"><span>The God Behind the Sign &amp; full lore</span><span class="chev">&rsaquo;</span></div>
+<div class="prof-link-row" id="prof-share-link" onclick="shareFromProfile()"><span>Share your Codex card</span><span class="chev">&rsaquo;</span></div>
+<div class="btn-row"><button class="skip-link" onclick="profileReset()">Not you? Enter a different birthday</button></div>
+</div>
+<div class="view" id="view-deity" style="text-align:center">
+<img id="dt-image" src="" alt="" style="width:110px;height:110px;border-radius:50%;object-fit:cover;border:1px solid var(--hairline);margin-top:0.5rem">
+<div class="pf-name" id="dt-name"></div>
+<div class="pf-union" id="dt-union"></div>
+<div class="blk" style="text-align:left"><div class="t">The Current</div><div class="b" id="dt-essence"></div></div>
+<div class="blk" style="text-align:left"><div class="t">The God Behind the Sign</div><div class="b" id="dt-lore"></div></div>
+<div class="blk" style="text-align:left"><div class="t" id="dt-quote-src"></div><div class="b" id="dt-quote" style="font-style:italic"></div></div>
+<div class="btn-row"><button class="btn" id="dt-write-btn">Write Under This Sign</button></div>
+<button class="skip-link" onclick="showView(deityReturnView)">&larr; Back</button>
+</div>
+<div class="view" id="view-journal">
+<div id="journal-lock" style="display:none"></div>
+<div id="journal-unlocked-wrap">
+<div style="display:flex;flex-wrap:wrap;gap:0.6rem;justify-content:center;margin:0.2rem 0 0.9rem"><button class="btn" onclick="openSelfWrite()">Write a Free Thought</button><button class="btn ghost" onclick="showView('deck')">Browse the Full Deck</button></div>
+<div id="journal-filter"></div>
+<div id="journal-cull" class="cull"></div>
+<div id="journal-list"></div>
+<div class="blk" style="margin-top:1.2rem"><div class="t">Archived</div><div class="b" style="font-size:0.85rem">Cards set aside. Write on one to bring it back, or let it go.</div></div>
+<div id="archived-cull" class="cull"></div>
+<div id="archived-list"></div>
+</div>
+</div>
+
+<div class="view" id="view-binding">
+<button class="skip-link" style="text-align:left;margin:0.2rem 0 0.8rem" onclick="showView('home')">&larr; Back</button>
+<div id="binding-body"></div>
+</div>
+
+<div class="view" id="view-logic">
+<button class="skip-link" style="text-align:left;margin:0.2rem 0 0.8rem" onclick="showView('home')">&larr; Back</button>
+<div class="doc-wrap" id="logic-body"></div>
+</div>
+
+<div class="view" id="view-cycle">
+<button class="skip-link" style="text-align:left;margin:0.2rem 0 0.8rem" onclick="showView('home')">&larr; Back</button>
+<div class="doc-wrap">
+<h1 style="font-family:'Fraunces',serif;font-weight:300;font-size:1.5rem;color:var(--ink)">Where We Are in the Cycle</h1>
+<p class="subtitle" style="margin:0.3rem 0 1.4rem;font-style:normal;font-family:'Inter',sans-serif">The year as a single line &mdash; tap any part of it</p>
+<div class="cy-legend">
+<span><i style="background:#ff6b4a"></i>fire seasons</span>
+<span><i style="background:#f2a93c"></i>earth seasons</span>
+<span><i style="background:#c9c3d9"></i>air seasons</span>
+<span><i style="background:#4fb8e8"></i>water seasons</span>
+<span><i style="background:#2f8fd6;width:8px;height:8px;border-radius:50%"></i>tonight&rsquo;s moon</span>
+</div>
+<svg id="cy-year" class="cy-svg" viewBox="0 0 100 26"></svg>
+<div class="cy-hint">the year &mdash; tap a segment</div>
+<svg id="cy-moon" class="cy-svg" viewBox="0 0 100 16" style="margin-top:1.8rem"></svg>
+<div class="cy-hint">the moon&rsquo;s loop &mdash; tap a phase</div>
+<div class="cy-detail" id="cy-detail">
+<div class="dn">The line, explained</div>
+<div class="dd">how to read this</div>
+<div class="dx">The long line is the year, broken into twelve spans, one for each frame of the Codex. The bright mark is today. The short line below is the moon&rsquo;s 29&#189;-day loop.</div>
+</div>
+</div>
+</div>
+
+</div>
+<nav id="tabbar">
+<button class="tab on" data-v="home" onclick="showView('home')">Almanac</button>
+<button class="tab" data-v="journal" onclick="showView('journal')">Journal</button>
+<button class="tab" data-v="profile" onclick="showView('profile')">Profile</button>
+</nav>
+</div>
+<div id="write-overlay">
+<div class="write-card">
+<img id="w-image" src="" alt="">
+<div class="w-name" id="w-name"></div>
+<div class="w-sub" id="w-sub"></div>
+<div class="blk" style="text-align:left;margin-bottom:1rem"><div class="t">The Prompt</div><div class="b" id="w-prompt"></div></div>
+<div id="w-write-area">
+<textarea id="w-text" placeholder="What did today's test teach you? Write it plainly, as if to yourself."></textarea>
+<div class="btn-row">
+<button class="btn" onclick="saveWrite()">Save &amp; Continue</button>
+</div>
+</div>
+<div id="w-teaser" class="write-teaser" style="display:none">
+<div class="wt-icon">&#9998;</div>
+<div class="wt-title">Write your reflection</div>
+<div class="wt-body">This is where you'd put today's test into words &mdash; and read it back on any day after. Journaling is the heart of the Full Codex.</div>
+<div class="wt-fake">Write it plainly, as if to yourself&hellip;</div>
+<button class="btn" onclick="closeWrite();goToPaywallFromApp()">Unlock Journaling</button>
+</div>
+<div class="btn-row" style="margin-top:0">
+<button class="skip-link" id="w-deity-link">The god behind this sign &rarr;</button>
+<button class="skip-link" onclick="closeWrite()">Back without saving</button>
+</div>
+</div>
+</div>
+<script>
+(function () {
+"use strict";
+var CNY_TABLE = {
+1930:[1,30],1931:[2,17],1932:[2,6],1933:[1,26],1934:[2,14],1935:[2,4],
+1936:[1,24],1937:[2,11],1938:[1,31],1939:[2,19],1940:[2,8],1941:[1,27],
+1942:[2,15],1943:[2,4],1944:[1,25],1945:[2,13],1946:[2,1],1947:[1,22],
+1948:[2,10],1949:[1,29],1950:[2,17],1951:[2,6],1952:[1,27],1953:[2,14],
+1954:[2,3],1955:[1,24],1956:[2,12],1957:[1,31],1958:[2,18],1959:[2,8],
+1960:[1,28],1961:[2,15],1962:[2,5],1963:[1,25],1964:[2,13],1965:[2,2],
+1966:[1,21],1967:[2,9],1968:[1,30],1969:[2,17],1970:[2,6],1971:[1,27],
+1972:[2,15],1973:[2,3],1974:[1,23],1975:[2,11],1976:[1,31],1977:[2,18],
+1978:[2,7],1979:[1,28],1980:[2,16],1981:[2,5],1982:[1,25],1983:[2,13],
+1984:[2,2],1985:[2,20],1986:[2,9],1987:[1,29],1988:[2,17],1989:[2,6],
+1990:[1,27],1991:[2,15],1992:[2,4],1993:[1,23],1994:[2,10],1995:[1,31],
+1996:[2,19],1997:[2,7],1998:[1,28],1999:[2,16],2000:[2,5],2001:[1,24],
+2002:[2,12],2003:[2,1],2004:[1,22],2005:[2,9],2006:[1,29],2007:[2,18],
+2008:[2,7],2009:[1,26],2010:[2,14],2011:[2,3],2012:[1,23],2013:[2,10],
+2014:[1,31],2015:[2,19],2016:[2,8],2017:[1,28],2018:[2,16],2019:[2,5],
+2020:[1,25],2021:[2,12],2022:[2,1],2023:[1,22],2024:[2,10],2025:[1,29],
+2026:[2,17],2027:[2,6],2028:[1,26],2029:[2,13],2030:[2,3]
+};
+var ANIMALS = ["Rat","Ox","Tiger","Rabbit","Dragon","Snake","Horse","Goat","Monkey","Rooster","Dog","Pig"];
+
+var SIGNS = ["Aries","Taurus","Gemini","Cancer","Leo","Virgo","Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces"];
+
+
+function westernSign(m, d) {
+  var md = m * 100 + d;
+  if (md >= 1222 || md <= 119) return "Capricorn";
+  if (md <= 218) return "Aquarius";
+  if (md <= 320) return "Pisces";
+  if (md <= 419) return "Aries";
+  if (md <= 520) return "Taurus";
+  if (md <= 620) return "Gemini";
+  if (md <= 722) return "Cancer";
+  if (md <= 822) return "Leo";
+  if (md <= 922) return "Virgo";
+  if (md <= 1022) return "Libra";
+  if (md <= 1121) return "Scorpio";
+  return "Sagittarius";
+}
+function chineseAnimal(m, d, y) {
+  var cny = CNY_TABLE[y], approx = false, cnyM, cnyD;
+  if (cny) { cnyM = cny[0]; cnyD = cny[1]; } else { cnyM = 2; cnyD = 4; approx = true; }
+  var onOrAfter = (m > cnyM) || (m === cnyM && d >= cnyD);
+  var idx = (((onOrAfter ? y : y - 1) - 1936) % 12 + 12) % 12;
+  return { animal: ANIMALS[idx], approx: approx };
+}
+
+// ================================================================
+// MEXICA TIME ENGINE — Caso correlation (the standard scholarly
+// anchor): Aug 13, 1521 (Julian) = day 1 Coatl (1 Serpent) of the
+// tonalpohualli and day 15 of the veintena Miccailhuitontli
+// (= Tlaxochimaco) of the xiuhpohualli. Attested in both Native
+// and Spanish sources for the fall of Tenochtitlan.
+// ================================================================
+var DAY_SIGNS = [
+  {n:"Cipactli", e:"Crocodile"}, {n:"Ehecatl", e:"Wind"}, {n:"Calli", e:"House"},
+  {n:"Cuetzpalin", e:"Lizard"}, {n:"Coatl", e:"Serpent"}, {n:"Miquiztli", e:"Death"},
+  {n:"Mazatl", e:"Deer"}, {n:"Tochtli", e:"Rabbit"}, {n:"Atl", e:"Water"},
+  {n:"Itzcuintli", e:"Dog"}, {n:"Ozomahtli", e:"Monkey"}, {n:"Malinalli", e:"Grass"},
+  {n:"Acatl", e:"Reed"}, {n:"Ocelotl", e:"Jaguar"}, {n:"Cuauhtli", e:"Eagle"},
+  {n:"Cozcacuauhtli", e:"Vulture"}, {n:"Ollin", e:"Movement"}, {n:"Tecpatl", e:"Flint"},
+  {n:"Quiahuitl", e:"Rain"}, {n:"Xochitl", e:"Flower"}
+];
+var VEINTENAS = [
+  {n:"Atlcahualo", e:"The Ceasing of Water", god:"Tlaloc and Chalchiuhtlicue"},
+  {n:"Tlacaxipehualiztli", e:"The Flaying of Men", god:"Xipe Totec"},
+  {n:"Tozoztontli", e:"The Small Vigil", god:"Coatlicue and Tlaloc"},
+  {n:"Huei Tozoztli", e:"The Great Vigil", god:"Centeotl and Chicomecoatl"},
+  {n:"Toxcatl", e:"The Drought", god:"Tezcatlipoca and Huitzilopochtli"},
+  {n:"Etzalcualiztli", e:"The Eating of Maize Porridge", god:"Tlaloc and Quetzalcoatl"},
+  {n:"Tecuilhuitontli", e:"The Small Feast of the Lords", god:"Huixtocihuatl and Xochipilli"},
+  {n:"Huei Tecuilhuitl", e:"The Great Feast of the Lords", god:"Xilonen and Chicomecoatl"},
+  {n:"Tlaxochimaco", e:"The Offering of Flowers (Miccailhuitontli)", god:"Huitzilopochtli"},
+  {n:"Xocotl Huetzi", e:"The Falling of Fruit", god:"Xiuhtecuhtli, the Fire Lord"},
+  {n:"Ochpaniztli", e:"The Sweeping", god:"Teteo Innan, Toci, and Coatlicue"},
+  {n:"Teotleco", e:"The Arrival of the Gods", god:"all the gods return"},
+  {n:"Tepeilhuitl", e:"The Feast of the Mountains", god:"the mountain Tlaloque"},
+  {n:"Quecholli", e:"The Precious Feather", god:"Mixcoatl, the Cloud Serpent"},
+  {n:"Panquetzaliztli", e:"The Raising of the Banner", god:"Huitzilopochtli"},
+  {n:"Atemoztli", e:"The Descent of Water", god:"the Tlaloque"},
+  {n:"Tititl", e:"The Stretching", god:"Cihuacoatl and Tonantzin"},
+  {n:"Izcalli", e:"The Growth", god:"Xiuhtecuhtli, the Fire Lord"}
+];
+function jdnFromDate(y, m, d) {
+  var a = Math.floor((14 - m) / 12);
+  var yy = y + 4800 - a;
+  var mm = m + 12 * a - 3;
+  return d + Math.floor((153 * mm + 2) / 5) + 365 * yy + Math.floor(yy / 4) - Math.floor(yy / 100) + Math.floor(yy / 400) - 32045;
+}
+// Anchor JDN: 1521-08-13 Julian (= 1521-08-23 proleptic Gregorian), day 1 Coatl.
+// 1 Coatl is index 104 of the 260-day round (coef 1 -> n%13==0, sign Coatl -> n%20==4).
+var CASO_JDN = jdnFromDate(1521, 8, 23); // proleptic Gregorian equivalent of the Julian anchor
+var CASO_TONAL = 104;
+var CASO_VEINTENA = 8;   // 0-based: 9th veintena (Tlaxochimaco / Miccailhuitontli)
+var CASO_VDAY = 15;      // day 15 of it -> 0-based day-of-year = 8*20 + 14 = 174
+var CASO_YDAY = 174;
+function tonalpohualli(date) {
+  var jdn = jdnFromDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
+  var diff = jdn - CASO_JDN;
+  var n = ((CASO_TONAL + diff) % 260 + 260) % 260;
+  return { coef: (n % 13) + 1, sign: DAY_SIGNS[n % 20], idx: n };
+}
+function xiuhpohualli(date) {
+  var jdn = jdnFromDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
+  var diff = jdn - CASO_JDN;
+  var yday = ((CASO_YDAY + diff) % 365 + 365) % 365;
+  if (yday >= 360) return { nemontemi: true, day: yday - 359, veintena: null };
+  var v = Math.floor(yday / 20);
+  return { nemontemi: false, day: (yday % 20) + 1, veintena: VEINTENAS[v], vidx: v };
+}
+// Moon phase: mean synodic month from the new moon of Jan 6, 2000 18:14 UTC.
+function moonPhase(date) {
+  var synodic = 29.530588853;
+  var known = Date.UTC(2000, 0, 6, 18, 14) / 86400000;
+  var now = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / 86400000;
+  var age = ((now - known) % synodic + synodic) % synodic;
+  var names = ["New Moon","Waxing Crescent","First Quarter","Waxing Gibbous","Full Moon","Waning Gibbous","Last Quarter","Waning Crescent"];
+  var idx = Math.floor(((age / synodic) * 8) + 0.5) % 8;
+  return { age: age, name: names[idx] };
+}
+// Planetary day rulers — the traditional weekday assignments.
+var DAY_RULERS = [
+  {p:"the Sun", q:"visibility and command"},
+  {p:"the Moon", q:"tides, memory, and the inner weather"},
+  {p:"Mars", q:"contest and assertion"},
+  {p:"Mercury", q:"messages, trade, and quick thought"},
+  {p:"Jupiter", q:"expansion and judgment"},
+  {p:"Venus", q:"relationships and value"},
+  {p:"Saturn", q:"limits, time, and structure"}
+];
+// The New Fire countdown: last ceremony 1507; the binding repeats every
+// 52 years, so the current binding closes in 2027.
+var LAST_FIRE = 1507, BINDING = 52;
+function nextFireYear(y) { return LAST_FIRE + BINDING * Math.ceil((y - LAST_FIRE) / BINDING); }
+
+
+var DAY_SIGNS = [
+  {n:"Cipactli", e:"Crocodile"}, {n:"Ehecatl", e:"Wind"}, {n:"Calli", e:"House"},
+  {n:"Cuetzpalin", e:"Lizard"}, {n:"Coatl", e:"Serpent"}, {n:"Miquiztli", e:"Death"},
+  {n:"Mazatl", e:"Deer"}, {n:"Tochtli", e:"Rabbit"}, {n:"Atl", e:"Water"},
+  {n:"Itzcuintli", e:"Dog"}, {n:"Ozomahtli", e:"Monkey"}, {n:"Malinalli", e:"Grass"},
+  {n:"Acatl", e:"Reed"}, {n:"Ocelotl", e:"Jaguar"}, {n:"Cuauhtli", e:"Eagle"},
+  {n:"Cozcacuauhtli", e:"Vulture"}, {n:"Ollin", e:"Movement"}, {n:"Tecpatl", e:"Flint"},
+  {n:"Quiahuitl", e:"Rain"}, {n:"Xochitl", e:"Flower"}
+];
+var VEINTENAS = [
+  {n:"Atlcahualo", e:"The Ceasing of Water", god:"Tlaloc and Chalchiuhtlicue"},
+  {n:"Tlacaxipehualiztli", e:"The Flaying of Men", god:"Xipe Totec"},
+  {n:"Tozoztontli", e:"The Small Vigil", god:"Coatlicue and Tlaloc"},
+  {n:"Huei Tozoztli", e:"The Great Vigil", god:"Centeotl and Chicomecoatl"},
+  {n:"Toxcatl", e:"The Drought", god:"Tezcatlipoca and Huitzilopochtli"},
+  {n:"Etzalcualiztli", e:"The Eating of Maize Porridge", god:"Tlaloc and Quetzalcoatl"},
+  {n:"Tecuilhuitontli", e:"The Small Feast of the Lords", god:"Huixtocihuatl and Xochipilli"},
+  {n:"Huei Tecuilhuitl", e:"The Great Feast of the Lords", god:"Xilonen and Chicomecoatl"},
+  {n:"Tlaxochimaco", e:"The Offering of Flowers (Miccailhuitontli)", god:"Huitzilopochtli"},
+  {n:"Xocotl Huetzi", e:"The Falling of Fruit", god:"Xiuhtecuhtli, the Fire Lord"},
+  {n:"Ochpaniztli", e:"The Sweeping", god:"Teteo Innan, Toci, and Coatlicue"},
+  {n:"Teotleco", e:"The Arrival of the Gods", god:"all the gods return"},
+  {n:"Tepeilhuitl", e:"The Feast of the Mountains", god:"the mountain Tlaloque"},
+  {n:"Quecholli", e:"The Precious Feather", god:"Mixcoatl, the Cloud Serpent"},
+  {n:"Panquetzaliztli", e:"The Raising of the Banner", god:"Huitzilopochtli"},
+  {n:"Atemoztli", e:"The Descent of Water", god:"the Tlaloque"},
+  {n:"Tititl", e:"The Stretching", god:"Cihuacoatl and Tonantzin"},
+  {n:"Izcalli", e:"The Growth", god:"Xiuhtecuhtli, the Fire Lord"}
+];
+function jdnFromDate(y, m, d) {
+  var a = Math.floor((14 - m) / 12);
+  var yy = y + 4800 - a;
+  var mm = m + 12 * a - 3;
+  return d + Math.floor((153 * mm + 2) / 5) + 365 * yy + Math.floor(yy / 4) - Math.floor(yy / 100) + Math.floor(yy / 400) - 32045;
+}
+// Anchor JDN: 1521-08-13 Julian (= 1521-08-23 proleptic Gregorian), day 1 Coatl.
+// 1 Coatl is index 104 of the 260-day round (coef 1 -> n%13==0, sign Coatl -> n%20==4).
+var CASO_JDN = jdnFromDate(1521, 8, 23); // proleptic Gregorian equivalent of the Julian anchor
+var CASO_TONAL = 104;
+var CASO_VEINTENA = 8;   // 0-based: 9th veintena (Tlaxochimaco / Miccailhuitontli)
+var CASO_VDAY = 15;      // day 15 of it -> 0-based day-of-year = 8*20 + 14 = 174
+var CASO_YDAY = 174;
+function tonalpohualli(date) {
+  var jdn = jdnFromDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
+  var diff = jdn - CASO_JDN;
+  var n = ((CASO_TONAL + diff) % 260 + 260) % 260;
+  return { coef: (n % 13) + 1, sign: DAY_SIGNS[n % 20], idx: n };
+}
+function xiuhpohualli(date) {
+  var jdn = jdnFromDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
+  var diff = jdn - CASO_JDN;
+  var yday = ((CASO_YDAY + diff) % 365 + 365) % 365;
+  if (yday >= 360) return { nemontemi: true, day: yday - 359, veintena: null };
+  var v = Math.floor(yday / 20);
+  return { nemontemi: false, day: (yday % 20) + 1, veintena: VEINTENAS[v], vidx: v };
+}
+// Moon phase: mean synodic month from the new moon of Jan 6, 2000 18:14 UTC.
+function moonPhase(date) {
+  var synodic = 29.530588853;
+  var known = Date.UTC(2000, 0, 6, 18, 14) / 86400000;
+  var now = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / 86400000;
+  var age = ((now - known) % synodic + synodic) % synodic;
+  var names = ["New Moon","Waxing Crescent","First Quarter","Waxing Gibbous","Full Moon","Waning Gibbous","Last Quarter","Waning Crescent"];
+  var idx = Math.floor(((age / synodic) * 8) + 0.5) % 8;
+  return { age: age, name: names[idx] };
+}
+// Draws an actual lit/shadow silhouette for a moon phase (k: 0=new, 0.5=full, 1=new again)
+// via the standard two-arc terminator technique, rather than a plain dot.
+function moonPhasePathD(cx, cy, r, k) {
+  var illum = (1 - Math.cos(2 * Math.PI * k)) / 2;
+  var waxing = k < 0.5;
+  var rx = r * Math.abs(1 - 2 * illum);
+  var outerSweep = waxing ? 1 : 0;
+  var innerSweep = illum < 0.5 ? outerSweep : (1 - outerSweep);
+  return "M " + cx + "," + (cy - r) +
+    " A " + r + "," + r + " 0 0," + outerSweep + " " + cx + "," + (cy + r) +
+    " A " + rx + "," + r + " 0 0," + innerSweep + " " + cx + "," + (cy - r) + " Z";
+}
+// Planetary day rulers — the traditional weekday assignments.
+var DAY_RULERS = [
+  {p:"the Sun", q:"visibility and command"},
+  {p:"the Moon", q:"tides, memory, and the inner weather"},
+  {p:"Mars", q:"contest and assertion"},
+  {p:"Mercury", q:"messages, trade, and quick thought"},
+  {p:"Jupiter", q:"expansion and judgment"},
+  {p:"Venus", q:"relationships and value"},
+  {p:"Saturn", q:"limits, time, and structure"}
+];
+// The New Fire countdown: last ceremony 1507; the binding repeats every
+// 52 years, so the current binding closes in 2027.
+
+var LAST_FIRE = 1507, BINDING = 52;
+function nextFireYear(y) { return LAST_FIRE + BINDING * Math.ceil((y - LAST_FIRE) / BINDING); }
+
+
+var TRINES = [["Rat","Dragon","Monkey"],["Ox","Snake","Rooster"],["Tiger","Horse","Dog"],["Rabbit","Goat","Pig"]];
+var CLASH = {"Rat":"Horse","Horse":"Rat","Ox":"Goat","Goat":"Ox","Tiger":"Monkey","Monkey":"Tiger","Rabbit":"Rooster","Rooster":"Rabbit","Dragon":"Dog","Dog":"Dragon","Snake":"Pig","Pig":"Snake"};
+var HARM = {"Rat":"Goat","Goat":"Rat","Ox":"Horse","Horse":"Ox","Tiger":"Snake","Snake":"Tiger","Rabbit":"Dragon","Dragon":"Rabbit","Monkey":"Pig","Pig":"Monkey","Rooster":"Dog","Dog":"Rooster"};
+var FRIEND = {"Rat":"Ox","Ox":"Rat","Tiger":"Pig","Pig":"Tiger","Rabbit":"Dog","Dog":"Rabbit","Dragon":"Rooster","Rooster":"Dragon","Snake":"Monkey","Monkey":"Snake","Horse":"Goat","Goat":"Horse"};
+
+function yearRelation(natal, current) {
+  if (natal === current) return "own";
+  if (CLASH[natal] === current) return "clash";
+  if (HARM[natal] === current) return "harm";
+  if (FRIEND[natal] === current) return "friend";
+  for (var i = 0; i < TRINES.length; i++) {
+    if (TRINES[i].indexOf(natal) !== -1 && TRINES[i].indexOf(current) !== -1) return "trine";
+  }
+  return "neutral";
+}
+function signsApart(a, b) {
+  var d = Math.abs(SIGNS.indexOf(a) - SIGNS.indexOf(b));
+  return Math.min(d, 12 - d);
+}
+
+// Personalized year text (practical, implicit) for codex users whose
+// actual animal differs from their frame's canonical pairing.
+var PERSONAL_YEAR = {
+  own: "This is your own year returned in the twelve-year cycle. Tradition treats it as unstable ground: momentum amplifies whatever you do, good or bad. Keep your commitments deliberate and your risks sized to survive being wrong.",
+  clash: "This is the demanding year of your cycle \u2014 direct opposition to the year's current. The practical counsel is consistent across the tradition: reduce exposure, defer the biggest bets where possible, and treat this as a positioning year rather than a striking year.",
+  harm: "This year runs at a pace that quietly drains rather than dramatically opposes. The cost is cumulative, not acute \u2014 so the defense is boundaries: fewer commitments, kept completely, and honest accounting of what each one costs you.",
+  friend: "This year is one of the traditional harmony pairings with your own \u2014 its momentum tends to carry rather than trample you, especially in partnerships and joint efforts. Cooperation is cheaper than usual; use it.",
+  trine: "This year shares your traditional grouping \u2014 the most supportive relationship in the cycle. Its drive runs on your track. Momentum is discounted for you this year; the scarce resource is choosing where to point it.",
+  neutral: "The year neither pushes nor resists you. In a fast year with no personal weather, outcomes are authored almost entirely by your own decisions \u2014 which is freedom, and also the removal of excuses."
+};
+var PERSONAL_MONTH = {
+  0: "This is your peak month of the year \u2014 energy, instinct, and visibility all aligned. What you maintain and protect now tends to hold.",
+  1: "Minor friction this month: the season's priorities sit slightly off your natural angle. Small adjustments, mostly around finishing rather than starting.",
+  2: "A supportive month \u2014 openings appear with less resistance than usual, but they require you to initiate. Nothing arrives unclaimed.",
+  3: "A demanding month: the season pulls against your default mode. The friction is productive if you aim it \u2014 growth here comes through effort, not ease.",
+  4: "An easy month \u2014 conditions flow with your nature. Ease gets squandered by default; use it deliberately or it converts to drift.",
+  5: "A recalibration month: plans revise mid-stride and loose ends surface on their own schedule. Treat it as inventory, not crisis.",
+  6: "A culmination month: what you have built faces its counterweight. Obligations mature in both directions \u2014 deliver what is owed, collect what is owed to you."
+};
+
+// ================================================================
+// THE TWELVE FRAMES — July 2026 readings, hand-written from the
+// computed relationships above. Traits implicit; no sign names.
+// ================================================================
+
+var DAY_DISCIPLINES = [
+  { name: "The Review", strategy: "end the week honestly: name one thing you did well, one you did poorly, one you left undone \u2014 no excuses" },
+  { name: "Premeditatio", strategy: "picture the day's most likely problem before it happens, so it meets a plan instead of a surprise" },
+  { name: "The Discipline of Action", strategy: "do the single next step on your most important task before touching anything easier" },
+  { name: "Prosoche", strategy: "do one thing at a time today; every switch costs you, and today you do not pay" },
+  { name: "Sympatheia", strategy: "carry one weight for someone else today \u2014 or hand back one that was never yours" },
+  { name: "Temperance", strategy: "find the one want pulling hardest today \u2014 treats, praise, more \u2014 and say no to it once, on purpose" },
+  { name: "Memento", strategy: "end the day by naming one thing today made permanent, for better or worse" }
+];
+
+
+var ASPECT_TEST = {
+  0: "you are at your peak right now, and peaks tempt you to overreach",
+  1: "the season sits a little off your natural angle, and small rubs add up",
+  2: "the season offers chances that only pay if you act first \u2014 waiting wastes them",
+  3: "the season pushes against your habits, and it will find your weakest one",
+  4: "things come easy right now, and easy quietly turns into drift",
+  5: "plans will change mid-stride and loose ends will surface uninvited",
+  6: "everything you built meets its counterweight, and debts come due both ways"
+};
+var YEAR_TEST = {
+  own: "it is your own year \u2014 it makes your best and worst moves louder",
+  clash: "the year pushes against you, so exposure costs more than usual",
+  harm: "the year quietly drains you, so every promise costs a bit more than it looks",
+  friend: "the year quietly helps you \u2014 teamwork is cheaper than usual",
+  trine: "the year's momentum runs on your track, so bold moves cost less",
+  neutral: "the year neither helps nor blocks you \u2014 today is fully on you"
+};
+
+
+function buildDaily(f, personalAnimal) {
+  var now = new Date();
+  var m = now.getMonth() + 1, d = now.getDate();
+  var transitSign = westernSign(m, d);
+  var yearAnimal = chineseAnimal(m, d, now.getFullYear()).animal;
+  var natalAnimal = personalAnimal || f.animal;
+  var apart = signsApart(f.sign, transitSign);
+  var rel = yearRelation(natalAnimal, yearAnimal);
+  var disc = DAY_DISCIPLINES[now.getDay()];
+  var ruler = DAY_RULERS[now.getDay()];
+  var moon = moonPhase(now);
+  var tonal = tonalpohualli(now);
+  var dateStr = now.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
+
+  return {
+    label: "Today \u2014 " + dateStr,
+    discName: disc.name,
+    testTitle: "The Test \u00b7 " + disc.name,
+    test: "Today will test your " + f.weakness + ". Two reasons: " + ASPECT_TEST[apart] + ", and " + YEAR_TEST[rel] + ". The clocks agree: it is a " + ruler.p + " day, the moon is " + (moon.name === "New Moon" || moon.name === "Full Moon" ? "a " + moon.name.toLowerCase() : (moon.name.indexOf("Waxing") === 0 ? "growing" : "shrinking")) + ", and the Aztec day-count reads " + tonal.coef + " " + tonal.sign.n + " (" + tonal.sign.e + ").",
+    strategy: "Today's practice is " + disc.name + ": " + disc.strategy + ". For you, aim it straight at the " + f.weakness + ".",
+    watch: f.watch.charAt(0).toUpperCase() + f.watch.slice(1)
+  };
+}
+
+
+var FRAMES = [
+{
+id:"huitzilopochtli", num:"Frame I", name:"Huitzilopochtli", aztec:"God of War and the Sun",
+godLore:"Huitzilopochtli was the Aztec god of war and the sun. The story says he was born ready to fight and won his first battle at once. The Aztecs believed the sun had to fight every night just to rise again. He is the god of the first move.",
+sign:"Aries", animal:"Tiger", union:"Mar 21 \u2013 Apr 19", element:"Fire",
+color:"#e2542b", bright:"#ff7a4d",
+center:{x:0.14,y:0.22},
+points:[{x:0.09,y:0.26},{x:0.12,y:0.21},{x:0.16,y:0.255},{x:0.185,y:0.20},{x:0.20,y:0.25},{x:0.17,y:0.175}],
+lines:[[0,1],[1,2],[2,3],[3,4],[3,5]],
+essence:"You move first. Waiting feels like losing. You start fires fast \u2014 and you often leave before the last one is lit.",
+principle:"The Discipline of Action",
+monthly:"This month, your job is to finish things. Your energy is high right now \u2014 the year is on your side. But the season rewards people who close doors, not people who open new ones. So spend that speed on old work. Every thing you finish becomes ground you own. When the season turns on the 23rd, then start something new.",
+figure:"Leonardo da Vinci",
+figure_line:"who lit more fires than he ever stayed to tend",
+weakness:"sticking with the boring middle part",
+watch:"starting something new just to avoid finishing something old.",
+vow:"Finish one thing you started more than a month ago. Just one. Log it in your journal when it is done.",
+quote:"What stands in the way becomes the way.", source:"Marcus Aurelius"
+},
+{
+id:"chicomecoatl", num:"Frame II", name:"Chicomecoatl", aztec:"Goddess of Maize and Sustenance",
+godLore:"Chicomecoatl was the Aztec goddess of corn and harvest. Corn is slow. You plant it, wait months, and only then eat. She stands for food on the table and work that pays off late. Her festivals were thank-yous for patience.",
+sign:"Taurus", animal:"Ox", union:"Apr 20 \u2013 May 20", element:"Earth",
+color:"#d4a72c", bright:"#ffd166",
+center:{x:0.38,y:0.22},
+points:[{x:0.32,y:0.22},{x:0.35,y:0.23},{x:0.38,y:0.22},{x:0.41,y:0.21},{x:0.44,y:0.22}],
+lines:[[0,1],[1,2],[2,3],[3,4]],
+essence:"You carry weight others cannot. You do not rush, and you do not quit. Your danger is carrying a load long after you should have set it down.",
+principle:"The Economy of Attention",
+monthly:"This month fits you well: it rewards steady work. But the year slowly drains you, a little each day. So guard your energy like money. Take the quiet chances that appear. Say no to one extra task. Few promises, fully kept \u2014 that is your win this month.",
+figure:"Karl Marx",
+figure_line:"who carried one unfinished manuscript for a lifetime",
+weakness:"keeping your pace when people push you to hurry",
+watch:"saying yes to one more task just to be polite.",
+vow:"Cancel or decline one commitment this week. Guard the freed energy like it is money.",
+quote:"Life is long if you know how to use it.", source:"Seneca"
+},
+{
+id:"huehuecoyotl", num:"Frame III", name:"Huehuecoyotl", aztec:"God of Mischief, Music, and Trickery",
+godLore:"Huehuecoyotl means 'Very Old Coyote.' He was the Aztec god of music, jokes, and tricks. But a coyote survives everything, and an old coyote has seen every trick twice. He is chaos with a long memory.",
+sign:"Gemini", animal:"Monkey", union:"May 21 \u2013 Jun 20", element:"Air",
+color:"#9b6bd4", bright:"#c3a0ff",
+center:{x:0.62,y:0.22},
+points:[{x:0.59,y:0.20},{x:0.605,y:0.24},{x:0.635,y:0.20},{x:0.65,y:0.24}],
+lines:[[0,1],[2,3],[1,2]],
+essence:"You hold many selves at once. You solve problems by refusing to be trapped by them. People call you unserious \u2014 while you are already three moves ahead.",
+principle:"Prosoche \u2014 The Practice of Attention",
+monthly:"This month asks for one thing: focus. Pick one thread and pull it to the end. Nothing outside will push you this month \u2014 no luck, no resistance. That means the result is fully yours. Being good at many things only counts when one of them reaches the target.",
+figure:"Arthur Conan Doyle",
+figure_line:"who held two irreconcilable selves without apparent discomfort",
+weakness:"going deep when new things keep sparkling",
+watch:"the third new idea before noon.",
+vow:"Pick one open project and work only on it for three days straight. No new ideas until it moves.",
+quote:"Nothing great is created suddenly.", source:"Epictetus"
+},
+{
+id:"coatlicue", num:"Frame IV", name:"Coatlicue", aztec:"Mother Goddess of Earth",
+godLore:"Coatlicue means 'Serpent Skirt.' She was the mother of the gods. Her statue wears snakes and a necklace of hearts. She is the earth itself: it feeds everyone, and it takes everyone back. She is the oldest kind of shelter.",
+sign:"Cancer", animal:"Rabbit", union:"Jun 21 \u2013 Jul 22", element:"Water",
+color:"#5a9e6f", bright:"#7fd99a",
+center:{x:0.84,y:0.22},
+points:[{x:0.84,y:0.185},{x:0.87,y:0.203},{x:0.87,y:0.237},{x:0.84,y:0.255},{x:0.81,y:0.237},{x:0.81,y:0.203}],
+lines:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,0]],
+essence:"You protect before you explore. You remember every door that opened or closed on you. Your strength is shelter. Your danger is a wall that outlives its reason.",
+principle:"The Present Moment",
+monthly:"This is your strongest stretch of the year. Energy and timing are on your side until the 22nd. Use them close to home: your body, your house, your people. Fix what is near. Tend what is yours. The far things can wait \u2014 they always could.",
+figure:"Marcel Proust",
+figure_line:"who rebuilt an entire world from inside one room",
+weakness:"knowing when a wall is no longer needed",
+watch:"defending a wall whose job is done.",
+vow:"Fix one thing close to home you keep stepping around \u2014 a repair, a drawer, a health habit you keep postponing.",
+quote:"Confine yourself to the present.", source:"Marcus Aurelius"
+},
+{
+id:"tezcatlipoca", num:"Frame V", name:"Tezcatlipoca", aztec:"God of Rulership, Fate, and the Night Sky",
+godLore:"Tezcatlipoca means 'Smoking Mirror.' He was the Aztec god of night, fate, and rulers. The mirror on his chest showed every king the truth about himself. He gave up a foot to help make the world. His gift to leaders is the honest mirror.",
+sign:"Leo", animal:"Horse", union:"Jul 23 \u2013 Aug 22", element:"Fire",
+color:"#5b7fd4", bright:"#8fb0ff",
+center:{x:0.14,y:0.50},
+points:[{x:0.07,y:0.47},{x:0.105,y:0.45},{x:0.14,y:0.445},{x:0.175,y:0.45},{x:0.21,y:0.47},{x:0.14,y:0.52}],
+lines:[[0,5],[1,5],[2,5],[3,5],[4,5]],
+essence:"You need room the way fire needs air. People who have never led call it vanity. You know the difference between wanting attention and needing space.",
+principle:"Temperance \u2014 The Mastery of Self",
+monthly:"This is your own year \u2014 it makes your best and worst moves louder. And this month keeps you off the stage until the 23rd. Use the quiet. Check your ambitions: which ones matter even if no one claps? Keep those. Drop the rest. In a loud year, self-control is your edge.",
+figure:"Napoleon Bonaparte",
+figure_line:"who assumed the room would grow to fit him",
+weakness:"self-control when no one is watching",
+watch:"raising the stakes just to feel alive.",
+vow:"Drop one ambition that only matters if people are watching. Write in your journal which one, and why it goes.",
+quote:"No man is free who is not master of himself.", source:"Epictetus"
+},
+{
+id:"quetzalcoatl", num:"Frame VI", name:"Quetzalcoatl", aztec:"The Feathered Serpent, God of Wisdom",
+godLore:"Quetzalcoatl is the Feathered Serpent, the Aztec god of wisdom and wind. The story says he walked into the land of the dead to steal back the bones of humankind. He is also the morning star \u2014 the light that shows up before the sun. For him, careful work is a form of love.",
+sign:"Virgo", animal:"Snake", union:"Aug 23 \u2013 Sep 22", element:"Earth",
+color:"#3fae8f", bright:"#5fe0bb",
+center:{x:0.38,y:0.50},
+points:[{x:0.31,y:0.46},{x:0.335,y:0.48},{x:0.36,y:0.50},{x:0.40,y:0.52},{x:0.425,y:0.54},{x:0.45,y:0.56}],
+lines:[[0,1],[1,2],[2,3],[3,4],[4,5]],
+essence:"You notice everything and say little. You prepare past the point others call ready. Your strength is being exact. Your danger is never making the move.",
+principle:"Premeditatio Malorum \u2014 Rehearsing the Obstacle",
+monthly:"This month favors your kind of work: chances hide in details others skip. The year pushes everyone else into rushed mistakes \u2014 not you. Their hurry is your opening. Check one system you rely on. Find its weakest point. Fix it while fixing is cheap.",
+figure:"Leo Tolstoy",
+figure_line:"who revised until the smallest detail carried the largest weight",
+weakness:"deciding once you are ready",
+watch:"one more check instead of the move.",
+vow:"Ship one thing at 90% instead of checking it to 100%. Send it, publish it, hand it over.",
+quote:"Difficulties show what men are.", source:"Epictetus"
+},
+{
+id:"xochiquetzal", num:"Frame VII", name:"Xochiquetzal", aztec:"Goddess of Love, Beauty, and Art",
+godLore:"Xochiquetzal means 'Flower Quetzal.' She was the Aztec goddess of love, beauty, and weaving. Artists prayed to her, and her festivals filled temples with flowers. She keeps the room beautiful \u2014 and makes sure someone notices.",
+sign:"Libra", animal:"Goat", union:"Sep 23 \u2013 Oct 22", element:"Air",
+color:"#e07ba0", bright:"#ffa8c8",
+center:{x:0.62,y:0.50},
+points:[{x:0.57,y:0.47},{x:0.59,y:0.53},{x:0.605,y:0.455},{x:0.67,y:0.47},{x:0.65,y:0.53},{x:0.635,y:0.455}],
+lines:[[0,1],[1,2],[3,4],[4,5]],
+essence:"You cannot rest in an unbalanced room. You absorb costs so others do not have to. Your strength is harmony. Your danger is leaving yourself out of it.",
+principle:"Sympatheia \u2014 The Weight Shared",
+monthly:"This month pushes against you \u2014 it wants you private and quiet. But the year is on your side: help costs less than usual right now. So ask for it. Say out loud what you need. Turn friendly favors into real agreements. A balance that survives pressure is the only kind worth having.",
+figure:"Mahatma Gandhi",
+figure_line:"who refused to let the fight define its own terms",
+weakness:"counting yourself in the balance",
+watch:"paying a cost that should be shared.",
+vow:"Ask one person directly for help with something you have been carrying alone. Use plain words.",
+quote:"Waste no more time arguing what a good man should be. Be one.", source:"Marcus Aurelius"
+},
+{
+id:"mictlantecuhtli", num:"Frame VIII", name:"Mictlantecuhtli", aztec:"Lord of the Underworld",
+godLore:"Mictlantecuhtli was the Aztec lord of the underworld \u2014 the last stop of the dead. He kept the bones of the old world. He is not evil. He is the keeper of endings. Everything that is finished is in his care.",
+sign:"Scorpio", animal:"Dragon", union:"Oct 23 \u2013 Nov 21", element:"Water",
+color:"#b23a4e", bright:"#ff6b7f",
+center:{x:0.84,y:0.50},
+points:[{x:0.84,y:0.50},{x:0.86,y:0.51},{x:0.87,y:0.485},{x:0.85,y:0.465},{x:0.82,y:0.475},{x:0.81,y:0.505},{x:0.83,y:0.53}],
+lines:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,0]],
+essence:"You do not adjust \u2014 you shed and become new. You keep your own counsel. Your strength is depth. Your danger is holding a door shut past its time.",
+principle:"Memento Mori \u2014 The Ending Honored",
+monthly:"This month matches your depth, and things move easily for you. Easy is the risk: easy turns into drift. So do the work only you are willing to do. End what is already finished. Close the old accounts. Do the demolition now, while it is cheap. It will not stay cheap.",
+figure:"Pablo Picasso",
+figure_line:"who became a different painter whenever the last one finished",
+weakness:"letting go of finished things",
+watch:"keeping a dead thing on life support.",
+vow:"End one thing that is already finished \u2014 a habit, a subscription, a tie. Write its one-line eulogy in your journal.",
+quote:"Loss is nothing else but change, and change is Nature's delight.", source:"Marcus Aurelius"
+},
+{
+id:"tonatiuh", num:"Frame IX", name:"Tonatiuh", aztec:"God of the Sun",
+godLore:"Tonatiuh is the Fifth Sun \u2014 the face at the center of the Aztec Sun Stone. The story says he was a humble god who jumped into the fire first and became the sun. Then he refused to move until the others gave too. His light tells you what it cost.",
+sign:"Sagittarius", animal:"Rooster", union:"Nov 22 \u2013 Dec 21", element:"Fire",
+color:"#f0a83a", bright:"#ffcf7a",
+center:{x:0.14,y:0.78},
+points:[{x:0.19,y:0.75},{x:0.16,y:0.765},{x:0.13,y:0.78},{x:0.105,y:0.795},{x:0.085,y:0.81}],
+lines:[[0,1],[1,2],[2,3],[3,4]],
+essence:"You say the true thing before checking if anyone wants it. You aim far. Your strength is reach. Your danger is the small detail you skipped on the way.",
+principle:"Truthfulness \u2014 The Verified Word",
+monthly:"This month, your word is the tool. Not just 'do not lie' \u2014 do not repeat what you have not checked. Loose ends will pop up on their own schedule; treat them as repairs, not bad luck. Your loud season starts on the 23rd. Arrive accurate. Reach without truth is just a louder mistake.",
+figure:"Mark Twain",
+figure_line:"who said in public what everyone had agreed not to",
+weakness:"being right at full speed",
+watch:"repeating a claim you never checked.",
+vow:"Before you repeat one strong claim today, check the source yourself. If you cannot verify it, do not pass it on.",
+quote:"If it is not true, do not say it.", source:"Marcus Aurelius"
+},
+{
+id:"xolotl", num:"Frame X", name:"Xolotl", aztec:"The Dog-Headed Guide",
+godLore:"Xolotl is the dog-headed twin of Quetzalcoatl. Every night he guides the sun through the land of the dead so it can rise again. When the gods were asked to give themselves for the world, he cried and ran \u2014 and was caught, and did his duty anyway. He holds the post through the dark half.",
+sign:"Capricorn", animal:"Dog", union:"Dec 22 \u2013 Jan 19", element:"Earth",
+color:"#7d8ba1", bright:"#aebccf",
+center:{x:0.38,y:0.78},
+points:[{x:0.335,y:0.82},{x:0.425,y:0.82},{x:0.38,y:0.725},{x:0.38,y:0.78}],
+lines:[[0,1],[0,2],[1,2],[2,3]],
+essence:"You hold posts no one thanks you for. You climb without needing the view. People call you cold. They have never watched you carry.",
+principle:"Amor Fati \u2014 The Account Accepted",
+monthly:"This month, accounts come due \u2014 in both directions. Pay what you owe without flinching. Collect what you are owed without apologizing. And the year runs on your track: your effort plus its momentum is the strongest pairing there is. Settle from strength. You will not get a better position.",
+figure:"Joan of Arc",
+figure_line:"who held one conviction through a court, a war, and a fire",
+weakness:"resting without guilt",
+watch:"taking on new weight to avoid collecting what is owed to you.",
+vow:"Collect one thing owed to you \u2014 an invoice, a favor, a straight answer. Ask plainly, without apologizing.",
+quote:"He suffers more than is necessary, who suffers before it is necessary.", source:"Seneca"
+},
+{
+id:"ehecatl", num:"Frame XI", name:"Ehecatl", aztec:"God of Wind and Breath",
+godLore:"Ehecatl is the wind side of Quetzalcoatl \u2014 breath itself. His temples were built round so the wind would not catch on corners. He sweeps the road so the rain can come. You never see him. You only see what he cleared.",
+sign:"Aquarius", animal:"Rat", union:"Jan 20 \u2013 Feb 18", element:"Air",
+color:"#4fb8c9", bright:"#7fe0f0",
+center:{x:0.62,y:0.78},
+points:[{x:0.57,y:0.74},{x:0.64,y:0.73},{x:0.675,y:0.77},{x:0.65,y:0.81},{x:0.60,y:0.825},{x:0.575,y:0.785}],
+lines:[[0,2],[2,4],[4,1],[1,3],[3,5]],
+essence:"You solve problems from angles no one else stood at. You would rather be right early than agreed with on time. Your strength is foresight. Your danger is the distance you keep.",
+principle:"The Dichotomy of Control",
+monthly:"This year pushes against you \u2014 so do not push back. The old advice fits: take fewer risks, delay the big bets, get into position. Build the backup plan you are missing. Let others tire themselves out chasing a year that does not favor them. Next cycle is yours.",
+figure:"Charles Darwin",
+figure_line:"who was right early, and published anyway",
+weakness:"stepping out from behind the wall",
+watch:"hiding when you should be getting into position.",
+vow:"Write the backup plan you have been avoiding. One page, concrete steps, real names and dates.",
+quote:"Circumstances do not make the man; they only reveal him to himself.", source:"Epictetus"
+},
+{
+id:"chalchiuhtlicue", num:"Frame XII", name:"Chalchiuhtlicue", aztec:"Goddess of Water and Rivers",
+godLore:"Chalchiuhtlicue means 'Jade Her Skirt.' She was the Aztec goddess of rivers, lakes, and seas. She once ruled the world \u2014 and wept it into a flood. She is generosity as an element. Water feeds everything. Water without banks floods.",
+sign:"Pisces", animal:"Pig", union:"Feb 19 \u2013 Mar 20", element:"Water",
+color:"#4ec9b0", bright:"#7fe8cf",
+center:{x:0.84,y:0.78},
+points:[{x:0.78,y:0.76},{x:0.81,y:0.735},{x:0.84,y:0.75},{x:0.87,y:0.73},{x:0.895,y:0.765},{x:0.86,y:0.80},{x:0.82,y:0.815}],
+lines:[[0,1],[1,2],[2,3],[3,4],[2,5],[5,6]],
+essence:"You feel the room's weather before anyone names it. You give before being asked. Your strength is generosity. Your danger is giving away the reserve.",
+principle:"Temperance in Giving",
+monthly:"This month flows with you \u2014 which is exactly the risk. Kindness without limits becomes an empty tank, just later. Calm times are for building fences: set your limits now, while nothing is pushing you. A limit set in calm holds in a storm. One made up during the storm does not.",
+figure:"Michelangelo",
+figure_line:"who kept giving until the work itself was finished",
+weakness:"the limit of your giving",
+watch:"the yes that should have been a number.",
+vow:"Set one limit in writing today \u2014 a budget, a cap, a protected hour. Put a number on it.",
+quote:"Begin at once to live.", source:"Seneca"
+},
+];
+// ================================================================
+// APP SHELL — storage, gate, profile, deck, lists, write view
+// ================================================================
+function $(id) { return document.getElementById(id); }
+function store(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+function hexToRgba(hex, a) {
+  hex = hex.replace("#", "");
+  if (hex.length === 3) hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+  var r = parseInt(hex.substr(0, 2), 16), g = parseInt(hex.substr(2, 2), 16), b = parseInt(hex.substr(4, 2), 16);
+  return "rgba(" + r + "," + g + "," + b + "," + a + ")";
+}
+function read(k, d) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }
+function today() { return new Date().toISOString().slice(0, 10); }
+function frameById(id) { for (var i = 0; i < FRAMES.length; i++) if (FRAMES[i].id === id) return FRAMES[i]; return null; }
+// Personal card art: if the user's year animal differs from the frame's
+// emblem animal and a personal variant exists, use it.
+function cardImageFor(f, animal) {
+  if (animal && animal !== f.animal) {
+    return "images/card-" + f.id + "-" + animal.toLowerCase() + ".jpg";
+  }
+  return "images/card-" + f.id + ".jpg";
+}
+function setImgWithFallback(img, src, fallback) {
+  img.onerror = function () { img.onerror = null; img.src = fallback; };
+  img.src = src;
+}
+function dayLabel(dstr) { return new Date(dstr + "T00:00:00").toLocaleDateString(undefined, { weekday: "long", month: "short", day: "numeric" }); }
+
+// ---------------- star particles (ambient background) ----------------
+(function stars() {
+  var c = $("stars"), x = c.getContext("2d"), pts = [];
+  function size() { c.width = innerWidth; c.height = innerHeight; }
+  size(); addEventListener("resize", size);
+  for (var i = 0; i < 180; i++) pts.push({ x: Math.random(), y: Math.random(), r: 0.4 + Math.random() * 1.2, tw: Math.random() * 6.28, sp: 0.3 + Math.random() * 0.7 });
+  (function loop(t) {
+    x.clearRect(0, 0, c.width, c.height);
+    pts.forEach(function (p) {
+      var a = 0.06 + 0.13 * (0.5 + 0.5 * Math.sin(t / 1000 * p.sp + p.tw));
+      x.fillStyle = "rgba(47,143,214," + a + ")";
+      x.beginPath(); x.arc(p.x * c.width, p.y * c.height, p.r, 0, 6.283); x.fill();
+    });
+    requestAnimationFrame(loop);
+  })(0);
+})();
+
+// ---------------- gate ----------------
+var GATE_HASH = "fdb2518ba4fb878c739ef0ddf01ddbdca104412177ece88f9e270a5ef55d7530"; // "newfire"
+async function sha256(s) {
+  var b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(b)).map(function (x) { return x.toString(16).padStart(2, "0"); }).join("");
+}
+window.tryGate = async function () {
+  var v = $("gate-pass").value.trim(); if (!v) return;
+  if (await sha256(v) === GATE_HASH) { store("codex_unlocked", true); $("gate-overlay").classList.add("hidden"); afterUnlock(); }
+  else { $("gate-error").style.display = "block"; $("gate-pass").value = ""; }
+};
+function afterUnlock() {
+  if (loadProfile()) startApp(); else $("codex-overlay").classList.remove("hidden");
+}
+
+// ---------------- profile / reveal ----------------
+var revealedFrame = null, revealedAnimal = null, deityReturnView = "journal";
+function loadProfile() { return read("codex_profile", null); }
+window.revealDeity = function () {
+  var m = parseInt($("in-month").value, 10), d = parseInt($("in-day").value, 10), y = parseInt($("in-year").value, 10);
+  $("codex-error").style.display = "none";
+  var bad = !m || !d || !y || m < 1 || m > 12 || d < 1 || d > 31;
+  if (!bad) { var p = new Date(y, m - 1, d); if (p.getMonth() !== m - 1) bad = true; }
+  if (bad) { $("codex-error").textContent = "That date doesn't exist — check the day number."; $("codex-error").style.display = "block"; return; }
+  var sign = westernSign(m, d);
+  var frame = null;
+  FRAMES.forEach(function (f) { if (f.sign === sign) frame = f; });
+  var cny = chineseAnimal(m, d, y);
+  revealedFrame = frame; revealedAnimal = cny.animal;
+  // Anticipation beat: the wheels visibly turn before the reveal.
+  $("ob-fields").style.display = "none";
+  obProgress(2);
+  $("codex-result").style.display = "none";
+  var wait = $("reveal-wait"), wn = $("wait-name");
+  wait.style.display = "block";
+  var ci = 0;
+  var cyc = setInterval(function () {
+    wn.textContent = FRAMES[ci % FRAMES.length].name;
+    ci++;
+  }, 110);
+  setTimeout(function () {
+    clearInterval(cyc);
+    wait.style.display = "none";
+    showReveal(frame, sign, cny, y, m, d);
+  }, 1400);
+};
+function showReveal(frame, sign, cny, y, m, d) {
+  $("res-deity").textContent = frame.name;
+  $("res-union").textContent = sign + " \u00d7 " + cny.animal + (cny.approx ? " (approx.)" : "");
+  var bt = tonalpohualli(new Date(y, m - 1, d));
+  $("res-mexica").textContent = "Born under " + bt.coef + " " + bt.sign.n + " (" + bt.sign.e + ") in the Aztec day-count";
+  $("codex-result").style.display = "block";
+  obProgress(3);
+};
+// ---------------- share card: the reveal as a standalone image ----------------
+window.shareCard = function () {
+  if (!revealedFrame) return;
+  var f = revealedFrame;
+  var W = 1080, H = 1920;
+  var cv = document.createElement("canvas");
+  cv.width = W; cv.height = H;
+  var x = cv.getContext("2d");
+  // Charcoal ground
+  x.fillStyle = "#f0e4cc"; x.fillRect(0, 0, W, H);
+  // Faint stars
+  var seed = 7;
+  function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+  for (var i = 0; i < 220; i++) {
+    x.fillStyle = "rgba(120,90,50," + (0.05 + rnd() * 0.2) + ")";
+    x.beginPath(); x.arc(rnd() * W, rnd() * H, 0.5 + rnd() * 1.6, 0, 6.283); x.fill();
+  }
+  // Thin gold frame
+  x.strokeStyle = "rgba(150,105,55,0.5)"; x.lineWidth = 2;
+  x.strokeRect(60, 60, W - 120, H - 120);
+  // Proof tag (the unforgeable bit)
+  x.fillStyle = "#8a6d3f"; x.textAlign = "center";
+  x.font = "34px 'Courier New', monospace";
+  x.fillText(f.sign.toUpperCase() + " \u00d7 " + (revealedAnimal || f.animal).toUpperCase() + " \u00b7 UNION " + f.num.replace("Frame ", ""), W / 2, 170);
+  // The Mucha plate \u2014 personal variant when it exists, archetype otherwise
+  var CARD_W = 500, CARD_H = 750, CARD_X = (W - CARD_W) / 2, CARD_Y = 230;
+  function drawCardArt(img) {
+    if (img) {
+      x.strokeStyle = "rgba(150,105,55,0.6)"; x.lineWidth = 3;
+      x.strokeRect(CARD_X - 14, CARD_Y - 14, CARD_W + 28, CARD_H + 28);
+      var ir = img.width / img.height, tr = CARD_W / CARD_H;
+      var sw = img.width, sh = img.height, sx = 0, sy = 0;
+      if (ir > tr) { sw = img.height * tr; sx = (img.width - sw) / 2; }
+      else { sh = img.width / tr; sy = (img.height - sh) / 2; }
+      x.drawImage(img, sx, sy, sw, sh, CARD_X, CARD_Y, CARD_W, CARD_H);
+    } else {
+      // Fallback: constellation linework
+      var xs = f.points.map(function (p) { return p.x; }), ys = f.points.map(function (p) { return p.y; });
+      var minX = Math.min.apply(null, xs), maxX = Math.max.apply(null, xs);
+      var minY = Math.min.apply(null, ys), maxY = Math.max.apply(null, ys);
+      var span = Math.max(maxX - minX, maxY - minY) || 1, S = 620;
+      function px(p) { return W / 2 - S / 2 + ((p.x - minX) / span) * S; }
+      function py(p) { return 600 - S / 2 + ((p.y - minY) / span) * S; }
+      x.strokeStyle = "rgba(150,105,55,0.55)"; x.lineWidth = 2.5;
+      f.lines.forEach(function (l) {
+        x.beginPath(); x.moveTo(px(f.points[l[0]]), py(f.points[l[0]]));
+        x.lineTo(px(f.points[l[1]]), py(f.points[l[1]])); x.stroke();
+      });
+      f.points.forEach(function (p, i) {
+        x.fillStyle = i === 0 ? "#6b4a25" : "#8a6d3f";
+        x.beginPath(); x.arc(px(p), py(p), i === 0 ? 9 : 6, 0, 6.283); x.fill();
+      });
+    }
+    // Deity name
+    x.fillStyle = "#6b4a25";
+    x.font = "300 110px Georgia, 'Times New Roman', serif";
+    x.fillText(f.name, W / 2, 1120);
+    x.fillStyle = "#8a6d3f";
+    x.font = "italic 40px Georgia, serif";
+    x.fillText(f.aztec, W / 2, 1190);
+    // The current \u2014 the same words as the birthday reveal
+    x.fillStyle = "#4a3820";
+    x.font = "italic 40px Georgia, serif";
+    var words = f.essence.split(" "), lines = [], cur = "";
+    words.forEach(function (w) {
+      if ((cur + " " + w).trim().length > 42) { lines.push(cur.trim()); cur = w; }
+      else cur += " " + w;
+    });
+    if (cur.trim()) lines.push(cur.trim());
+    lines.slice(0, 5).forEach(function (l, i) { x.fillText(l, W / 2, 1320 + i * 58); });
+    // Watermark
+    x.fillStyle = "#9c8462";
+    x.font = "30px 'Courier New', monospace";
+    x.fillText("THE CELESTIAL CODEX \u00b7 VIA VICTORIOSA", W / 2, H - 170);
+    x.fillText("your reading today \u2014 " + new Date().toISOString().slice(0, 10), W / 2, H - 125);
+    finish();
+  }
+  function finish() {
+    cv.toBlob(function (blob) {
+    var file = new File([blob], "celestial-codex-" + f.id + ".png", { type: "image/png" });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      navigator.share({ files: [file], title: "My sign \u2014 " + f.name }).catch(function () {});
+    } else {
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = file.name;
+      a.click();
+    }
+  }, "image/png");
+  }
+  var plate = new Image();
+  var archSrc = "images/card-" + f.id + ".jpg";
+  plate.onload = function () { drawCardArt(plate); };
+  plate.onerror = function () {
+    if (plate.src.indexOf(archSrc) === -1) { plate.src = archSrc; }
+    else drawCardArt(null);
+  };
+  plate.src = cardImageFor(f, revealedAnimal);
+};
+// ---------------- share a journal entry: deity plate + the entry as a quote ----------------
+// Sharing today's fortune is deliberately free/ungated — it's app-generated daily
+// content, not the user's own saved data, so it's a growth lever rather than a paywall moment.
+window.shareFortune = function () {
+  var p = loadProfile();
+  var text = fortuneFor(p ? frameById(p.frameId) : null, new Date());
+  var W = 1080, H = 1350;
+  var cv = document.createElement("canvas");
+  cv.width = W; cv.height = H;
+  var x = cv.getContext("2d");
+  x.fillStyle = "#f0e4cc"; x.fillRect(0, 0, W, H);
+  var seed = 5;
+  function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+  for (var i = 0; i < 160; i++) {
+    x.fillStyle = "rgba(120,90,50," + (0.05 + rnd() * 0.2) + ")";
+    x.beginPath(); x.arc(rnd() * W, rnd() * H, 0.5 + rnd() * 1.6, 0, 6.283); x.fill();
+  }
+  x.strokeStyle = "rgba(150,105,55,0.5)"; x.lineWidth = 2;
+  x.strokeRect(60, 60, W - 120, H - 120);
+  x.fillStyle = "#8a6d3f"; x.textAlign = "center";
+  x.font = "30px 'Courier New', monospace";
+  x.fillText("TODAY'S FORTUNE \u00b7 " + dayLabel(today()).toUpperCase(), W / 2, 200);
+  x.fillStyle = "#6b4a25";
+  x.font = "italic 300 52px Georgia, 'Times New Roman', serif";
+  var words = text.split(/\s+/), lines = [], cur = "";
+  words.forEach(function (w) {
+    if ((cur + " " + w).trim().length > 30) { lines.push(cur.trim()); cur = w; }
+    else cur += " " + w;
+  });
+  if (cur.trim()) lines.push(cur.trim());
+  var startY = H / 2 - (lines.length * 74) / 2;
+  lines.forEach(function (l, i) { x.fillText(l, W / 2, startY + i * 74); });
+  x.fillStyle = "#9c8462";
+  x.font = "26px 'Courier New', monospace";
+  x.fillText("THE CELESTIAL CODEX", W / 2, H - 140);
+  cv.toBlob(function (blob) {
+    var file = new File([blob], "codex-fortune-" + today() + ".png", { type: "image/png" });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      navigator.share({ files: [file], title: "Today's Fortune" }).catch(function () {});
+    } else {
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = file.name;
+      a.click();
+    }
+  }, "image/png");
+};
+// Toggles the generic, non-identifying explanation of what each spread position
+// represents — deliberately never names which specific card was drawn.
+window.toggleReadingExpand = function () {
+  var el = $("reading-expand"), label = $("reading-expand-label");
+  var open = el.style.display !== "none";
+  if (open) {
+    el.style.display = "none";
+    label.innerHTML = "What do these cards mean? &darr;";
+  } else {
+    el.innerHTML = SPREAD_POS.map(function (pos, i) {
+      return '<div class="blk" style="margin:0.5rem 0"><div class="t">' + pos + '</div><div class="b" style="font-size:0.88rem">' + SPREAD_SHORT[i] + '.</div></div>';
+    }).join("");
+    el.style.display = "";
+    label.innerHTML = "What do these cards mean? &uarr;";
+  }
+};
+window.shareEntry = function (m) {
+  if (!isPremium()) { goToPaywallFromApp(); return; }
+  var card = entryCard(m);
+  if (!card) return;
+  var W = 1080, H = 1920;
+  var cv = document.createElement("canvas");
+  cv.width = W; cv.height = H;
+  var x = cv.getContext("2d");
+  x.fillStyle = "#f0e4cc"; x.fillRect(0, 0, W, H);
+  var seed = 11;
+  function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+  for (var i = 0; i < 220; i++) {
+    x.fillStyle = "rgba(120,90,50," + (0.05 + rnd() * 0.2) + ")";
+    x.beginPath(); x.arc(rnd() * W, rnd() * H, 0.5 + rnd() * 1.6, 0, 6.283); x.fill();
+  }
+  x.strokeStyle = "rgba(150,105,55,0.5)"; x.lineWidth = 2;
+  x.strokeRect(60, 60, W - 120, H - 120);
+  x.fillStyle = "#8a6d3f"; x.textAlign = "center";
+  x.font = "34px 'Courier New', monospace";
+  x.fillText("FROM THE JOURNAL \u00b7 " + dayLabel(m.date).toUpperCase(), W / 2, 170);
+  var CARD_W = 440, CARD_H = 660, CARD_X = (W - CARD_W) / 2, CARD_Y = 230;
+  function drawPlate(img, cx, cy, cw, ch, rev) {
+    x.strokeStyle = "rgba(150,105,55,0.6)"; x.lineWidth = 3;
+    x.strokeRect(cx - 10, cy - 10, cw + 20, ch + 20);
+    var ir = img.width / img.height, tr = cw / ch;
+    var sw = img.width, sh = img.height, sx = 0, sy = 0;
+    if (ir > tr) { sw = img.height * tr; sx = (img.width - sw) / 2; }
+    else { sh = img.width / tr; sy = (img.height - sh) / 2; }
+    if (rev) {
+      x.save(); x.translate(cx + cw / 2, cy + ch / 2); x.rotate(Math.PI);
+      x.drawImage(img, sx, sy, sw, sh, -cw / 2, -ch / 2, cw, ch); x.restore();
+    } else {
+      x.drawImage(img, sx, sy, sw, sh, cx, cy, cw, ch);
+    }
+  }
+  function draw(imgOrList) {
+    if (imgOrList) {
+      if (m.kind === "reading" && m.cards) {
+        var PW = 296, PH = 444, gap = 28;
+        var total = PW * 3 + gap * 2, px = (W - total) / 2;
+        imgOrList.forEach(function (im, i) {
+          if (im) drawPlate(im, px + i * (PW + gap), 260, PW, PH, m.cards[i].rev);
+        });
+      } else if (Array.isArray(imgOrList) ? imgOrList[0] : imgOrList) {
+        var one = Array.isArray(imgOrList) ? imgOrList[0] : imgOrList;
+        drawPlate(one, CARD_X, CARD_Y, CARD_W, CARD_H, m.rev);
+      }
+    }
+    x.fillStyle = "#6b4a25";
+    x.font = "300 92px Georgia, 'Times New Roman', serif";
+    x.fillText(card.name, W / 2, 1030);
+    x.fillStyle = "#8a6d3f";
+    x.font = "34px 'Courier New', monospace";
+    x.fillText((card.sub + (m.rev ? " \u00b7 REVERSED" : "")).toUpperCase(), W / 2, 1090);
+    // The entry, set as a quote
+    x.fillStyle = "#4a3820";
+    x.font = "italic 44px Georgia, serif";
+    var words = m.text.split(/\s+/), lines = [], cur = "";
+    words.forEach(function (w) {
+      if ((cur + " " + w).trim().length > 38) { lines.push(cur.trim()); cur = w; }
+      else cur += " " + w;
+    });
+    if (cur.trim()) lines.push(cur.trim());
+    var shown = lines.slice(0, 9);
+    if (lines.length > 9) shown[8] = shown[8].replace(/[.;,]?$/, "") + "\u2026";
+    x.fillText("\u201c", W / 2, 1200);
+    shown.forEach(function (l, i) { x.fillText(l, W / 2, 1270 + i * 62); });
+    x.fillText("\u201d", W / 2, 1270 + shown.length * 62);
+    x.fillStyle = "#9c8462";
+    x.font = "30px 'Courier New', monospace";
+    x.fillText("THE CELESTIAL CODEX \u00b7 VIA VICTORIOSA", W / 2, H - 140);
+    cv.toBlob(function (blob) {
+      var file = new File([blob], "codex-entry-" + card.ref + "-" + m.date + ".png", { type: "image/png" });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        navigator.share({ files: [file], title: "From my journal \u2014 " + card.name }).catch(function () {});
+      } else {
+        var a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = file.name;
+        a.click();
+      }
+    }, "image/png");
+  }
+  if (m.kind === "reading" && m.cards) {
+    var imgs = [null, null, null], done = 0;
+    m.cards.forEach(function (c, i) {
+      var im = new Image();
+      im.onload = im.onerror = function () {
+        if (im.naturalWidth) imgs[i] = im;
+        if (++done === 3) draw(imgs);
+      };
+      im.src = tarotImg(c.n);
+    });
+  } else {
+    var plate = new Image();
+    plate.onload = function () { draw([plate]); };
+    plate.onerror = function () {
+      if (plate.src.indexOf(card.fallback) === -1) plate.src = card.fallback;
+      else draw(null);
+    };
+    plate.src = card.img;
+  }
+};
+window.enterCodex = function () {
+  if (revealedFrame) store("codex_profile", {
+    m: +$("in-month").value, d: +$("in-day").value, y: +$("in-year").value,
+    frameId: revealedFrame.id, animal: revealedAnimal
+  });
+  $("codex-overlay").classList.add("hidden");
+  startApp();
+};
+window.openSelfWrite = function () { openWrite(selfCard(), false); };
+window.skipCodex = function () { store("codex_tier", "free"); $("codex-overlay").classList.add("hidden"); startApp(); };
+window.profileReset = function () {
+  try { localStorage.removeItem("codex_profile"); } catch (e) {}
+  $("app").classList.remove("on");
+  ["ob-fields", "reveal-wait", "codex-result", "ob-paywall", "ob-email"].forEach(function (id) {
+    var el = $(id);
+    el.classList.remove("on");
+    if (id === "ob-fields") { el.classList.add("on"); el.style.display = ""; }
+    else el.style.display = "none";
+  });
+  obProgress(1);
+  $("codex-overlay").classList.remove("hidden");
+};
+
+// ---------------- onboarding staging: reveal -> paywall -> email capture ----------------
+// MAKE_WEBHOOK_URL is a placeholder. Swap in the real Make.com webhook URL
+// once the scenario exists — nothing else in this flow needs to change.
+var MAKE_WEBHOOK_URL = "https://hook.make.com/REPLACE_WITH_REAL_WEBHOOK";
+var selectedPlan = "premium";
+function obProgress(step) {
+  document.querySelectorAll("#ob-progress i").forEach(function (i) {
+    i.classList.toggle("on", +i.dataset.s <= step);
+  });
+}
+function obShow(id) {
+  ["ob-paywall", "ob-email"].forEach(function (n) { $(n).classList.toggle("on", n === id); });
+}
+window.goToPaywall = function () {
+  $("codex-result").style.display = "none";
+  obShow("ob-paywall");
+  obProgress(3);
+};
+window.selectPlan = function (plan) {
+  selectedPlan = plan;
+  $("plan-premium").classList.toggle("sel", plan === "premium");
+  $("plan-free").classList.toggle("sel", plan === "free");
+  $("ob-paywall-cta").textContent = plan === "premium" ? "Continue" : "Continue with Free";
+};
+window.goToEmail = function () {
+  if (selectedPlan === "free") { store("codex_tier", "free"); goToApp(); return; }
+  obShow("ob-email");
+  obProgress(4);
+};
+window.submitEmailCapture = function () {
+  var email = ($("ob-email-input").value || "").trim();
+  if (email) {
+    fetch(MAKE_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email, plan: selectedPlan, ts: new Date().toISOString() })
+    }).catch(function () {}); // placeholder endpoint — fails silently until the real webhook is wired in
+  }
+  store("codex_tier", "premium");
+  goToApp();
+};
+window.isPremium = function () { return read("codex_tier", "free") === "premium"; };
+window.goToApp = function () {
+  if (!read("codex_tier", null)) store("codex_tier", "free");
+  enterCodex();
+};
+
+// ---------------- journal + swipe state ----------------
+function loadMeds() { return read("codex_meditations", []); }
+function persistMeds(l) { store("codex_meditations", l); }
+function swipeState() {
+  var s = read("codex_swipe", null);
+  if (!s || s.date !== today()) s = { date: today(), remaining: FRAMES.map(function (f) { return f.id; }) };
+  return s;
+}
+function persistSwipe(s) { store("codex_swipe", s); }
+function archived() { return read("codex_archived", []); }
+function persistArchived(l) { store("codex_archived", l); }
+
+// ---------------- app boot / views ----------------
+window.showView = function (v) {
+  ["home", "deck", "profile", "journal", "deity", "binding", "logic", "cycle"].forEach(function (n) {
+    $("view-" + n).classList.toggle("on", n === v);
+  });
+  // Deck is a sub-page reached from Journal (browse the full 22 majors), not its own tab —
+  // keep the Journal tab lit while browsing it so the tab bar still reads correctly.
+  document.querySelectorAll(".tab").forEach(function (t) {
+    t.classList.toggle("on", t.dataset.v === v || (v === "deck" && t.dataset.v === "journal"));
+  });
+  if (v === "home") { ppGoTo(0); }
+  if (v === "deck") renderDeck();
+  if (v === "profile") renderProfile();
+  if (v === "journal") {
+    var jLocked = !isPremium();
+    $("journal-lock").style.display = jLocked ? "" : "none";
+    $("journal-unlocked-wrap").style.display = jLocked ? "none" : "";
+    if (jLocked) {
+      $("journal-lock").innerHTML = lockCardHTML("Your journal, saved",
+        "Free browsing shows today&rsquo;s pull. Saving your own reflections \u2014 and revisiting them \u2014 is part of the Full Codex.");
+    } else { renderJournal(); renderArchived(); }
+  }
+  if (v === "home") renderHome();
+  if (v === "binding") renderBinding();
+  if (v === "logic" && !$("logic-body").dataset.built) renderLogicView();
+  if (v === "cycle" && !$("cy-year").dataset.built) renderCycleView();
+};
+function lockCardHTML(title, body) {
+  return '<div class="lock-card"><div class="lt">' + title + '</div><div class="ld">' + body +
+    '</div><button class="btn" onclick="showView(\'home\');goToPaywallFromApp()">See the Full Codex</button></div>';
+}
+window.goToPaywallFromApp = function () {
+  $("app").classList.remove("on");
+  $("codex-overlay").classList.remove("hidden");
+  ["ob-fields", "reveal-wait", "codex-result"].forEach(function (id) { $(id).style.display = "none"; $(id).classList.remove("on"); });
+  selectedPlan = "premium";
+  $("plan-premium").classList.add("sel"); $("plan-free").classList.remove("sel");
+  $("ob-paywall-cta").textContent = "Continue";
+  obShow("ob-paywall");
+  obProgress(3);
+};
+function displayAnimal(f) {
+  var p = loadProfile();
+  if (p && p.frameId === f.id && p.animal) return p.animal;
+  return f.animal;
+}
+function migrateTowrite() {
+  var tw = read("codex_towrite", null);
+  if (tw && tw.length) {
+    var ar = archived();
+    tw.forEach(function (t) {
+      if (!ar.some(function (a) { return a.frameId === t.frameId; })) ar.unshift({ frameId: t.frameId, date: t.date });
+    });
+    persistArchived(ar);
+  }
+  try { localStorage.removeItem("codex_towrite"); } catch (e) {}
+}
+function startApp() {
+  $("app").classList.add("on");
+  migrateTowrite();
+  // Self-heal: recompute the year animal from the stored birthday
+  // (profiles saved before the animal fix may carry a wrong one).
+  var prof = loadProfile();
+  if (prof && prof.m && prof.d && prof.y) {
+    var fixed = chineseAnimal(prof.m, prof.d, prof.y).animal;
+    if (fixed !== prof.animal) { prof.animal = fixed; store("codex_profile", prof); }
+  }
+  var now = new Date();
+  $("h-date").textContent = now.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
+  showView("home");
+  if (loadProfile() && read("codex_last_reveal_date", null) !== today()) {
+    startDailyReveal();
+  }
+}
+function glyphSVG(f) {
+  var NS = "http://www.w3.org/2000/svg";
+  var svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("viewBox", "0 0 100 100"); svg.setAttribute("class", "glyph");
+  // Normalize each constellation to fill the card.
+  var xs = f.points.map(function (p) { return p.x; }), ys = f.points.map(function (p) { return p.y; });
+  var minX = Math.min.apply(null, xs), maxX = Math.max.apply(null, xs);
+  var minY = Math.min.apply(null, ys), maxY = Math.max.apply(null, ys);
+  var span = Math.max(maxX - minX, maxY - minY) || 1;
+  function sx(p) { return 12 + ((p.x - minX) / span) * 76; }
+  function sy(p) { return 12 + ((p.y - minY) / span) * 76; }
+  f.lines.forEach(function (l) {
+    var a = f.points[l[0]], b = f.points[l[1]];
+    var ln = document.createElementNS(NS, "line");
+    ln.setAttribute("x1", sx(a)); ln.setAttribute("y1", sy(a));
+    ln.setAttribute("x2", sx(b)); ln.setAttribute("y2", sy(b));
+    ln.setAttribute("stroke", "rgba(180,160,100,0.4)"); ln.setAttribute("stroke-width", "0.9");
+    svg.appendChild(ln);
+  });
+  f.points.forEach(function (p, i) {
+    var c = document.createElementNS(NS, "circle");
+    c.setAttribute("cx", sx(p)); c.setAttribute("cy", sy(p));
+    c.setAttribute("r", i === 0 ? 3 : 2); c.setAttribute("fill", i === 0 ? "#e8d9a8" : "#9a844e");
+    svg.appendChild(c);
+  });
+  return svg;
+}
+function oneLiner(f) {
+  return f.monthly.split(/(?<=\.)\s/)[0];
+}
+
+// ---------------- the day's fortune + the practice story ----------------
+var FORTUNES = [
+  "Sunday's light is on {N}. What you finish today sets the tone of the week \u2014 close one loop before sunset.",
+  "The moon's day favors {N}'s patience. Walk through the week in your head this morning; the worst surprise is the one you never rehearsed.",
+  "Mars drives today. {N} should pick the hard thing and strike before noon.",
+  "Mercury runs the day. One message, one conversation \u2014 say it plainly, {N}, and the week tilts in your favor.",
+  "Jupiter widens the lens. Step back today, {N}: the plan seen from above is not the plan at your feet.",
+  "Venus holds the day. Repair one tie, {N} \u2014 a small kindness repays double today.",
+  "Saturn keeps the count. What {N} does today is permanent; spend it on the thing that should last."
+];
+var STORIES = [
+  "Seneca ended every day the same way: the day replayed in full \u2014 where did I do well, where badly, what is left undone? He called it his nightly audit. Nothing hidden from the one person who could fix it. Today asks the same of you.",
+  "Before brutal sessions, Seneca rehearsed the worst in advance: what if they mock me, what if I fail? The unexpected blow, he wrote, falls heaviest; the rehearsed one arrives as an old acquaintance. Walk today's hard scene through once before it happens.",
+  "Marcus Aurelius wrote to himself at dawn in a war camp: at daybreak, remember \u2014 the work of a human being is in front of you. Then he got up and did it. The Meditations were written between battles, never for anyone else to read.",
+  "Epictetus taught with a lamp in hand: while the lamp burns, you do not wander off to check the door. Attention, he said, is the first discipline \u2014 a day is lost in the wandering, not in the doing.",
+  "Hierocles drew the Stoic circles: self, family, city, mankind \u2014 and told his students to keep pulling the outer rings inward. What happens to one strand of the web happens to all of it. Someone near you carries a weight you could halve today.",
+  "Diogenes owned a bowl and nothing else. Watching a boy drink from cupped hands, he threw the bowl away: a child has beaten me in simplicity. He was not poor \u2014 he was practicing being free. What could you set down today and feel lighter?",
+  "Seneca watched a man rage at a doorkeeper over a small delay, and wrote it down as a warning: we treat minutes like thefts while death quietly collects the whole estate. Remembering the end is how the Stoic spends the day."
+];
+function fortuneFor(f, now) {
+  return FORTUNES[now.getDay()].replace(/\{N\}/g, f ? f.name : "the seeker");
+}
+
+// ================================================================
+// CHAKRA LAYER — the 7 planetary day rulers pair 1:1 with the 7
+// chakras; the month's season-aspect (0-6) selects the monthly
+// chakra. The moon's phase says whether that center is building
+// or releasing. Correspondence layer, computed from the same
+// clocks as everything else.
+// ================================================================
+var CHAKRAS = [
+  { n: "Root", s: "Muladhara", c: "#c0392b", theme: "safety, ground, the body",
+    build: "your base is being charged \u2014 stand firm, finish what's owed",
+    release: "fear drains out of the base \u2014 let an old worry go today",
+    ex: "Stand barefoot for five minutes, or do 10 slow squats. Feel your weight settle into your heels." },
+  { n: "Sacral", s: "Svadhisthana", c: "#e67e22", theme: "feeling, flow, desire",
+    build: "feeling runs high and useful \u2014 create something with it",
+    release: "stale emotion loosens its grip \u2014 name it and let it pass",
+    ex: "Ten minutes making anything with your hands \u2014 no goal, just movement. Or a slow walk near water." },
+  { n: "Solar Plexus", s: "Manipura", c: "#f1c40f", theme: "will, drive, the gut",
+    build: "willpower peaks \u2014 spend it on the hard task, not the loud one",
+    release: "the need to prove yourself fades \u2014 act without an audience",
+    ex: "Three rounds: 30-second plank, short rest. Then do the hard task first, before anything easy." },
+  { n: "Heart", s: "Anahata", c: "#27ae60", theme: "love, ties, the open door",
+    build: "the heart is open \u2014 repair one tie or thank one person",
+    release: "an old hurt is ready to be set down \u2014 write it out and close it",
+    ex: "Hand on chest, ten slow breaths. Then send one honest thank-you to someone." },
+  { n: "Throat", s: "Vishuddha", c: "#2980b9", theme: "speech, truth, the message",
+    build: "words carry further today \u2014 say the true thing plainly",
+    release: "silence does the work today \u2014 listen more than you speak",
+    ex: "Read one page of your journal out loud. Notice where your voice tightens \u2014 that is the place to work." },
+  { n: "Third Eye", s: "Ajna", c: "#5b2c8a", theme: "sight, pattern, judgment",
+    build: "patterns show themselves \u2014 plan the month, you'll see it clearly",
+    release: "a fixed idea loosens \u2014 question one thing you were sure of",
+    ex: "Five minutes, eyes closed: replay the day backward. Write down the one pattern you saw." },
+  { n: "Crown", s: "Sahasrara", c: "#8e44ad", theme: "time, meaning, the long view",
+    build: "the long view is clear \u2014 do one thing your future self thanks you for",
+    release: "detach from one outcome \u2014 do the work, release the result",
+    ex: "Sit still for five minutes doing nothing. When the mind races, count ten breaths and start over." }
+];
+// A small mandala-style icon, colored per chakra, for the widget's chakra emphasis row.
+function chakraIconSvg(color) {
+  var petals = "";
+  for (var i = 0; i < 6; i++) {
+    var ang = (i / 6) * Math.PI * 2;
+    var px = 17 + Math.cos(ang) * 10.5, py = 17 + Math.sin(ang) * 10.5;
+    petals += '<circle cx="' + px + '" cy="' + py + '" r="2.4" fill="' + color + '" opacity="0.5"/>';
+  }
+  return '<svg viewBox="0 0 34 34" width="34" height="34">' +
+    '<circle cx="17" cy="17" r="15" fill="none" stroke="' + color + '" stroke-width="1" opacity="0.28"/>' +
+    petals +
+    '<circle cx="17" cy="17" r="6.5" fill="' + color + '"/>' +
+    '</svg>';
+}
+// Weekday (0=Sun..6=Sat) -> chakra: Sun->Solar Plexus, Moon->Sacral, Mars->Root,
+// Mercury->Throat, Jupiter->Third Eye, Venus->Heart, Saturn->Crown.
+var DAY_CHAKRA = [2, 1, 0, 3, 4, 5, 6];
+function chakraForDay(now) {
+  var idx = DAY_CHAKRA[now.getDay()];
+  var moon = moonPhase(now);
+  var waxing = moon.age < 14.77;
+  var ck = CHAKRAS[idx];
+  var ruler = DAY_RULERS[now.getDay()];
+  return {
+    idx: idx, ck: ck, waxing: waxing,
+    text: "Today is ruled by " + ruler.p + ", which lights up your " + ck.n + " chakra (" + ck.s + ") \u2014 " + ck.theme + ". The moon is " + (waxing ? "growing, so " + ck.build : "shrinking, so " + ck.release) + ".",
+    ex: ck.ex
+  };
+}
+// Season-aspect (0-6) -> monthly chakra.
+var ASPECT_CHAKRA = [2, 0, 1, 5, 3, 4, 6];
+function chakraForMonth(f, now) {
+  var curSign = westernSign(now.getMonth() + 1, now.getDate());
+  var apart = signsApart(curSign, f.sign);
+  var idx = ASPECT_CHAKRA[apart];
+  var ck = CHAKRAS[idx];
+  var lines = {
+    0: "This is your power season, and it runs straight through your " + ck.n + " chakra (" + ck.theme + "). Power at maximum needs an aim, or it becomes noise.",
+    1: "The season sits a little off your angle, and the strain lands on your " + ck.n + " chakra (" + ck.theme + "). Small rubs add up \u2014 tend this center daily.",
+    2: "The season opens doors through your " + ck.n + " chakra (" + ck.theme + "). Walk through them early; open doors do not wait.",
+    3: "The season pushes against you through your " + ck.n + " chakra (" + ck.theme + "). This is your training ground this month \u2014 the friction is the rep.",
+    4: "Things come easy, and ease flows through your " + ck.n + " chakra (" + ck.theme + "). Easy is when this center drifts \u2014 give it structure.",
+    5: "This month recalibrates your " + ck.n + " chakra (" + ck.theme + "). Plans will change; let this center adjust rather than defend.",
+    6: "The month brings accounts due through your " + ck.n + " chakra (" + ck.theme + "). Settle honestly, in both directions, and this center comes out stronger."
+  };
+  return { idx: idx, ck: ck, text: lines[apart], ex: ck.ex };
+}
+
+// ================================================================
+// THE CYCLE LINE — a minimalist year-timeline: the twelve frame
+// spans as segments, today as a marker; below it, the moon's
+// 29.5-day loop as eight phase-dots with tonight lit.
+// ================================================================
+var MON = { Jan: 1, Feb: 2, Mar: 3, Apr: 4, May: 5, Jun: 6, Jul: 7, Aug: 8, Sep: 9, Oct: 10, Nov: 11, Dec: 12 };
+function doyOf(m, d) { return Math.floor((Date.UTC(2026, m - 1, d) - Date.UTC(2026, 0, 1)) / 86400000); }
+function frameSpan(f) {
+  var parts = f.union.split("\u2013");
+  function pd(s) { s = s.trim().split(" "); return [MON[s[0]], parseInt(s[1], 10)]; }
+  var a = pd(parts[0]), b = pd(parts[1]);
+  return [doyOf(a[0], a[1]), doyOf(b[0], b[1])];
+}
+function renderCycle(f) {
+  var el = $("pf-cycle"); if (!el) return;
+  var now = new Date();
+  var todayDoy = doyOf(now.getMonth() + 1, now.getDate());
+  var W = 100, segs = "";
+  FRAMES.forEach(function (fr) {
+    var sp = frameSpan(fr);
+    var x1 = sp[0] / 365 * W, x2 = (sp[1] + 1) / 365 * W;
+    if (x2 < x1) x2 = W; // Capricorn wraps
+    var isCur = f && fr.id === f.id;
+    var ELEM = { Fire: "#ff6b4a", Earth: "#f2a93c", Air: "#c9c3d9", Water: "#4fb8e8" };
+    var base = ELEM[fr.element] || "#b08d3e";
+    var segFill = isCur ? base : base + "55";
+    segs += '<rect x="' + x1 + '" y="14" width="' + Math.max(0.8, x2 - x1 - 0.3) + '" height="3" rx="1.5" fill="' + segFill + '"/>';
+    if (sp[1] < sp[0]) segs += '<rect x="0" y="14" width="' + ((sp[1] + 1) / 365 * W) + '" height="3" rx="1.5" fill="' + segFill + '"/>';
+  });
+  var tx = todayDoy / 365 * W;
+  // Moon loop
+  var moon = moonPhase(now);
+  var frac = moon.age / 29.530588853;
+  var dots = "";
+  for (var i = 0; i < 8; i++) {
+    var cx = (i / 8 + 1 / 16) * W;
+    var k = i / 8;
+    var near = Math.abs(frac - (i / 8 + 1 / 16)) < 1 / 16;
+    var r = near ? 2.6 : 1.6;
+    var litColor = near ? "#2f8fd6" : "rgba(24,42,61,0.5)";
+    if (near) dots += '<circle cx="' + cx + '" cy="34" r="' + (r + 1.8) + '" fill="none" stroke="#2f8fd6" stroke-width="0.4" opacity="0.35"/>';
+    dots += '<circle cx="' + cx + '" cy="34" r="' + r + '" fill="rgba(24,42,61,0.13)"/>' +
+      '<path d="' + moonPhasePathD(cx, 34, r, k) + '" fill="' + litColor + '"/>';
+  }
+  var mx = frac * W;
+  el.innerHTML =
+    '<svg viewBox="0 0 100 44" style="width:100%;height:auto;display:block">' +
+    '<line x1="0" y1="15.5" x2="100" y2="15.5" stroke="rgba(24,42,61,0.1)" stroke-width="0.5"/>' + segs +
+    '<line x1="' + tx + '" y1="10" x2="' + tx + '" y2="21" stroke="#dd8f2c" stroke-width="0.8"/>' +
+    '<circle cx="' + tx + '" cy="8.5" r="1.6" fill="#dd8f2c"/>' +
+    '<line x1="0" y1="34" x2="100" y2="34" stroke="rgba(24,42,61,0.08)" stroke-width="0.4"/>' + dots +
+    '<line x1="' + mx + '" y1="30" x2="' + mx + '" y2="38" stroke="#2f8fd6" stroke-width="0.6"/>' +
+    '</svg>' +
+    '<div style="display:flex;justify-content:space-between;font-size:0.48rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-faint);margin-top:0.2rem">' +
+    '<span>Jan &mdash; the year &mdash; Dec</span><span>the moon &middot; ' + moon.name.toLowerCase() + '</span></div>';
+}
+function celestialSummary() {
+  var now = new Date();
+  var tonal = tonalpohualli(now);
+  var xiuh = xiuhpohualli(now);
+  var curSign = westernSign(now.getMonth() + 1, now.getDate());
+  var ny = nextFireYear(now.getFullYear());
+  var pos = (now.getFullYear() - LAST_FIRE) % BINDING;
+  return "The sun is in " + curSign + " \u00b7 the Aztec day-count reads " + tonal.coef + " " + tonal.sign.n +
+    (xiuh.nemontemi ? ", in the five hollow days" : ", " + xiuh.veintena.n + " day " + xiuh.day) +
+    " \u00b7 year " + (pos === 0 ? 52 : pos) + " of the 52-year binding (next New Fire " + ny + ")";
+}
+function celestialMini() {
+  var now = new Date();
+  var tonal = tonalpohualli(now);
+  var curSign = westernSign(now.getMonth() + 1, now.getDate());
+  var moon = moonPhase(now);
+  return "The sun is in " + curSign + " \u00b7 " + moon.name.toLowerCase() + " \u00b7 " + tonal.coef + " " + tonal.sign.n;
+}
+var RING_CIRC = 339.292; // 2 * PI * 54, matches the SVG circle radius
+var DAY_RULER_COLOR = ["#dd8f2c", "#5b7fd4", "#e2542b", "#279a6b", "#9b6bd4", "#c9548a", "#5b7280"];
+function renderPlaqueRing() {
+  var rings = document.querySelectorAll(".ring-fg"), lines = document.querySelectorAll(".plaque-binding");
+  if (!rings.length) return;
+  var color = DAY_RULER_COLOR[new Date().getDay()];
+  var offset, text, click;
+  if (!isPremium()) {
+    offset = RING_CIRC;
+    text = "The Binding \u2014 part of the Full Codex";
+    click = function () { goToPaywallFromApp(); };
+  } else {
+    var start = read("codex_binding_start", null);
+    if (!start) {
+      offset = RING_CIRC;
+      text = "Save your first entry to light the fire";
+      click = function () { showView("binding"); };
+    } else {
+      var startD = new Date(start + "T00:00:00"), nowD2 = new Date(today() + "T00:00:00");
+      var weeksElapsed = Math.floor((nowD2 - startD) / 604800000);
+      var frac = Math.min(weeksElapsed / 52, 1);
+      offset = RING_CIRC * (1 - frac);
+      text = weeksElapsed >= 52 ? "The binding has come due \u2014 open it" : "Week " + (weeksElapsed + 1) + " of 52";
+      click = function () { showView("binding"); };
+    }
+  }
+  rings.forEach(function (r) { r.style.setProperty("--ring-color", color); r.style.strokeDashoffset = offset; });
+  lines.forEach(function (l) { l.textContent = text; l.onclick = click; });
+}
+function renderReadingCards() {
+  var el = $("pf-reading-cards"); if (!el) return;
+  var sp = spreadState();
+  var allOpen = sp.cards.every(function (c) { return c.open; });
+  if (!allOpen) {
+    el.innerHTML = '<div style="text-align:center;width:100%"><button class="btn ghost" style="font-size:0.68rem;padding:0.6rem 1.1rem" onclick="reopenDailyReveal()">Reveal Today\u2019s Pull</button></div>';
+    return;
+  }
+  el.innerHTML = "";
+  sp.cards.forEach(function (c, i) {
+    var item = document.createElement("div");
+    item.className = "rm-item";
+    var img = document.createElement("img");
+    img.src = tarotImg(c.n); img.alt = TAROT[c.n].n;
+    if (c.rev) img.style.transform = "rotate(180deg)";
+    var pos = document.createElement("div"); pos.className = "rm-pos"; pos.textContent = SPREAD_POS[i];
+    item.appendChild(img); item.appendChild(pos);
+    el.appendChild(item);
+  });
+}
+
+// ---------------- home ----------------
+function renderHome() {
+  var p = loadProfile();
+  var pFrame = p ? frameById(p.frameId) : null;
+  $("pf-fortune").textContent = fortuneFor(pFrame, new Date());
+  if (!p) {
+    $("h-identity").textContent = "browsing without a birthday";
+    $("pf-path").textContent = "Open the deck and swipe through the twelve frames. Tap any card to write.";
+    $("pf-watch").textContent = "";
+    $("pf-story").textContent = "";
+    $("pf-action").innerHTML = "";
+    $("pf-stats").textContent = "";
+    $("pf-dash-chakra").style.display = "none";
+    $("pf-reading-cards").innerHTML = "";
+    renderCycle(null);
+    $("pf-celestial").innerHTML = '<span class="w-dot" style="background:var(--blue);box-shadow:0 0 6px var(--blue-glow)"></span>' + celestialMini();
+  } else {
+    var f = pFrame;
+    $("h-identity").textContent = f.name + " \u00b7 " + f.sign + " \u00d7 " + (p.animal || f.animal) + " \u00b7 " + f.union;
+    var daily = buildDaily(f, p.animal);
+    $("pf-path").textContent = daily.strategy;
+    $("pf-watch").textContent = "Watch for: " + daily.watch;
+    var nowD = new Date();
+    $("pf-story").textContent = STORIES[nowD.getDay()];
+    $("pf-dash-chakra").style.display = "";
+    var ckd = chakraForDay(nowD);
+    $("pf-chakra-icon").innerHTML = chakraIconSvg(ckd.ck.c);
+    $("pf-chk-day-t").innerHTML = 'Today\u2019s Chakra \u00b7 ' + ckd.ck.n + '<span class="w-tap">tap for more &rarr;</span>';
+    renderCycle(f);
+    $("pf-celestial").innerHTML = '<span class="w-dot" style="background:var(--blue);box-shadow:0 0 6px var(--blue-glow)"></span>' + celestialMini();
+    renderReadingCards();
+    var actEl = $("pf-action");
+    var chosen = read(actionKey(f), null);
+    if (chosen !== null) {
+      var label = chosen === 0 ? daily.discName : chosen === 1 ? "The Trap Rep" : "The Month's Vow";
+      var text = chosen === 0 ? daily.strategy : chosen === 1 ? "Catch yourself " + f.watch.replace(/\.$/, "") + " — stop, and name it." : f.vow;
+      actEl.innerHTML = '<div class="blk green"><div class="t">Committed today \u00b7 ' + label + '</div><div class="b"></div></div>';
+      actEl.querySelector(".b").textContent = text;
+    } else actEl.innerHTML = "";
+    var meds = loadMeds();
+    $("pf-stats").textContent = meds.length + " journal " + (meds.length === 1 ? "entry" : "entries");
+  }
+  renderStreak();
+  // Latest entries strip: top five, then a door to the journal.
+  var strip = $("pf-strip"); strip.innerHTML = "";
+  var meds = loadMeds();
+  meds.slice(0, 5).forEach(function (m) {
+    var card = entryCard(m);
+    var el = document.createElement("div");
+    el.className = "ent-card";
+    el.innerHTML = '<div class="d">' + dayLabel(m.date) + (card ? " \u00b7 " + card.name : "") + (m.rev ? " (rev.)" : "") + '</div><div class="x"></div>';
+    el.querySelector(".x").textContent = m.text.length > 120 ? m.text.slice(0, 120) + "\u2026" : m.text;
+    el.style.cursor = "pointer";
+    el.addEventListener("click", function () { if (card) openWrite(card, false, m); });
+    strip.appendChild(el);
+  });
+  var more = document.createElement("div");
+  more.className = "ent-card more";
+  more.textContent = meds.length ? "Go to Journal \u2192" : "No entries yet \u2014 open the deck";
+  more.addEventListener("click", function () { showView(meds.length ? "journal" : "deck"); });
+  strip.appendChild(more);
+}
+// ---------------- profile (full identity page) ----------------
+function renderProfile() {
+  var p = loadProfile();
+  var pFrame = p ? frameById(p.frameId) : null;
+  var f = pFrame;
+  if (!p) {
+    $("prof-image").src = "images/card-tonatiuh.jpg";
+    $("prof-deity").textContent = "The Twelve Frames";
+    $("prof-title").textContent = "choose your sign";
+    $("prof-union").textContent = "browsing without a birthday";
+    $("prof-birth").textContent = "";
+    $("prof-essence-blk").style.display = "none";
+    $("prof-path-blk").style.display = "none";
+    $("prof-stats").innerHTML = "";
+    $("prof-chakra-link").style.display = "none";
+    $("prof-lore-link").style.display = "none";
+    document.querySelectorAll(".ring-fg").forEach(function (r) { r.style.strokeDashoffset = RING_CIRC; });
+    document.querySelectorAll(".plaque-binding").forEach(function (l) { l.textContent = ""; });
+    return;
+  }
+  setImgWithFallback($("prof-image"), cardImageFor(f, p.animal), "images/card-" + f.id + ".jpg");
+  $("prof-deity").textContent = f.name;
+  $("prof-title").textContent = f.aztec;
+  $("prof-union").textContent = f.sign + " \u00d7 " + (p.animal || f.animal) + " \u00b7 " + f.union;
+  var MONTHS = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  $("prof-birth").textContent = "Born " + MONTHS[p.m] + " " + p.d + ", " + p.y;
+  $("prof-essence-blk").style.display = "";
+  $("prof-essence").textContent = f.essence;
+  $("prof-path-blk").style.display = "";
+  $("prof-path").textContent = buildDaily(f, p.animal).strategy;
+  renderPlaqueRing();
+  var meds = loadMeds();
+  var s = computeStreak();
+  var start = read("codex_binding_start", null);
+  var bindingWeek = "\u2014";
+  if (start) {
+    var wk = Math.floor((new Date(today() + "T00:00:00") - new Date(start + "T00:00:00")) / 604800000) + 1;
+    bindingWeek = Math.min(wk, 52);
+  }
+  $("prof-stats").innerHTML =
+    '<div class="stat-tile"><div class="sv">' + s.count + '</div><div class="sl">Streak</div></div>' +
+    '<div class="stat-tile"><div class="sv">' + meds.length + '</div><div class="sl">Entries</div></div>' +
+    '<div class="stat-tile"><div class="sv">' + bindingWeek + '</div><div class="sl">Binding Wk</div></div>';
+  var ckd = chakraForDay(new Date());
+  var chakraLink = $("prof-chakra-link");
+  chakraLink.style.display = "";
+  chakraLink.innerHTML = '<span><span class="w-dot" style="background:' + ckd.ck.c + ';box-shadow:0 0 6px ' + ckd.ck.c + '"></span>Today\u2019s Chakra \u00b7 ' + ckd.ck.n + '</span><span class="chev">&rsaquo;</span>';
+  var loreLink = $("prof-lore-link");
+  loreLink.style.display = "";
+  loreLink.onclick = function () { openDeity(f, "profile"); };
+  var shareLink = $("prof-share-link");
+  shareLink.innerHTML = isPremium()
+    ? '<span>Share your Codex card</span><span class="chev">&rsaquo;</span>'
+    : '<span>Share your Codex card <span class="lock-hint">Full Codex</span></span><span class="chev">&rsaquo;</span>';
+}
+window.shareFromProfile = function () {
+  if (!isPremium()) { goToPaywallFromApp(); return; }
+  var p = loadProfile();
+  if (!p) return;
+  revealedFrame = frameById(p.frameId);
+  revealedAnimal = p.animal;
+  shareCard();
+};
+
+// ---------------- streak ----------------
+var streakJustSaved = false;
+function computeStreak() {
+  var meds = loadMeds();
+  var dateSet = {};
+  meds.forEach(function (m) { dateSet[m.date] = true; });
+  var d = new Date(today() + "T00:00:00");
+  var hasToday = !!dateSet[today()];
+  if (!hasToday) d.setDate(d.getDate() - 1);
+  var count = 0;
+  while (true) {
+    var ds = d.toISOString().slice(0, 10);
+    if (dateSet[ds]) { count++; d.setDate(d.getDate() - 1); } else break;
+    if (count > 3650) break; // sanity guard
+  }
+  return { count: count, doneToday: hasToday };
+}
+function renderStreak() {
+  var badge = $("streak-badge"); if (!badge) return;
+  if (!loadProfile()) { badge.innerHTML = ""; return; }
+  var s = computeStreak();
+  var tonal = tonalpohualli(new Date());
+  var emoji = s.count > 0 ? "\ud83d\udd25" : "\u2728";
+  badge.title = "Day-sign \u00b7 " + tonal.coef + " " + tonal.sign.n;
+  badge.innerHTML = '<span class="sn">' + s.count + '</span><span class="sg">' + emoji + '</span>';
+  if (streakJustSaved) {
+    badge.classList.add("pulse");
+    setTimeout(function () { badge.classList.remove("pulse"); }, 900);
+    streakJustSaved = false;
+  }
+}
+window.openBindingInfo = function () {
+  var start = read("codex_binding_start", null);
+  var body = "The Binding is a 52\u2011week cycle, one for every year in the Aztec calendar round. It starts automatically the day you save your first journal entry, and each of the 13\u00d74 tiles in the ring fills in as a week passes with at least one entry saved. " +
+    (start
+      ? "Yours started " + new Date(start + "T00:00:00").toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" }) + " and closes in its own small New Fire ceremony when all 52 weeks are kept."
+      : "It hasn't started yet \u2014 save your first entry anywhere in the Codex and the clock begins that day.");
+  openInfoPopup("The Binding", body);
+};
+window.openStreakInfo = function () {
+  var s = computeStreak();
+  var body = s.count > 0
+    ? "You've saved a journal entry on <strong>" + s.count + " consecutive day" + (s.count === 1 ? "" : "s") + "</strong>, including today. It counts any saved entry \u2014 a card reflection or a free thought both keep it alive."
+    : "Your streak counts <strong>consecutive days</strong> you've saved at least one journal entry. Save your first entry today to light it."
+  body += " Miss a day and it resets to zero \u2014 the number is always today's count, not a lifetime total.";
+  openInfoPopup("Your Streak", body);
+};
+
+// ---------------- chakra popup ----------------
+window.openChakraPopup = function () {
+  var p = loadProfile(); if (!p) return;
+  var f = frameById(p.frameId);
+  var nowD = new Date();
+  var ckd = chakraForDay(nowD), ckm = chakraForMonth(f, nowD);
+  var body = $("chakra-popup-body");
+  body.innerHTML =
+    '<h2 style="font-size:1.15rem">Chakra &mdash; Today &amp; This Month</h2>' +
+    '<div class="blk" style="text-align:left;margin-top:1.2rem"><div class="t nt1"></div><div class="b nb1"></div><div class="b ne1" style="margin-top:0.5rem;font-size:0.85rem;color:var(--ink-dim)"></div></div>' +
+    '<div class="blk" style="text-align:left"><div class="t nt2"></div><div class="b nb2"></div><div class="b ne2" style="margin-top:0.5rem;font-size:0.85rem;color:var(--ink-dim)"></div></div>' +
+    '<div class="btn-row"><button class="btn ghost" onclick="quickNote(\'chakra-day\');closeChakraPopup()">+ Note on Today\u2019s Chakra</button><button class="btn ghost" onclick="quickNote(\'chakra-month\');closeChakraPopup()">+ Note on This Month\u2019s</button></div>' +
+    '<button class="skip-link" onclick="closeChakraPopup()">Close</button>';
+  body.querySelector(".nt1").innerHTML = '<span class="dot" style="background:' + ckd.ck.c + ';margin-right:7px;box-shadow:0 0 6px ' + ckd.ck.c + '"></span>Today\u2019s Chakra \u00b7 ' + ckd.ck.n;
+  body.querySelector(".nb1").textContent = ckd.text;
+  body.querySelector(".ne1").textContent = "Exercise \u2014 " + ckd.ex;
+  body.querySelector(".nt2").innerHTML = '<span class="dot" style="background:' + ckm.ck.c + ';margin-right:7px;box-shadow:0 0 6px ' + ckm.ck.c + '"></span>This Month\u2019s Chakra \u00b7 ' + ckm.ck.n;
+  body.querySelector(".nb2").textContent = ckm.text;
+  body.querySelector(".ne2").textContent = "Exercise \u2014 " + ckm.ex;
+  $("chakra-popup-overlay").classList.remove("hidden");
+};
+window.closeChakraPopup = function () { $("chakra-popup-overlay").classList.add("hidden"); };
+
+// ---------------- generic info popup (streak, binding, etc.) ----------------
+window.openInfoPopup = function (title, bodyHtml) {
+  $("info-popup-body").innerHTML =
+    '<h2 style="font-size:1.1rem">' + title + '</h2>' +
+    '<div style="font-family:\'Fraunces\',serif;font-style:italic;font-weight:300;font-size:0.92rem;line-height:1.65;color:var(--ink-dim);text-align:left;margin:1rem 0 0.3rem">' + bodyHtml + '</div>' +
+    '<button class="btn ghost" style="margin-top:1.2rem" onclick="closeInfoPopup()">Got it</button>';
+  $("info-popup-overlay").classList.remove("hidden");
+};
+window.closeInfoPopup = function () { $("info-popup-overlay").classList.add("hidden"); };
+
+// ---------------- Path/Practice slide carousel ----------------
+window.ppGoTo = function (i) {
+  var track = $("pp-track"); if (!track) return;
+  track.classList.toggle("at-1", i === 1);
+  document.querySelectorAll(".pp-dots i").forEach(function (d) { d.classList.toggle("on", +d.dataset.i === i); });
+};
+(function initCarouselSwipe() {
+  document.addEventListener("DOMContentLoaded", function () {
+    var carousel = document.getElementById("pp-carousel");
+    if (!carousel) return;
+    var startX = 0;
+    carousel.addEventListener("touchstart", function (e) { startX = e.touches[0].clientX; }, { passive: true });
+    carousel.addEventListener("touchend", function (e) {
+      var dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) ppGoTo(dx < 0 ? 1 : 0);
+    }, { passive: true });
+  });
+})();
+
+// ---------------- daily reveal: once-a-day full-screen ceremony ----------------
+function fillDailyRevealHeader() {
+  var p = loadProfile(); if (!p) return null;
+  var f = frameById(p.frameId);
+  $("dr-deity").textContent = f.name;
+  $("dr-union").textContent = f.sign + " \u00d7 " + (p.animal || f.animal) + " \u00b7 " + f.union;
+  $("dr-fortune").textContent = fortuneFor(f, new Date());
+  return f;
+}
+window.startDailyReveal = function () {
+  if (!fillDailyRevealHeader()) return;
+  spreadSel = -1;
+  renderSpread();
+  $("daily-reveal-overlay").classList.remove("hidden");
+  autoRevealSpread();
+};
+function autoRevealSpread() {
+  var idx = 0;
+  function step() {
+    var sp = spreadState();
+    if (idx >= sp.cards.length) return;
+    if (sp.cards[idx].open) { idx++; step(); return; }
+    var slots = document.querySelectorAll("#spread-row .spread-slot");
+    var slot = slots[idx];
+    if (slot) slot.classList.add("flipping");
+    setTimeout(function () {
+      var s2 = spreadState(); s2.cards[idx].open = true; store("codex_spread", s2);
+      renderSpread();
+      idx++;
+      setTimeout(step, 500);
+    }, 280);
+  }
+  setTimeout(step, 500);
+}
+window.dismissDailyReveal = function (wantsWrite) {
+  store("codex_last_reveal_date", today());
+  $("daily-reveal-overlay").classList.add("hidden");
+  if (wantsWrite) {
+    var sp = spreadState();
+    openWrite(readingCard(sp.cards), false);
+  }
+  renderHome();
+};
+window.reopenDailyReveal = function () {
+  if (!fillDailyRevealHeader()) { showView("deck"); return; }
+  spreadSel = -1;
+  renderSpread();
+  $("daily-reveal-overlay").classList.remove("hidden");
+};
+function actionKey(f) { return "codex_action_" + f.id + "_" + today(); }
+
+
+
+// ---------------- THE MAJOR ARCANA — the tarot canon, Majors only ----------------
+// Upright and reversed meanings, set in the Codex voice. The almanac layer
+// stays Aztec/Chinese/Western; this deck is the tarot practice, kept honest.
+var TAROT = [
+{n:"The Fool", rep:"new beginnings, innocence, and leaps of faith", up:"Begin before you feel ready. The road teaches what the map cannot.", rev:"Recklessness dressed as courage. Look where the next step lands.", p:"Where are you waiting for permission to begin? What would the first small step look like?"},
+{n:"The Magician", rep:"willpower, resourcefulness, and turning intention into action", up:"You already hold every tool the task needs. Will, not luck, does the work.", rev:"Scattered effort, or skill spent on show. One tool, one task, one hour.", p:"Which tool in your hands have you not picked up yet?"},
+{n:"The High Priestess", rep:"intuition, hidden knowledge, and the quiet subconscious", up:"The answer is quiet and you already know it. Sit still and listen.", rev:"You are drowning out your own knowing with noise and other people’s opinions.", p:"What do you know today that you have not admitted out loud?"},
+{n:"The Empress", rep:"abundance, nurturing, and creative growth", up:"Tend what is growing. Feed it, guard it, and let it take its time.", rev:"Smothering or starving what you love. Care is not control.", p:"What in your life is quietly growing, and what does it need from you this week?"},
+{n:"The Emperor", rep:"structure, authority, and stability", up:"Order is a kindness. Build the fence, keep the boundary, hold the line.", rev:"Rigid rule without reason, or no rule at all. Discipline serves; it does not crush.", p:"Where would one clear rule make your days easier?"},
+{n:"The Hierophant", rep:"tradition, established wisdom, and shared belief", up:"Some roads are old because they work. Learn the form before you break it.", rev:"Following form without meaning, or rejecting wisdom only because it is old.", p:"Which tradition or teacher have you dismissed too quickly?"},
+{n:"The Lovers", rep:"connection, values, and meaningful choice", up:"A choice of the heart is still a choice. Choose, and stand inside it fully.", rev:"A divided heart costs double. Indecision is also a decision.", p:"What choice are you keeping open at the price of being half-present?"},
+{n:"The Chariot", rep:"willpower, drive, and forward motion through opposing forces", up:"Opposing pulls can be harnessed. Hold the reins and move anyway.", rev:"Force without direction. Speed is not progress if the wheels spin.", p:"What two forces in you pull opposite ways, and what direction would harness both?"},
+{n:"Strength", rep:"quiet courage, patience, and compassion", up:"Gentle is not weak. The hand that stays soft wins the longer fight.", rev:"White-knuckling. What you grip hardest is already slipping.", p:"Where would patience do more than force right now?"},
+{n:"The Hermit", rep:"introspection, solitude, and inner guidance", up:"Step back to see clearly. One honest hour alone outruns a loud week.", rev:"Hiding, not seeking. Solitude is a lantern, not a cave.", p:"What question deserves one full hour of your undivided quiet?"},
+{n:"Wheel of Fortune", rep:"cycles, change, and turning points", up:"The wheel turns for everyone. Use the rise; endure the fall; neither is yours to keep.", rev:"Fighting the turn wastes the turn. Accept, then act where you can.", p:"What turned recently that you still have not accepted?"},
+{n:"Justice", rep:"fairness, truth, and cause and effect", up:"Actions keep their receipts. Weigh honestly, especially your own side.", rev:"An unfair scale, tilted by excuse. The truth does not grade on a curve.", p:"Where are you asking for a lighter sentence than you would give another?"},
+{n:"The Hanged Man", rep:"surrender, a shift in perspective, and pause", up:"Stop struggling and the view changes. Surrender is a position, not a defeat.", rev:"Stalling and calling it patience. Waiting only works if something is being waited for.", p:"What would you see if you stopped pushing for one day?"},
+{n:"Death", rep:"endings, transformation, and release", up:"Something ends so something can begin. Let the dead thing go while it is still yours to release.", rev:"Keeping a dead thing on life support. The ending happens anyway, with interest.", p:"What ended recently that you are still carrying?"},
+{n:"Temperance", rep:"balance, moderation, and blending opposites", up:"Mix, measure, repeat. The middle path, walked daily, beats the sprint.", rev:"Excess in one direction, starvation in the other. Rebalance the pour.", p:"Which cup in your life is too full, and which is empty?"},
+{n:"The Devil", rep:"attachment, restriction, and what binds you", up:"Name the chain and it loosens. Most cages are locked from the inside.", rev:"The chain is looser than you think, but you have started to love it.", p:"What habit owns more of you than you admit? What would one link broken look like?"},
+{n:"The Tower", rep:"sudden upheaval and the collapse of what wasn't stable", up:"What falls was built on sand. Let it fall, and build the next one on rock.", rev:"You feel the crack widening. Leave on your feet before you leave in the rubble.", p:"What structure in your life is cracking, and what is the honest next stone?"},
+{n:"The Star", rep:"hope, renewal, and quiet faith after hardship", up:"After the storm, the quiet light. Hope is a practice, not a mood.", rev:"You are refusing the water being poured out for you. Receive.", p:"What good thing have you been too tired to let in?"},
+{n:"The Moon", rep:"uncertainty, illusion, and the subconscious", up:"Not everything you fear is real. Walk the path anyway, eyes open.", rev:"The fog is lifting. Name what it was hiding and keep walking.", p:"Which of your current fears would shrink if you looked at it in daylight?"},
+{n:"The Sun", rep:"joy, vitality, and clarity", up:"Stand in the open. Joy, honestly earned, is strength not softness.", rev:"Clouding your own sun. You are allowed to let it be a good day.", p:"What went right recently that you have not let yourself enjoy?"},
+{n:"Judgement", rep:"reckoning, awakening, and a call to rise", up:"The old self is called to account. Answer honestly and rise lighter.", rev:"Ignoring the call because the verdict might sting. Hear it early.", p:"If your past year testified about you today, what would you want to answer for?"},
+{n:"The World", rep:"completion, wholeness, and arrival", up:"The long work completes. Close the circle well before you open the next.", rev:"So close, and leaving the last tenth undone. Finish lines are for crossing.", p:"What is nearly finished in your life, and what would a clean ending look like?"}
+];
+var TAROT_NUM = ["0","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","XIII","XIV","XV","XVI","XVII","XVIII","XIX","XX","XXI"];
+function tarotImg(n) { return "images/tarot-" + (n < 10 ? "0" + n : n) + ".jpg"; }
+function tarotSub(n) { return "MAJOR ARCANA \u00b7 " + TAROT_NUM[n]; }
+
+// ---------------- unified card shape: almanac frames + tarot majors ----------------
+function resolveCard(kind, ref) {
+  if (kind === "tarot") {
+    var t = TAROT[ref];
+    return { kind: "tarot", ref: ref, name: t.n, sub: tarotSub(ref),
+      img: tarotImg(ref), fallback: tarotImg(ref), thumb: tarotImg(ref),
+      watch: t.up, color: "#b08d3e", deity: null, frame: null, up: t.up, rev: t.rev, prompt: t.p };
+  }
+  var f = frameById(ref); if (!f) return null;
+  return { kind: "frame", ref: ref, name: f.name,
+    sub: f.sign + " \u00d7 " + displayAnimal(f) + " \u00b7 " + f.union,
+    img: cardImageFor(f, displayAnimal(f)), fallback: "images/card-" + f.id + ".jpg",
+    thumb: "images/" + f.id + ".jpg",
+    watch: f.watch, color: f.color, deity: f, frame: f,
+    up: oneLiner(f) + " Watch for: " + f.watch, rev: null, prompt: null };
+}
+var SPREAD_SHORT = ["what's shaping your start", "what's being asked of you", "where this leads"];
+var REV_NOTE = " Reversed \u2014 consider how this theme might be blocked, turned inward, or out of balance for you.";
+function buildReading(cards) {
+  function line(pos, short, c) {
+    var t = TAROT[c.n];
+    return pos + " \u2014 " + short + ". Card: " + t.n + ", representing " + t.rep + "." + (c.rev ? REV_NOTE : "");
+  }
+  return line("The Past", SPREAD_SHORT[0], cards[0]) + " " +
+    line("The Test", SPREAD_SHORT[1], cards[1]) + " " +
+    line("The Path", SPREAD_SHORT[2], cards[2]) +
+    " Three cards, three positions \u2014 what meaning do you make of them?";
+}
+function readingCard(cards) {
+  var names = cards.map(function (c) { return TAROT[c.n].n + (c.rev ? " (rev.)" : ""); });
+  return { kind: "reading", ref: "spread", name: "Today's Pull", sub: names.join(" \u00b7 ").toUpperCase(),
+    img: tarotImg(cards[1].n), fallback: tarotImg(cards[1].n), thumb: tarotImg(cards[1].n),
+    watch: buildReading(cards), color: "#9a7ab0", deity: null, frame: null,
+    up: buildReading(cards), rev: null, prompt: "What meaning do you make of these three, in your own words?",
+    cards: cards };
+}
+function selfCard() {
+  var p = loadProfile(), img = "images/tarot-back.jpg", fb = "images/tarot-back.jpg";
+  if (p && frameById(p.frameId)) {
+    var f = frameById(p.frameId);
+    img = cardImageFor(f, p.animal || f.animal);
+    fb = "images/card-" + f.id + ".jpg";
+  }
+  return { kind: "self", ref: "self", name: "A Free Thought", sub: "NO CARDS \u00b7 JUST YOU",
+    img: img, fallback: fb, thumb: fb, watch: "Written without the sky.",
+    color: "#7a7060", deity: null, frame: null,
+    up: "Not every thought needs the sky. Write it plainly, as if to yourself.", rev: null, prompt: "" };
+}
+// Categories for notes written straight off an almanac prompt (not a full
+// card entry). Each gets its own color + short badge so entries are easy
+// to tell apart and filter in the Journal.
+var CATS = {
+  fortune:        { badge: "FORTUNE",      color: "#d4af5a", label: "Today's Fortune", note: "Written beneath today's fortune." },
+  practice:       { badge: "PRACTICE",     color: "#6f9e83", label: "In Practice", note: "Written on today's practice." },
+  "chakra-day":   { badge: "DAY CHAKRA",   color: "#4a90a4", label: "Today's Chakra", note: "Written on today's chakra." },
+  "chakra-month": { badge: "MONTH CHAKRA", color: "#8a6fa8", label: "This Month's Chakra", note: "Written on this month's chakra." },
+  past:           { badge: "PAST",         color: "#9a7648", label: "The Past" },
+  test:           { badge: "TEST",         color: "#a0574f", label: "The Test" },
+  path:           { badge: "PATH",         color: "#5a7aa0", label: "The Path" }
+};
+var SPREAD_KIND = ["past", "test", "path"];
+function almanacNoteCard(kind) {
+  var p = loadProfile(), img = "images/tarot-back.jpg", fb = "images/tarot-back.jpg";
+  if (p && frameById(p.frameId)) {
+    var f = frameById(p.frameId);
+    img = cardImageFor(f, p.animal || f.animal);
+    fb = "images/card-" + f.id + ".jpg";
+  }
+  var meta = CATS[kind];
+  return { kind: kind, ref: kind, name: "A Note \u2014 " + meta.label, sub: meta.badge,
+    img: img, fallback: fb, thumb: fb, watch: meta.note,
+    color: meta.color, deity: null, frame: null,
+    up: meta.note, rev: null,
+    prompt: "What does this mean to you today?" };
+}
+function spreadPosCard(kind, ref, rev) {
+  var posIdx = SPREAD_KIND.indexOf(kind), t = TAROT[ref], meta = CATS[kind];
+  var body = meta.label + " represents " + SPREAD_SHORT[posIdx] + ". This card represents " + t.rep + "." + (rev ? REV_NOTE : "");
+  return { kind: kind, ref: ref, name: meta.label + " \u00b7 " + t.n, sub: tarotSub(ref),
+    img: tarotImg(ref), fallback: tarotImg(ref), thumb: tarotImg(ref),
+    watch: body, color: meta.color, deity: null, frame: null,
+    up: body, rev: rev, prompt: "What meaning do you draw from " + meta.label.toLowerCase() + "?", cards: null };
+}
+function entryCard(m) {
+  if (m.kind === "reading") return readingCard(m.cards);
+  if (m.kind === "self") return selfCard();
+  if (SPREAD_KIND.indexOf(m.kind) !== -1) return spreadPosCard(m.kind, m.ref, !!m.rev);
+  if (CATS[m.kind]) return almanacNoteCard(m.kind);
+  return m.kind ? resolveCard(m.kind, m.ref) : resolveCard("frame", m.frameId);
+}
+function badgeFor(m) {
+  if (m.kind === "reading" || m.kind === "tarot") return ["TAROT", "#9a7ab0"];
+  if (m.kind === "self") return ["SELF", "#8a8272"];
+  if (CATS[m.kind]) return [CATS[m.kind].badge, CATS[m.kind].color];
+  return ["CELESTIAL", "#b08d3e"];
+}
+function archivedCard(t) { return t.kind ? resolveCard(t.kind, t.ref) : resolveCard("frame", t.frameId); }
+
+// ---------------- deck ----------------
+// Daily spread: seeded by the date + this browser's id, so the pull is
+// stable until midnight but different from everyone else's.
+function seedRand(str) {
+  var h = 2166136261;
+  for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return function () {
+    h = Math.imul(h ^ (h >>> 15), 2246822507);
+    h = Math.imul(h ^ (h >>> 13), 3266489909);
+    return ((h ^= h >>> 16) >>> 0) / 4294967296;
+  };
+}
+// Each browser gets its own persistent random id, so the daily seed below
+// is unique per person, not just per date — otherwise everyone would be
+// dealt the identical three cards on the same day.
+function getUid() {
+  var id = read("codex_uid", null);
+  if (!id) {
+    id = Date.now().toString(36) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+    store("codex_uid", id);
+  }
+  return id;
+}
+var SPREAD_POS = ["The Past", "The Test", "The Path"];
+function spreadState() {
+  var sp = read("codex_spread", null);
+  if (!sp || sp.date !== today()) {
+    var r = seedRand(today() + "|" + getUid());
+    var pool = TAROT.map(function (t, i) { return i; });
+    for (var i = pool.length - 1; i > 0; i--) {
+      var j = Math.floor(r() * (i + 1));
+      var tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
+    }
+    sp = { date: today(), cards: pool.slice(0, 3).map(function (n) { return { n: n, rev: r() < 0.35, open: false }; }) };
+    store("codex_spread", sp);
+  }
+  return sp;
+}
+var spreadSel = -1;
+function renderSpread() {
+  var row = $("spread-row"); row.innerHTML = "";
+  var sp = spreadState();
+  sp.cards.forEach(function (c, i) {
+    var slot = document.createElement("div");
+    slot.className = "spread-slot" + (c.open ? (c.rev ? " rev" : "") : "") + (i === spreadSel ? " on" : "");
+    var inner = document.createElement("div"); inner.className = "slot-inner";
+    var img = document.createElement("img");
+    img.className = c.open ? "face" : "back";
+    img.src = c.open ? tarotImg(c.n) : "images/tarot-back.jpg";
+    img.alt = c.open ? TAROT[c.n].n : "Face-down card";
+    inner.appendChild(img); slot.appendChild(inner);
+    var pos = document.createElement("div");
+    pos.className = "spread-pos";
+    pos.textContent = SPREAD_POS[i] + (c.open ? "" : "");
+    slot.appendChild(pos);
+    slot.addEventListener("click", function () {
+      if (!c.open) {
+        slot.classList.add("flipping");
+        setTimeout(function () {
+          c.open = true;
+          var s2 = spreadState(); s2.cards[i].open = true; store("codex_spread", s2);
+          spreadSel = i; renderSpread();
+        }, 280);
+      } else {
+        spreadSel = (spreadSel === i) ? -1 : i;
+        renderSpread();
+      }
+    });
+    row.appendChild(slot);
+  });
+  var det = $("spread-detail"); det.innerHTML = "";
+  var allOpen = sp.cards.every(function (c) { return c.open; });
+  if (allOpen) {
+    var head = document.createElement("div");
+    head.className = "sec-label"; head.style.marginTop = "1rem";
+    head.textContent = "What These Cards Represent";
+    det.appendChild(head);
+    sp.cards.forEach(function (c, i) {
+      var kind = SPREAD_KIND[i], t = TAROT[c.n];
+      var wrap = document.createElement("div"); wrap.className = "blk-wrap";
+      var hang = document.createElement("div");
+      hang.className = "hang"; hang.textContent = "\u270e Note";
+      hang.addEventListener("click", function () { openWrite(spreadPosCard(kind, c.n, c.rev), false); });
+      var blk = document.createElement("div");
+      blk.className = "blk"; blk.style.textAlign = "left";
+      blk.style.borderLeft = "2px solid " + CATS[kind].color;
+      blk.innerHTML = '<div class="t"></div><div class="b"></div>';
+      blk.querySelector(".t").textContent = SPREAD_POS[i] + " \u00b7 " + t.n + (c.rev ? " \u2014 Reversed" : "");
+      blk.querySelector(".b").textContent = SPREAD_POS[i] + " represents " + SPREAD_SHORT[i] + ". This card represents " + t.rep + "." + (c.rev ? REV_NOTE : "");
+      wrap.appendChild(hang); wrap.appendChild(blk);
+      det.appendChild(wrap);
+    });
+    var foot = document.createElement("div");
+    foot.style.cssText = "text-align:center;font-family:'Fraunces',serif;font-style:italic;font-size:0.85rem;color:var(--ink-faint);margin:0.3rem 0 0.5rem";
+    foot.textContent = "There's no single right answer \u2014 write what you see in them.";
+    det.appendChild(foot);
+  }
+  if (!allOpen && spreadSel >= 0 && sp.cards[spreadSel].open) {
+    var kindSel = SPREAD_KIND[spreadSel];
+    var c2 = sp.cards[spreadSel], t = TAROT[c2.n];
+    var wrap = document.createElement("div"); wrap.className = "blk-wrap";
+    var hang2 = document.createElement("div");
+    hang2.className = "hang"; hang2.textContent = "\u270e Note";
+    hang2.addEventListener("click", function () { openWrite(spreadPosCard(kindSel, c2.n, c2.rev), false); });
+    var blk = document.createElement("div");
+    blk.className = "blk"; blk.style.textAlign = "left";
+    blk.style.borderLeft = "2px solid " + CATS[kindSel].color;
+    blk.innerHTML = '<div class="t"></div><div class="b"></div>';
+    blk.querySelector(".t").textContent = SPREAD_POS[spreadSel] + " \u00b7 " + t.n + (c2.rev ? " \u2014 Reversed" : "");
+    blk.querySelector(".b").textContent = SPREAD_POS[spreadSel] + " represents " + SPREAD_SHORT[spreadSel] + ". The card drawn, " + t.n + ", represents " + t.rep + "." + (c2.rev ? REV_NOTE : "");
+    wrap.appendChild(hang2); wrap.appendChild(blk);
+    det.appendChild(wrap);
+  }
+}
+function tarotSwipeState() {
+  var s = read("codex_tarot_swipe", null);
+  if (!s || s.date !== today()) {
+    var ids = TAROT.map(function (t, i) { return i; });
+    for (var i = ids.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = ids[i]; ids[i] = ids[j]; ids[j] = tmp;
+    }
+    s = { date: today(), remaining: ids };
+    store("codex_tarot_swipe", s);
+  }
+  return s;
+}
+var deckStageOpen = false;
+window.quickNote = function (kind) {
+  openWrite(almanacNoteCard(kind), false);
+};
+window.openFullDeck = function openFullDeck() {
+  if (!isPremium()) { goToPaywallFromApp(); return; }
+  deckStageOpen = true;
+  $("deck-full-intro").style.display = "none";
+  $("deck-full-wrap").style.display = "";
+  renderDeckStage();
+};
+function renderDeck() {
+  renderSpread();
+  if (!deckStageOpen) {
+    $("deck-full-intro").style.display = "";
+    $("deck-full-wrap").style.display = "none";
+    return;
+  }
+  $("deck-full-intro").style.display = "none";
+  $("deck-full-wrap").style.display = "";
+  renderDeckStage();
+}
+function renderDeckStage() {
+  var stage = $("deck-stage");
+  stage.querySelectorAll(".dcard").forEach(function (el) { el.remove(); });
+  var s = tarotSwipeState();
+  if (!s.remaining.length) {
+    var ids = TAROT.map(function (t, i) { return i; });
+    for (var i = ids.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = ids[i]; ids[i] = ids[j]; ids[j] = tmp;
+    }
+    s.remaining = ids;
+    store("codex_tarot_swipe", s);
+  }
+  var remaining = s.remaining.filter(function (n) { return TAROT[n]; });
+  $("deck-empty").style.display = "none";
+  remaining.slice(0, 3).reverse().forEach(function (n, revIdx) {
+    var depth = 2 - revIdx; // 0 = top card
+    var t = TAROT[n];
+    var el = document.createElement("div");
+    el.className = "dcard";
+    el.dataset.tarot = n;
+    el.style.transform = "translate(-50%,-50%) translateY(" + (depth * 10) + "px) scale(" + (1 - depth * 0.04) + ")";
+    el.style.zIndex = 10 - depth;
+    var img = document.createElement("img"); img.className = "c-plate";
+    img.src = tarotImg(n); img.alt = t.n;
+    el.appendChild(img);
+    var nm = document.createElement("div"); nm.className = "c-name"; nm.textContent = t.n; el.appendChild(nm);
+    var sb = document.createElement("div"); sb.className = "c-sub"; sb.textContent = tarotSub(n); el.appendChild(sb);
+    var pr = document.createElement("div"); pr.className = "c-practice"; pr.textContent = t.up; el.appendChild(pr);
+    var hint = document.createElement("div"); hint.className = "c-hint";
+    hint.innerHTML = "tap to read \u00b7 skip \u2192<br>\u2193 set aside";
+    el.appendChild(hint);
+    var ovR = document.createElement("div"); ovR.className = "swipe-ov right"; ovR.textContent = "SKIP";
+    var ovD = document.createElement("div"); ovD.className = "swipe-ov down"; ovD.textContent = "SET ASIDE";
+    el.appendChild(ovR); el.appendChild(ovD);
+    stage.appendChild(el);
+    if (depth === 0) attachSwipe(el, n);
+  });
+}
+function attachSwipe(el, n) {
+  var startX = 0, startY = 0, dx = 0, dy = 0, dragging = false, moved = false;
+  var ovR = el.querySelector(".swipe-ov.right"), ovL = el.querySelector(".swipe-ov.left"), ovD = el.querySelector(".swipe-ov.down");
+  function threshold() { return el.offsetWidth * 0.3; }
+  function down(x, y) { dragging = true; moved = false; startX = x; startY = y; dx = 0; dy = 0; el.style.transition = "none"; }
+  function move(x, y) {
+    if (!dragging) return;
+    dx = x - startX; dy = y - startY;
+    if (Math.abs(dx) + Math.abs(dy) > 8) moved = true;
+    var vertical = dy > 0 && dy > Math.abs(dx);
+    if (vertical) {
+      el.style.transform = "translate(-50%,-50%) translateY(" + dy + "px) scale(" + Math.max(0.85, 1 - dy / 1200) + ")";
+    } else {
+      el.style.transform = "translate(-50%,-50%) translate(" + dx + "px," + dy * 0.4 + "px) rotate(" + dx / 18 + "deg)";
+    }
+    var p = Math.min(1, Math.abs(dx) / threshold());
+    ovR.style.opacity = !vertical && dx > 0 ? p : 0;
+    ovL.style.opacity = !vertical && dx < 0 ? p : 0;
+    ovD.style.opacity = vertical ? Math.min(1, dy / threshold()) : 0;
+  }
+  function up() {
+    if (!dragging) return;
+    dragging = false;
+    el.style.transition = "transform 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.35s ease";
+    if (!moved) { openWrite(resolveCard("tarot", n), true); el.style.transform = "translate(-50%,-50%)"; return; }
+    var vertical = dy > threshold() && dy > Math.abs(dx);
+    if (vertical) {
+      el.style.transform = "translate(-50%,-50%) translateY(" + el.offsetHeight * 2 + "px) scale(0.8)";
+      el.style.opacity = "0";
+      completeSwipe(n, 0);
+    } else if (Math.abs(dx) > threshold()) {
+      var dir = dx > 0 ? 1 : -1;
+      el.style.transform = "translate(-50%,-50%) translate(" + dir * el.offsetWidth * 2 + "px," + dy * 0.4 + "px) rotate(" + dir * 22 + "deg)";
+      el.style.opacity = "0";
+      completeSwipe(n, dir);
+    } else {
+      el.style.transform = "translate(-50%,-50%)";
+      ovR.style.opacity = 0; ovL.style.opacity = 0; ovD.style.opacity = 0;
+    }
+  }
+  el.addEventListener("touchstart", function (e) { var t = e.touches[0]; down(t.clientX, t.clientY); }, { passive: true });
+  el.addEventListener("touchmove", function (e) { var t = e.touches[0]; move(t.clientX, t.clientY); e.preventDefault(); }, { passive: false });
+  el.addEventListener("touchend", up);
+  el.addEventListener("mousedown", function (e) { down(e.clientX, e.clientY);
+    function mm(e2) { move(e2.clientX, e2.clientY); }
+    function mu() { up(); document.removeEventListener("mousemove", mm); document.removeEventListener("mouseup", mu); }
+    document.addEventListener("mousemove", mm); document.addEventListener("mouseup", mu);
+  });
+}
+function deckPeek(n) {
+  var t = TAROT[n];
+  var box = $("deck-peek");
+  box.innerHTML = "";
+  var blk = document.createElement("div");
+  blk.className = "blk"; blk.style.textAlign = "left";
+  blk.innerHTML = '<div class="t"></div><div class="b"></div><div class="b" style="margin-top:0.4rem;font-size:0.85rem;color:var(--ink-faint)"></div>';
+  blk.querySelector(".t").textContent = t.n + " \u00b7 " + tarotSub(n);
+  blk.querySelectorAll(".b")[0].textContent = "Upright: " + t.up;
+  blk.querySelectorAll(".b")[1].textContent = "Reversed: " + t.rev;
+  box.appendChild(blk);
+  box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+function completeSwipe(n, dir) {
+  var s = tarotSwipeState();
+  if (dir > 0) {
+    s.remaining = s.remaining.filter(function (x) { return x !== n; });
+    s.remaining.push(n);
+    store("codex_tarot_swipe", s);
+    var fl = $("flash"); fl.style.opacity = "1"; setTimeout(function () { fl.style.opacity = "0"; }, 220);
+    if (navigator.vibrate) navigator.vibrate(18);
+    setTimeout(renderDeck, 320);
+  } else {
+    s.remaining = s.remaining.filter(function (x) { return x !== n; });
+    store("codex_tarot_swipe", s);
+    var ar = archived();
+    if (!ar.some(function (a) { return (a.kind === "tarot" ? a.ref : a.frameId) === n && a.kind === "tarot"; })) ar.unshift({ kind: "tarot", ref: n, date: today() });
+    persistArchived(ar);
+    setTimeout(renderDeck, 320);
+  }
+}
+
+function renderCull(elId, total, onCull) {
+  var box = $(elId); box.innerHTML = "";
+  if (total < 5) return;
+  var label = document.createElement("span");
+  label.textContent = "Cull:";
+  box.appendChild(label);
+  [5, 15, 25, 100].forEach(function (n) {
+    if (n > total) return;
+    var chip = document.createElement("button");
+    chip.className = "chip"; chip.textContent = n;
+    chip.addEventListener("click", function () {
+      if (!chip.classList.contains("armed")) {
+        box.querySelectorAll(".chip").forEach(function (c) { c.classList.remove("armed"); });
+        chip.classList.add("armed"); chip.textContent = "sure?";
+        setTimeout(function () { chip.classList.remove("armed"); chip.textContent = n; }, 2600);
+        return;
+      }
+      onCull(n);
+    });
+    box.appendChild(chip);
+  });
+}
+function listRow(card, dateStr) {
+  var el = document.createElement("div");
+  el.className = "lrow";
+  el.innerHTML = '<img src="' + card.thumb + '" alt=""><div class="li"><div class="ln">' + card.name + '</div><div class="ld">' + dateStr + '</div>' +
+    '<div class="ld" style="text-transform:none;letter-spacing:0.03em;color:#7a7060;margin-top:0.3rem">' + card.watch.replace(/\.$/, "") + '</div></div>';
+  return el;
+}
+function renderArchived() {
+  var l = $("archived-list"); l.innerHTML = "";
+  var ar = archived();
+  renderCull("archived-cull", ar.length, function (n) {
+    persistArchived(archived().slice(n));
+    renderArchived();
+  });
+  if (!ar.length) { l.innerHTML = '<div class="empty">Nothing archived.<br>Swipe a card down to set it aside.</div>'; return; }
+  ar.forEach(function (t) {
+    var card = archivedCard(t); if (!card) return;
+    var row = listRow(card, "Set aside " + dayLabel(t.date));
+    var acts = document.createElement("div");
+    acts.className = "jacts"; acts.style.alignSelf = "center";
+    var wb = document.createElement("button");
+    wb.className = "jact"; wb.textContent = "Write";
+    wb.addEventListener("click", function () { openWrite(card, false, null, t); });
+    var db = document.createElement("button");
+    db.className = "jact danger"; db.textContent = "Delete";
+    db.addEventListener("click", function () {
+      persistArchived(archived().filter(function (a) { return a !== t; }));
+      renderArchived();
+    });
+    acts.appendChild(wb); acts.appendChild(db);
+    row.appendChild(acts);
+    if (card.deity) {
+      row.querySelector(".li").style.cursor = "pointer";
+      row.querySelector(".li").addEventListener("click", function () { openDeity(card.deity); });
+    }
+    l.appendChild(row);
+  });
+}
+// ---------------- journal category filter ----------------
+var journalFilter = "all";
+function groupKeyFor(m) {
+  if (m.kind === "reading" || m.kind === "tarot") return "tarot";
+  if (m.kind === "self") return "self";
+  if (CATS[m.kind]) return m.kind;
+  return "celestial";
+}
+var JOURNAL_FILTERS = [
+  { key: "tarot", label: "Tarot", color: "#9a7ab0" },
+  { key: "celestial", label: "Celestial", color: "#b08d3e" },
+  { key: "self", label: "Self", color: "#8a8272" },
+  { key: "fortune", label: "Fortune", color: CATS.fortune.color },
+  { key: "practice", label: "Practice", color: CATS.practice.color },
+  { key: "chakra-day", label: "Day Chakra", color: CATS["chakra-day"].color },
+  { key: "chakra-month", label: "Month Chakra", color: CATS["chakra-month"].color },
+  { key: "past", label: "Past", color: CATS.past.color },
+  { key: "test", label: "Test", color: CATS.test.color },
+  { key: "path", label: "Path", color: CATS.path.color }
+];
+function renderJournalFilter(meds) {
+  var box = $("journal-filter"); box.innerHTML = "";
+  var counts = {};
+  meds.forEach(function (m) { var k = groupKeyFor(m); counts[k] = (counts[k] || 0) + 1; });
+  var present = JOURNAL_FILTERS.filter(function (f) { return counts[f.key]; });
+  if (present.length < 2) { box.style.display = "none"; if (journalFilter !== "all") journalFilter = "all"; return; }
+  box.style.display = "";
+  function mkChip(key, label, color) {
+    var b = document.createElement("button");
+    b.className = "fchip" + (journalFilter === key ? " on" : "");
+    b.style.setProperty("--fc", color);
+    b.innerHTML = '<span class="dot" style="background:' + color + '"></span>' + label;
+    b.addEventListener("click", function () { journalFilter = key; renderJournal(); });
+    return b;
+  }
+  box.appendChild(mkChip("all", "All", "#b8a880"));
+  present.forEach(function (f) { box.appendChild(mkChip(f.key, f.label, f.color)); });
+}
+function renderJournal() {
+  var l = $("journal-list"); l.innerHTML = "";
+  var meds = loadMeds();
+  renderJournalFilter(meds);
+  renderCull("journal-cull", meds.filter(function (m) { return !m.pinned; }).length, function (n) {
+    var all = loadMeds();
+    var cut = all.filter(function (m) { return !m.pinned; }).slice(0, n);
+    persistMeds(all.filter(function (m) { return cut.indexOf(m) === -1; }));
+    renderJournal();
+  });
+  if (!meds.length) { l.innerHTML = '<div class="empty">The journal is empty.<br>Tap a card in the deck and write the first line.</div>'; return; }
+  var visible = journalFilter === "all" ? meds : meds.filter(function (m) { return groupKeyFor(m) === journalFilter; });
+  if (!visible.length) { l.innerHTML = '<div class="empty">Nothing in this category yet.</div>'; return; }
+  var pinned = visible.filter(function (m) { return m.pinned; });
+  var rest = visible.filter(function (m) { return !m.pinned; });
+  pinned.concat(rest).forEach(function (m) {
+    var card = entryCard(m);
+    var el = document.createElement("div");
+    el.className = "blk";
+    if (card) el.style.borderLeft = "2px solid " + card.color;
+    var badge = badgeFor(m);
+    el.innerHTML = '<div class="t">' + (m.pinned ? "\u2605 Pinned \u00b7 " : "") + '<span style="color:' + badge[1] + '">' + badge[0] + ' \u00b7 </span>' + dayLabel(m.date) + (card ? " \u00b7 " + card.name : "") + (m.rev && m.kind !== "reading" ? " (reversed)" : "") + '</div><div class="b"></div>';
+    el.querySelector(".b").textContent = m.text;
+    el.querySelector(".b").style.cursor = "pointer";
+    el.querySelector(".b").addEventListener("click", function () { if (card) openWrite(card, false, m); });
+    var acts = document.createElement("div");
+    acts.className = "jacts";
+    var pb = document.createElement("button");
+    pb.className = "jact" + (m.pinned ? " on" : ""); pb.textContent = m.pinned ? "Unpin" : "Pin";
+    pb.addEventListener("click", function () {
+      var all = loadMeds();
+      all.forEach(function (x) { x.pinned = (x.id === m.id) ? !m.pinned : false; });
+      persistMeds(all); renderJournal();
+    });
+    var sb = document.createElement("button");
+    sb.className = "jact"; sb.textContent = "Share";
+    sb.addEventListener("click", function () { shareEntry(m); });
+    var db = document.createElement("button");
+    db.className = "jact danger"; db.textContent = "Delete";
+    db.addEventListener("click", function () {
+      persistMeds(loadMeds().filter(function (x) { return x.id !== m.id; }));
+      renderJournal();
+    });
+    acts.appendChild(pb); acts.appendChild(sb); acts.appendChild(db);
+    el.appendChild(acts);
+    l.appendChild(el);
+  });
+}
+
+// ---------------- write view ----------------
+var writeCard = null, writeFromDeck = false, writeEdit = null, writeArchived = null;
+function openWrite(card, fromDeck, editMed, archivedItem) {
+  writeCard = card; writeFromDeck = fromDeck; writeEdit = editMed || null; writeArchived = archivedItem || null;
+  var premium = isPremium();
+  setImgWithFallback($("w-image"), card.img, card.fallback);
+  $("w-image").style.borderRadius = "6px";
+  $("w-image").style.width = "84px";
+  $("w-image").style.height = "auto";
+  $("w-name").textContent = card.name + (card.rev ? " \u2014 Reversed" : "");
+  $("w-sub").textContent = (card.pos ? card.pos + " \u00b7 " : "") + card.sub;
+  var prompt = card.kind === "tarot"
+    ? (card.rev ? card.rev + " " : card.up + " ") + card.prompt
+    : card.up;
+  $("w-prompt").textContent = prompt;
+  $("w-write-area").style.display = premium ? "" : "none";
+  $("w-teaser").style.display = premium ? "none" : "";
+  if (premium) $("w-text").value = writeEdit ? writeEdit.text : "";
+  if (card.deity) {
+    $("w-deity-link").style.display = "";
+    $("w-deity-link").onclick = function () { closeWrite(); openDeity(card.deity); };
+  } else {
+    $("w-deity-link").style.display = "none";
+  }
+  $("write-overlay").classList.add("on");
+  if (premium) setTimeout(function () { $("w-text").focus(); }, 350);
+}
+function openDeity(f, returnView) {
+  setImgWithFallback($("dt-image"), cardImageFor(f, displayAnimal(f)), "images/card-" + f.id + ".jpg");
+  $("dt-image").style.borderRadius = "6px";
+  $("dt-image").style.width = "150px";
+  $("dt-image").style.height = "auto";
+  $("dt-name").textContent = f.name;
+  $("dt-union").textContent = f.sign + " \u00d7 " + displayAnimal(f) + " \u00b7 " + f.union;
+  $("dt-essence").textContent = f.essence;
+  $("dt-lore").textContent = f.godLore;
+  $("dt-quote-src").textContent = "In the words of " + f.source;
+  $("dt-quote").textContent = "\u201c" + f.quote + "\u201d";
+  $("dt-write-btn").onclick = function () { openWrite(resolveCard("frame", f.id), false); };
+  deityReturnView = returnView || "journal";
+  showView("deity");
+}
+window.saveWrite = function () {
+  var text = $("w-text").value.trim();
+  if (text && writeCard) {
+    var meds = loadMeds();
+    if (writeEdit) {
+      meds.forEach(function (x) { if (x.id === writeEdit.id) x.text = text; });
+      persistMeds(meds);
+    } else {
+      var wasEmpty = meds.length === 0;
+      meds.unshift({ id: Date.now(), kind: writeCard.kind, ref: writeCard.ref,
+        rev: !!writeCard.rev, cards: writeCard.cards || null,
+        date: today(), text: text, pinned: false });
+      persistMeds(meds);
+      // The Binding's 52-week fire lights automatically on the very first saved entry.
+      if (wasEmpty && !read("codex_binding_start", null)) store("codex_binding_start", today());
+      streakJustSaved = true;
+    }
+    // Writing on a set-aside card restores it.
+    if (writeArchived) {
+      persistArchived(archived().filter(function (a) { return a !== writeArchived; }));
+      if (writeCard.kind === "tarot") {
+        var sw = tarotSwipeState();
+        if (sw.remaining.indexOf(writeCard.ref) === -1) sw.remaining.push(writeCard.ref);
+        store("codex_tarot_swipe", sw);
+      }
+      renderArchived();
+    }
+    if (writeFromDeck && writeCard.kind === "tarot") {
+      var s2 = tarotSwipeState();
+      s2.remaining = s2.remaining.filter(function (x) { return x !== writeCard.ref; });
+      store("codex_tarot_swipe", s2);
+      setTimeout(renderDeck, 250);
+    }
+  }
+  closeWrite();
+  // Refresh whatever view is showing so a new entry appears at once.
+  var active = document.querySelector(".view.on");
+  if (active) {
+    if (active.id === "view-journal") { renderJournal(); renderArchived(); }
+    else if (active.id === "view-home") renderHome();
+  }
+  renderStreak(); // header badge lives outside #views, so it needs its own refresh
+};
+window.closeWrite = function () {
+  $("write-overlay").classList.remove("on");
+  writeCard = null; writeEdit = null; writeArchived = null;
+};
+
+// ---------------- The Binding: 52-week habit tracker, auto-started on first entry ----------------
+function renderBinding() {
+  var body = $("binding-body");
+  if (!isPremium()) {
+    body.innerHTML = lockCardHTML("The Binding",
+      "A 52-week meditation cycle, tracked from your first saved entry and closing in a New Fire ceremony of its own. Part of the Full Codex.");
+    return;
+  }
+  var start = read("codex_binding_start", null);
+  if (!start) {
+    body.innerHTML = '<div class="blk" style="text-align:center"><div class="t">The Binding</div><div class="b">Your fire hasn\u2019t been lit yet. Save your first journal entry anywhere in the Codex, and the 52-week Binding begins automatically from that date.</div></div>';
+    return;
+  }
+  var startD = new Date(start + "T00:00:00");
+  var nowD = new Date(today() + "T00:00:00");
+  var weeksElapsed = Math.floor((nowD - startD) / 604800000);
+  var complete = weeksElapsed >= 52;
+  var currentWeek = Math.min(weeksElapsed + 1, 52);
+  var meds = loadMeds();
+  var keptWeeks = 0, segs = "";
+  for (var w = 1; w <= 52; w++) {
+    var wStart = new Date(startD.getTime() + (w - 1) * 604800000);
+    var wEnd = new Date(startD.getTime() + w * 604800000);
+    var kept = meds.some(function (m) { var md = new Date(m.date + "T00:00:00"); return md >= wStart && md < wEnd; });
+    if (kept) keptWeeks++;
+    segs += '<div class="bw' + (kept ? " kept" : "") + (w === currentWeek && !complete ? " now" : "") + '" title="Week ' + w + '"></div>';
+  }
+  var html = '<div class="blk" style="text-align:center"><div class="t">The Binding</div><div class="b">' +
+    (complete
+      ? "Fifty-two weeks have passed since your fire was lit. The binding has come due."
+      : "Week " + currentWeek + " of 52, since " + dayLabel(start) + ".") +
+    '</div></div><div class="binding-ring">' + segs + '</div>' +
+    '<div class="stats">' + keptWeeks + ' weeks kept &middot; ' + (52 - keptWeeks) + ' open<br>no streak is broken by an empty week</div>';
+  if (complete) {
+    html += '<div class="blk" style="text-align:center"><div class="t">The New Fire</div><div class="b">The year of meditations is ceremonially closed here. Your entries stay in the journal \u2014 nothing is deleted. A new binding opens today, cycle two.</div></div>' +
+      '<div class="btn-row"><button class="btn" onclick="closeBinding()">Light the New Fire</button></div>';
+  }
+  body.innerHTML = html;
+}
+window.closeBinding = function () {
+  store("codex_binding_start", today());
+  renderBinding();
+  renderHome();
+};
+
+// ---------------- The Logic: ported in-app, content unchanged from the-logic.html ----------------
+function renderLogicView() {
+  var el = $("logic-body");
+  el.dataset.built = "1";
+  el.innerHTML =
+    '<h1 style="font-family:\'Fraunces\',serif;font-weight:300;font-size:1.5rem;color:var(--ink)">The Logic of the Codex</h1>' +
+    '<p class="subtitle" style="margin:0.3rem 0 1.6rem;font-style:normal;font-family:\'Inter\',sans-serif">How three civilizations\u2019 clocks are geared into one instrument</p>' +
+    '<h2>The claim</h2><p>The Celestial Codex is not a collage of mysticisms. It is a gear system. Three cultures, working independently, each discovered the same mathematical fact about time: <strong>one wheel tells you almost nothing; two wheels of different sizes, turning against each other, generate a &ldquo;great year&rdquo; far longer and far richer than either wheel alone.</strong> The Codex runs four such wheels at once, and every reading it produces is computed from where the wheels actually stand today.</p>' +
+    '<h2>Wheel I \u2014 The Western month wheel (12)</h2><p>The tropical year divided into twelve solar sign-spans, from the equinoxes and solstices outward. Your frame is assigned by the traditional Western date span of your birth. Nothing here is adjusted or &ldquo;fused&rdquo;: Aries is Mar 21 \u2013 Apr 19, and so on around the year.</p>' +
+    '<h2>Wheel II \u2014 The Chinese year wheel (12 \u00d7 10 = 60)</h2><p>The Chinese cycle interlocks twelve earthly branches (the animals) with ten heavenly stems (the five elements, doubled) \u2014 sixty years before the combination repeats. The Codex computes your animal from the actual date of Chinese New Year for your birth year (a stored table of true dates, not an approximation), and computes the current year\u2019s relationship to yours using the tradition\u2019s own relational mechanics: same-year, trine group, clash pair, harm pair, and the secret-friend pair. These relationships are what drive every year reading.</p>' +
+    '<h2>Wheel III \u2014 The Mexica gears (260 \u00d7 365 = 18,980)</h2><p>The Aztecs ran two calendars simultaneously: the <strong>tonalpohualli</strong>, a 260-day sacred round of 20 day-signs against coefficients 1\u201313, and the <strong>xiuhpohualli</strong>, a 365-day solar year of eighteen 20-day veintenas plus five hollow days, the nemontemi. Because 260 and 365 share no large factor, the pair of wheels realigns only every 18,980 days \u2014 <strong>52 solar years</strong>. That realignment was the Binding Up of the Years, marked by the New Fire ceremony: every fire in the realm extinguished, a night of fasting on the Hill of the Star, and a new flame drilled at dawn. Time was cyclical, and each cycle had to be earned.</p>' +
+    '<h2>The Caso correlation \u2014 how the Aztec count is anchored</h2><p>To compute today\u2019s tonalpohualli day you must fix the 260-day round against our calendar at one documented point. The Codex uses the correlation of Alfonso Caso \u2014 the standard among U.S. scholars of Mesoamerica \u2014 anchored on the best-attested date in the sources:</p>' +
+    '<div class="formula">August 13, 1521 (Julian) \u2014 the fall of Tenochtitlan<br>= day <strong>1 Coatl</strong> (1 Serpent) of the tonalpohualli<br>= day 15 of the veintena <strong>Miccailhuitontli</strong> (Tlaxochimaco) of the xiuhpohualli</div>' +
+    '<p>From that anchor the count is pure arithmetic. For any date with Julian Day Number J:</p>' +
+    '<div class="formula">tonalpohualli index &nbsp;=&nbsp; (104 + J &minus; J<sub>1521-08-13</sub>) mod 260<br>coefficient = index mod 13 + 1 &nbsp;&nbsp;&nbsp; day-sign = DAY_SIGNS[index mod 20]<br>xiuhpohualli day-of-year = (174 + J &minus; J<sub>1521-08-13</sub>) mod 365<br>veintena = floor(day / 20) &nbsp;&nbsp;&nbsp; day-within = day mod 20 + 1 &nbsp;&nbsp;&nbsp; (&ge;360 \u2192 nemontemi)</div>' +
+    '<p>(1 Coatl is index 104 of the round: the unique n with n mod 13 = 0 and n mod 20 = 4.) The implementation was verified against a second documented Caso date \u2014 June 30, 1520, the Noche Triste, computes to <strong>8 Cozcacuauhtli</strong>, exactly as recorded.</p>' +
+    '<div class="note"><p>Honest caveat: Caso\u2019s count applies no intercalary correction, so the xiuhpohualli drifts against the seasons by roughly one day every four years \u2014 a known and debated feature of the correlation, not a bug in this page. The tonalpohualli count, which is what the day-sign ring uses, is unaffected: it is a continuous 260-day count and needs no leap correction at all.</p></div>' +
+    '<h2>Wheel IV \u2014 The Stoic week (7)</h2><p>The daily layer is a practice calendar, not astrology: seven disciplines (the Review, Premeditatio, the Discipline of Action, Prosoche, Sympatheia, Temperance, Memento) rotating on the weekday, combined with two real astronomical clocks computed live \u2014 the planetary day ruler (the traditional weekday assignment: Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn) and the actual moon phase, computed from the mean synodic month against the documented new moon of January 6, 2000.</p>' +
+    '<h2>Why the fusion is legitimate \u2014 the 52 rhymes with the 60</h2><p>The Chinese 60-year cycle and the Aztec 52-year cycle are the same construction: two coprime wheels producing a great year. And naming worked the same way in both: an Aztec year took its name from a day-sign and a number (4 year-bearer signs \u00d7 13 numbers = 52 unique year names), exactly as a Chinese year is named animal \u00d7 element. The Codex\u2019s own naming move \u2014 <strong>month sign \u00d7 year animal</strong>, one Union per frame \u2014 is the combinatorial pattern both traditions had already made. It was rediscovered, not invented.</p>' +
+    '<h2>The Binding of the Weeks \u2014 the ceremony, scaled to a life</h2><p>The Codex maps the 52-year cosmic binding to a 52-week personal cycle:</p><ul><li>Your first saved entry lights your fire. From that date the Codex counts weeks.</li><li>At week 52 the binding comes due: the board is ceremonially closed here in the app, and a New Fire opens cycle two. A full downloadable archive is coming in a future update.</li><li>The board\u2019s week counter and the ceremony live on the Binding view, off the Almanac.</li></ul>' +
+    '<h2>The countdown \u2014 why 2027 matters</h2><p>The last New Fire ceremony actually performed was in <strong>1507</strong>, under Moctezuma II. Counting forward in 52-year bindings from that documented date:</p>' +
+    '<div class="formula">1507, 1559, 1611, 1663, 1715, 1767, 1819, 1871, 1923, 1975, <strong>2027</strong></div>' +
+    '<p>Which makes the present year the closing year of the current reconstructed binding \u2014 the countdown shown in the Codex header counts the days remaining until the next fire. This is arithmetic from a documented date, not marketing.</p>' +
+    '<h2>The twelve gods \u2014 how each was matched</h2><p>Each frame pairs its Western\u00d7Chinese Union with an Aztec deity whose documented character runs on the same current. The match is interpretive \u2014 the one layer of the Codex that is curation rather than computation \u2014 and it is argued, not asserted:</p>' +
+    '<table><tr><th>Frame</th><th>Deity</th><th>The current they share</th></tr>' +
+    '<tr><td>I &middot; Aries &times; Tiger</td><td>Huitzilopochtli</td><td>the opening move; the battle that cannot wait</td></tr>' +
+    '<tr><td>II &middot; Taurus &times; Ox</td><td>Chicomecoatl</td><td>the stored harvest; endurance that pays out slowly</td></tr>' +
+    '<tr><td>III &middot; Gemini &times; Monkey</td><td>Huehuecoyotl</td><td>the trickster who is three moves ahead</td></tr>' +
+    '<tr><td>IV &middot; Cancer &times; Rabbit</td><td>Coatlicue</td><td>shelter as first principle; the defended door</td></tr>' +
+    '<tr><td>V &middot; Leo &times; Horse</td><td>Tezcatlipoca</td><td>rulership and the mirror that audits the ruler</td></tr>' +
+    '<tr><td>VI &middot; Virgo &times; Snake</td><td>Quetzalcoatl</td><td>the hidden preparation; wisdom kept under feathers</td></tr>' +
+    '<tr><td>VII &middot; Libra &times; Goat</td><td>Xochiquetzal</td><td>the balanced room; beauty as held equilibrium</td></tr>' +
+    '<tr><td>VIII &middot; Scorpio &times; Dragon</td><td>Mictlantecuhtli</td><td>the honored ending; the custodian of what is finished</td></tr>' +
+    '<tr><td>IX &middot; Sagittarius &times; Rooster</td><td>Tonatiuh</td><td>the voice at dawn; the sun that announces itself</td></tr>' +
+    '<tr><td>X &middot; Capricorn &times; Dog</td><td>Xolotl</td><td>the post held through the dark half of the cycle</td></tr>' +
+    '<tr><td>XI &middot; Aquarius &times; Rat</td><td>Ehecatl</td><td>the angle no one saw coming; the wind before the rain</td></tr>' +
+    '<tr><td>XII &middot; Pisces &times; Pig</td><td>Chalchiuhtlicue</td><td>generosity as an element \u2014 and its flood</td></tr></table>' +
+    '<h2>Sources</h2><ul>' +
+    '<li>Caso, A. \u2014 the correlation anchored on 1 Coatl / Aug 13, 1521, fall of Tenochtitlan (attested in Native and Spanish sources).</li>' +
+    '<li>Florentine Codex and Codex Borbonicus \u2014 day-signs, veintena festivals, New Fire liturgy.</li>' +
+    '<li>Sun Stone (Piedra del Sol), Museo Nacional de Antropolog\u00eda, Mexico City \u2014 the five suns; the stone is a cuauhxicalli (eagle vessel, an altar), not a working calendar.</li>' +
+    '<li>Chinese New Year dates \u2014 tabulated true dates 1930\u20132030; animal and element computed from them.</li>' +
+    '<li>Moon phase \u2014 mean synodic month 29.530588853 d from the new moon of Jan 6, 2000, 18:14 UTC.</li></ul>' +
+    '<div class="note"><p>What is computed is labeled computed; what is curated is labeled curated. The Codex\u2019s position is that a reading is only worth keeping if you can see the gears behind it.</p></div>';
+}
+
+// ---------------- The Cycle: ported in-app from the-cycle.html, same math ----------------
+function renderCycleView() {
+  var CY_SPANS = [
+    ["Huitzilopochtli", "Mar 21 \u2013 Apr 19", "the opening move; the battle that cannot wait. This span rewards starting \u2014 and punishes the unfinished middle.", "fire"],
+    ["Chicomecoatl", "Apr 20 \u2013 May 20", "the stored harvest; endurance that pays out slowly. This span rewards the keeper of the long routine.", "earth"],
+    ["Huehuecoyotl", "May 21 \u2013 Jun 20", "the trickster three moves ahead. This span rewards range \u2014 and asks that one thread be pulled to its end.", "air"],
+    ["Coatlicue", "Jun 21 \u2013 Jul 22", "shelter as first principle. This span rewards tending what is near: body, home, the people at the door.", "water"],
+    ["Tezcatlipoca", "Jul 23 \u2013 Aug 22", "rulership and the mirror that audits the ruler. This span rewards self-command when no one is watching.", "fire"],
+    ["Quetzalcoatl", "Aug 23 \u2013 Sep 22", "the hidden preparation; wisdom kept under feathers. This span rewards the check done while checking is cheap.", "earth"],
+    ["Xochiquetzal", "Sep 23 \u2013 Oct 22", "the balanced room; beauty as held equilibrium. This span rewards asking for help before the scale tips.", "air"],
+    ["Mictlantecuhtli", "Oct 23 \u2013 Nov 21", "the honored ending. This span rewards closing accounts while the closing is cheap.", "water"],
+    ["Tonatiuh", "Nov 22 \u2013 Dec 21", "the voice at dawn. This span rewards reach \u2014 and punishes the unverified word.", "fire"],
+    ["Xolotl", "Dec 22 \u2013 Jan 19", "the post held through the dark half. This span rewards settling debts in both directions.", "earth"],
+    ["Ehecatl", "Jan 20 \u2013 Feb 18", "the angle no one saw coming. This span rewards positioning over striking.", "air"],
+    ["Chalchiuhtlicue", "Feb 19 \u2013 Mar 20", "generosity as an element \u2014 and its flood. This span rewards the limit set in calm.", "water"]
+  ];
+  var CY_ELEMENT_COLOR = { fire: "#ff6b4a", earth: "#f2a93c", air: "#c9c3d9", water: "#4fb8e8" };
+  var CY_PHASES = [
+    ["New Moon", "the blank page \u2014 set one intention, small enough to keep"],
+    ["Waxing Crescent", "the first push \u2014 protect the new habit from old ones"],
+    ["First Quarter", "the checkpoint \u2014 what has actually moved since the new moon?"],
+    ["Waxing Gibbous", "the long build \u2014 resist starting anything new now"],
+    ["Full Moon", "the account laid open \u2014 look at what the month actually made"],
+    ["Waning Gibbous", "the sorting \u2014 keep what worked, name what did not"],
+    ["Last Quarter", "the release \u2014 drop one commitment before the loop closes"],
+    ["Waning Crescent", "the emptying \u2014 rest is the practice now"]
+  ];
+  function cyDoy(m, d) { return Math.floor((Date.UTC(2026, m - 1, d) - Date.UTC(2026, 0, 1)) / 86400000); }
+  function cySpan(f) {
+    var p = f[1].split("\u2013");
+    function q(s) { s = s.trim().split(" "); return cyDoy(MON[s[0]], +s[1]); }
+    return [q(p[0]), q(p[1])];
+  }
+  var nowC = new Date(), tdoy = cyDoy(nowC.getMonth() + 1, nowC.getDate());
+  var CY_NS = "http://www.w3.org/2000/svg";
+  function cyEl(n, at) { var e = document.createElementNS(CY_NS, n); for (var k in at) e.setAttribute(k, at[k]); return e; }
+  var ys = $("cy-year"); ys.innerHTML = ""; ys.dataset.built = "1";
+  ys.appendChild(cyEl("line", { x1: 0, y1: 13, x2: 100, y2: 13, stroke: "rgba(24,42,61,0.1)", "stroke-width": 0.5 }));
+  function cyShow(f, cur) {
+    $("cy-detail").innerHTML = '<div class="dn">' + f[0] + (cur ? " \u2014 this season, now" : "") + '</div>' +
+      '<div class="dd">' + f[1] + " \u00b7 a " + f[3] + " season</div><div class=\"dx\">" + f[2] + "</div>";
+  }
+  CY_SPANS.forEach(function (f) {
+    var sp = cySpan(f), x1 = sp[0] / 365 * 100, x2 = (sp[1] + 1) / 365 * 100; if (x2 < x1) x2 = 100;
+    var cur = (tdoy >= sp[0] && tdoy <= sp[1]) || (sp[1] < sp[0] && (tdoy >= sp[0] || tdoy <= sp[1]));
+    var baseColor = CY_ELEMENT_COLOR[f[3]];
+    var fill = cur ? baseColor : baseColor + "55";
+    var r = cyEl("rect", { x: x1, y: 10.5, width: Math.max(1, x2 - x1 - 0.3), height: 5, rx: 2, fill: fill });
+    r.style.cursor = "pointer";
+    r.addEventListener("click", function () { cyShow(f, cur); });
+    ys.appendChild(r);
+    if (sp[1] < sp[0]) {
+      var r2 = cyEl("rect", { x: 0, y: 10.5, width: (sp[1] + 1) / 365 * 100, height: 5, rx: 2, fill: fill });
+      r2.style.cursor = "pointer";
+      r2.addEventListener("click", function () { cyShow(f, cur); });
+      ys.appendChild(r2);
+    }
+  });
+  var tx = tdoy / 365 * 100;
+  ys.appendChild(cyEl("line", { x1: tx, y1: 5, x2: tx, y2: 21, stroke: "#dd8f2c", "stroke-width": 0.8 }));
+  ys.appendChild(cyEl("circle", { cx: tx, cy: 3.5, r: 1.8, fill: "#dd8f2c" }));
+  var ms = $("cy-moon"); ms.innerHTML = "";
+  ms.appendChild(cyEl("line", { x1: 0, y1: 8, x2: 100, y2: 8, stroke: "rgba(24,42,61,0.08)", "stroke-width": 0.4 }));
+  var mp = moonPhase(nowC);
+  var frac = mp.age / 29.530588853;
+  CY_PHASES.forEach(function (p, i) {
+    var cx = (i / 8 + 1 / 16) * 100;
+    var k = i / 8;
+    var near = Math.abs(frac - (i / 8 + 1 / 16)) < 1 / 16;
+    var r = near ? 2.8 : 1.7;
+    var g = cyEl("g", {});
+    g.style.cursor = "pointer";
+    if (near) g.appendChild(cyEl("circle", { cx: cx, cy: 8, r: r + 1.8, fill: "none", stroke: "#2f8fd6", "stroke-width": 0.4, opacity: 0.35 }));
+    g.appendChild(cyEl("circle", { cx: cx, cy: 8, r: r, fill: "rgba(24,42,61,0.13)" }));
+    g.appendChild(cyEl("path", { d: moonPhasePathD(cx, 8, r, k), fill: near ? "#2f8fd6" : "rgba(24,42,61,0.5)" }));
+    // Invisible wider hit-area so the small phase shapes stay easy to tap.
+    var hit = cyEl("circle", { cx: cx, cy: 8, r: 5, fill: "transparent" });
+    g.appendChild(hit);
+    g.addEventListener("click", function () {
+      $("cy-detail").innerHTML = '<div class="dn">' + p[0] + (near ? " \u2014 tonight" : "") + '</div>' +
+        '<div class="dd">phase ' + (i + 1) + ' of 8 in the moon\u2019s loop</div><div class="dx">' + p[1] + '.</div>';
+    });
+    ms.appendChild(g);
+  });
+  ms.appendChild(cyEl("line", { x1: frac * 100, y1: 3.5, x2: frac * 100, y2: 12.5, stroke: "#2f8fd6", "stroke-width": 0.6 }));
+}
+
+// ---------------- boot ----------------
+(function boot() {
+  var ok = false;
+  try { ok = localStorage.getItem("codex_unlocked") === "true"; } catch (e) {}
+  if (ok) { $("gate-overlay").classList.add("hidden"); afterUnlock(); }
+})();
+})();
+</script>
+</body>
+</html>
