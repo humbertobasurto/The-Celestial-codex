@@ -178,7 +178,6 @@ header .h-date a{color:var(--ink-dim);text-decoration:none;border-bottom:1px sol
 .ob-orb{width:64px;height:64px;margin:0 auto 1.2rem;border-radius:50%;background:conic-gradient(from 200deg,var(--blue),var(--marigold),var(--blue));animation:orbspin 6s linear infinite;box-shadow:0 8px 24px rgba(47,143,214,.3)}
 @keyframes orbspin{to{transform:rotate(360deg)}}
 .ob-wheeltext{font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:1.1rem;color:var(--ink);letter-spacing:0.01em}
-.primer-sub{font-size:0.8rem;color:var(--ink-dim);line-height:1.75;max-width:300px;margin:0.8rem auto 1.8rem;font-family:'Inter',sans-serif;font-weight:400}
 
 /* ---------- reveal card ---------- */
 .reveal-card{background:var(--card);border:1px solid var(--hairline);border-radius:18px;padding:1.6rem 1.4rem;margin-top:1.4rem;box-shadow:var(--shadow-md)}
@@ -291,7 +290,7 @@ header .h-date a{color:var(--ink-dim);text-decoration:none;border-bottom:1px sol
 .w-dot{display:inline-block;width:7px;height:7px;border-radius:50%;flex:0 0 auto;box-shadow:0 0 6px currentColor}
 .w-label{display:flex;align-items:center;gap:0.5rem;font-size:0.62rem;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-faint);font-weight:500;margin-bottom:0.55rem}
 .w-tap{margin-left:auto;font-size:0.6rem;letter-spacing:0;text-transform:none;color:var(--ink-faint);font-weight:400}
-.widget-streak{cursor:pointer}
+.widget-streak{cursor:default}
 .widget-streak .wrow{display:flex;align-items:baseline;justify-content:center;gap:0.5rem}
 .widget-streak .wn{font-family:'Fraunces',serif;font-size:2.1rem;font-weight:400;color:var(--ink)}
 .widget-streak .wl{font-size:0.66rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-faint)}
@@ -320,12 +319,6 @@ header .h-date a{color:var(--ink-dim);text-decoration:none;border-bottom:1px sol
 .write-teaser .wt-title{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:400;color:var(--ink);margin-bottom:0.4rem}
 .write-teaser .wt-body{font-size:0.78rem;color:var(--ink-dim);line-height:1.55;margin-bottom:1rem}
 .write-teaser .wt-fake{background:rgba(255,255,255,.6);border:1px dashed rgba(221,143,44,.4);border-radius:10px;padding:0.9rem;font-family:'Fraunces',serif;font-style:italic;font-size:0.86rem;color:var(--ink-faint);margin-bottom:1rem;filter:blur(0.3px)}
-
-/* ---------- Sky hub, primer, and evening review ---------- */
-.sky-tag{text-align:center;font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:0.85rem;color:var(--ink-dim);margin:-0.3rem 0 0.9rem}
-.sky-count{font-size:0.62rem;letter-spacing:0.04em;text-transform:uppercase;color:var(--marigold);margin-top:0.55rem}
-.review-text{width:100%;min-height:110px;background:var(--card-soft);border:1px solid var(--hairline);color:var(--ink);font-family:'Fraunces',serif;font-size:0.98rem;line-height:1.6;padding:1rem;outline:none;resize:vertical;border-radius:12px}
-.review-text:focus{border-color:var(--green)}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 </head>
@@ -341,7 +334,7 @@ header .h-date a{color:var(--ink-dim);text-decoration:none;border-bottom:1px sol
 
 <div class="ob-step on" id="ob-fields">
 <h2>Via Victoriosa</h2>
-<p class="subtitle">A working almanac for Stoics. Enter your birthday.</p>
+<p class="subtitle">A working almanac for Stoics &mdash; enter your birthday</p>
 <div class="input-row">
 <div class="input-group"><label>Month</label><input type="number" id="in-month" min="1" max="12"></div>
 <div class="input-group"><label>Day</label><input type="number" id="in-day" min="1" max="31"></div>
@@ -364,27 +357,8 @@ header .h-date a{color:var(--ink-dim);text-decoration:none;border-bottom:1px sol
 <div class="pf-union" id="res-union"></div>
 <div style="font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:0.85rem;color:var(--green);margin-bottom:0.3rem" id="res-mexica"></div>
 </div>
-<div class="btn-row"><button class="btn" onclick="showPrimer()">Continue</button></div>
+<div class="btn-row"><button class="btn" onclick="goToPaywall()">Continue</button></div>
 <div class="btn-row" style="margin-top:0"><button class="skip-link" onclick="shareCard()">Share Your Card</button></div>
-</div>
-
-<div class="ob-step" id="ob-primer">
-<div id="primer-1">
-<div class="ob-orb" style="margin-bottom:1.4rem"></div>
-<h2 style="font-size:1.25rem">The Stoics read the sky.</h2>
-<p class="primer-sub">Planets, stars, the slow wheels of the year. They held that all of it is one connected whole, and that nothing in it moves alone.</p>
-</div>
-<div id="primer-2" style="display:none">
-<div class="ob-orb" style="margin-bottom:1.4rem"></div>
-<h2 style="font-size:1.25rem">And they knew one thing was theirs.</h2>
-<p class="primer-sub">Not the sky, not the day, not other people. Only their judgment, and their next action.</p>
-</div>
-<div id="primer-3" style="display:none">
-<div class="ob-orb" style="margin-bottom:1.4rem"></div>
-<h2 style="font-size:1.25rem">So this place does both.</h2>
-<p class="primer-sub">Read the sky. Then rule what is yours.</p>
-</div>
-<button class="btn" onclick="primerNext()">Continue</button>
 </div>
 
 <div class="ob-step" id="ob-paywall">
@@ -407,7 +381,7 @@ header .h-date a{color:var(--ink-dim);text-decoration:none;border-bottom:1px sol
 <div class="ob-step" id="ob-email">
 <div id="ob-email-ask">
 <h2 style="font-size:1.3rem">Unlock the Full Demo</h2>
-<p class="subtitle">Leave your email to unlock the Journal. No password needed, and no cost right now.</p>
+<p class="subtitle">Leave your email to unlock the Journal &mdash; no password needed, and no cost right now</p>
 <div class="input-row"><div class="input-group" style="width:100%"><input type="email" id="ob-email-input" placeholder="you@email.com" style="width:100%;text-align:left;padding-left:0.9rem"></div></div>
 <div class="err" id="ob-email-err">Enter a valid email to continue.</div>
 <div class="btn-row"><button class="btn" id="ob-email-submit" onclick="submitEmailCapture()">Unlock Full Demo</button></div>
@@ -415,7 +389,7 @@ header .h-date a{color:var(--ink-dim);text-decoration:none;border-bottom:1px sol
 </div>
 <div id="ob-email-sent" style="display:none">
 <h2 style="font-size:1.3rem">Check your inbox</h2>
-<p class="subtitle">We sent a sign-in link to <strong id="ob-email-sent-addr" style="color:var(--ink);font-weight:500"></strong>. Tap it on this device to finish.</p>
+<p class="subtitle">We sent a sign-in link to <strong id="ob-email-sent-addr" style="color:var(--ink);font-weight:500"></strong> &mdash; tap it on this device to finish.</p>
 <button class="skip-link" onclick="goToApp()">Continue without signing in</button>
 </div>
 </div>
@@ -427,10 +401,9 @@ header .h-date a{color:var(--ink-dim);text-decoration:none;border-bottom:1px sol
 <h2 id="dr-deity" style="font-size:1.3rem"></h2>
 <p class="subtitle" id="dr-union"></p>
 <div id="dr-fortune" style="font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:1rem;color:var(--ink-dim);margin-bottom:1.2rem"></div>
-<div class="sec-label" style="text-align:center">Three Impressions</div>
+<div class="sec-label" style="text-align:center">Today's Pull</div>
 <div id="spread-row"></div>
 <div id="spread-detail"></div>
-<div style="text-align:center;font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:0.82rem;color:var(--ink-faint);margin:0.9rem 0 0">An impression has appeared. Judge it, then rule what is yours.</div>
 <div class="btn-row" style="margin-top:1.3rem">
 <button class="btn" onclick="dismissDailyReveal(true)">Write about today</button>
 </div>
@@ -450,18 +423,21 @@ header .h-date a{color:var(--ink-dim);text-decoration:none;border-bottom:1px sol
 <div class="h-identity" id="h-identity" onclick="showView('profile')"></div>
 </div>
 <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.4rem">
-<div class="h-date"><span id="h-date"></span><br><a onclick="showView('logic')">the logic</a></div>
+<div class="h-date"><span id="h-date"></span><br><a onclick="showView('logic')">how this works</a></div>
 <div class="streak-badge" id="streak-badge" onclick="openStreakInfo()"></div>
 </div>
 </header>
 <div id="views">
 <div class="view" id="view-home">
 
-<div class="sec-label" style="margin-top:0.4rem">This Morning</div>
+<div class="sec-label" style="margin-top:0.4rem">Today</div>
 <div class="widget-card">
 <div class="widget-caption" id="pf-celestial"></div>
 <div class="widget-divider"></div>
-<div class="widget-streak" id="pf-fire" onclick="openStreakInfo()"></div>
+<div class="widget-cycle-row" onclick="showView('cycle')">
+<div class="w-label"><span class="w-dot" style="background:var(--blue);box-shadow:0 0 6px var(--blue-glow)"></span>The Cycle<span class="w-tap">tap for more &rarr;</span></div>
+<div id="pf-cycle"></div>
+</div>
 <div class="widget-divider"></div>
 <div class="widget-chakra widget-chakra-hero" id="pf-dash-chakra" onclick="openChakraPopup()">
 <div class="chakra-icon" id="pf-chakra-icon"></div>
@@ -470,14 +446,14 @@ header .h-date a{color:var(--ink-dim);text-decoration:none;border-bottom:1px sol
 </div>
 
 <div class="sec-label" style="display:flex;justify-content:space-between;align-items:center">
-<span>The Impression</span>
+<span>Today's Reading</span>
 <a onclick="shareFortune()" style="color:var(--blue);text-decoration:none;font-size:0.62rem;cursor:pointer;text-transform:none;letter-spacing:0;font-weight:500">Share &#8599;</a>
 </div>
 <div class="blk" style="text-align:center">
 <div id="pf-fortune" style="cursor:pointer;margin-bottom:0.9rem" onclick="reopenDailyReveal()"></div>
 <div id="pf-reading-cards" class="reading-mini-row"></div>
-<div class="note-typebox" style="margin-top:1.1rem;text-align:left" onclick="openReadingNote()"><span class="note-typebox-label">Interpret the Impression</span>Taken together, what are these impressions telling you?</div>
-<button class="skip-link" style="margin:1rem auto 0" onclick="toggleReadingExpand()"><span id="reading-expand-label">What do these impressions mean? &darr;</span></button>
+<div class="note-typebox" style="margin-top:1.1rem;text-align:left" onclick="openReadingNote()"><span class="note-typebox-label">Interpret the Reading</span>Taken together, what are these cards telling you&hellip;</div>
+<button class="skip-link" style="margin:1rem auto 0" onclick="toggleReadingExpand()"><span id="reading-expand-label">What do these cards mean? &darr;</span></button>
 <div id="reading-expand" style="display:none;text-align:left;margin-top:0.9rem"></div>
 </div>
 
@@ -492,38 +468,14 @@ header .h-date a{color:var(--ink-dim);text-decoration:none;border-bottom:1px sol
 
 <div id="pf-action"></div>
 
-<div class="sec-label">The Evening Review</div>
-<div class="blk">
-<div class="t">Close the Day</div>
-<div class="b" id="review-state" style="margin-bottom:0.7rem"></div>
-<div id="review-form">
-<textarea id="review-text" class="review-text" placeholder="One thing done well. One thing done poorly. One thing left undone. Name them plainly."></textarea>
-<div class="btn-row" style="justify-content:flex-start;margin-bottom:0"><button class="btn" onclick="closeTheDay()">Close the Day</button></div>
-</div>
-</div>
-
-<div class="note-typebox" onclick="openSelfWrite()"><span class="note-typebox-label">Notes</span>What's on your mind today?</div>
+<div class="note-typebox" onclick="openSelfWrite()"><span class="note-typebox-label">Notes</span>What's on your mind today&hellip;</div>
 
 <div class="ent-strip" id="pf-strip"></div>
 <div class="stats" id="pf-stats"></div>
 </div>
-<div class="view" id="view-sky">
-<div class="sec-label" style="margin-top:0.4rem">The Sky &middot; Sympatheia</div>
-<p class="sky-tag">What is given. The part you do not control.</p>
-<div class="blk" style="text-align:center">
-<div class="t">Where the Wheels Stand</div>
-<div class="b" id="sky-celestial"></div>
-<div class="sky-count" id="sky-countdown"></div>
-</div>
-<div class="prof-link-row" onclick="showView('cycle')"><span><span class="w-dot" style="background:var(--blue);box-shadow:0 0 6px var(--blue-glow)"></span>The Cycle</span><span class="chev">&rsaquo;</span></div>
-<div class="prof-link-row" onclick="showView('binding')"><span><span class="w-dot" style="background:var(--marigold);box-shadow:0 0 6px var(--marigold-glow)"></span>The Binding</span><span class="chev">&rsaquo;</span></div>
-<div class="prof-link-row" onclick="showView('logic')"><span><span class="w-dot" style="background:var(--green);box-shadow:0 0 6px var(--green-glow)"></span>The Logic</span><span class="chev">&rsaquo;</span></div>
-<div class="prof-link-row" onclick="showView('lore')"><span><span class="w-dot" style="background:var(--rose);box-shadow:0 0 6px rgba(193,96,79,.45)"></span>Lore and Signs</span><span class="chev">&rsaquo;</span></div>
-<div class="blk" style="text-align:center;margin-top:1.4rem"><div class="b">Of everything the sky shows, only one part is yours: your judgment and your next action.</div></div>
-</div>
 <div class="view" id="view-deck">
-<button class="skip-link" style="text-align:left;margin:0.2rem 0 0.8rem" onclick="showView('journal')">&larr; Back to Practice</button>
-<div class="blk" style="text-align:center;margin-top:0.4rem;cursor:pointer" onclick="reopenDailyReveal()"><div class="t">Today's Pull</div><div class="b" style="font-size:0.82rem">Tap to review today's three impressions</div></div>
+<button class="skip-link" style="text-align:left;margin:0.2rem 0 0.8rem" onclick="showView('journal')">&larr; Back to Journal</button>
+<div class="blk" style="text-align:center;margin-top:0.4rem;cursor:pointer" onclick="reopenDailyReveal()"><div class="t">Today's Pull</div><div class="b" style="font-size:0.82rem">Tap to review today's three-card reading</div></div>
 <div class="blk" style="text-align:center;margin-top:1rem" id="deck-full-intro"><div class="t">The Full Deck &middot; Twenty-Two Majors</div><div class="b" style="font-size:0.82rem">Held back until you ask for it.</div><button class="btn" style="margin-top:0.7rem" onclick="openFullDeck()">Browse the Full Deck</button></div>
 <div id="deck-full-wrap" style="display:none">
 <div class="blk" style="text-align:center;margin-top:1rem"><div class="t">The Full Deck &middot; Twenty-Two Majors</div><div class="b" style="font-size:0.82rem">tap to read &middot; skip &rarr; &middot; &darr; set aside</div></div>
@@ -581,25 +533,25 @@ header .h-date a{color:var(--ink-dim);text-decoration:none;border-bottom:1px sol
 </div>
 
 <div class="view" id="view-binding">
-<button class="skip-link" style="text-align:left;margin:0.2rem 0 0.8rem" onclick="showView('sky')">&larr; Back to Sky</button>
+<button class="skip-link" style="text-align:left;margin:0.2rem 0 0.8rem" onclick="showView('home')">&larr; Back</button>
 <div id="binding-body"></div>
 </div>
 
 <div class="view" id="view-logic">
-<button class="skip-link" style="text-align:left;margin:0.2rem 0 0.8rem" onclick="showView('sky')">&larr; Back to Sky</button>
+<button class="skip-link" style="text-align:left;margin:0.2rem 0 0.8rem" onclick="showView('home')">&larr; Back</button>
 <div class="doc-wrap" id="logic-body"></div>
 </div>
 
 <div class="view" id="view-lore">
-<button class="skip-link" style="text-align:left;margin:0.2rem 0 0.8rem" onclick="showView('sky')">&larr; Back to Sky</button>
+<button class="skip-link" style="text-align:left;margin:0.2rem 0 0.8rem" onclick="showView('profile')">&larr; Back</button>
 <div class="doc-wrap" id="lore-body" style="max-width:none"></div>
 </div>
 
 <div class="view" id="view-cycle">
-<button class="skip-link" style="text-align:left;margin:0.2rem 0 0.8rem" onclick="showView('sky')">&larr; Back to Sky</button>
+<button class="skip-link" style="text-align:left;margin:0.2rem 0 0.8rem" onclick="showView('home')">&larr; Back</button>
 <div class="doc-wrap">
 <h1 style="font-family:'Fraunces',serif;font-weight:300;font-size:1.5rem;color:var(--ink)">Where We Are in the Cycle</h1>
-<p class="subtitle" style="margin:0.3rem 0 1.4rem;font-style:normal;font-family:'Inter',sans-serif">The year as a single line. Tap any part of it.</p>
+<p class="subtitle" style="margin:0.3rem 0 1.4rem;font-style:normal;font-family:'Inter',sans-serif">The year as a single line &mdash; tap any part of it</p>
 <div class="cy-legend">
 <span><i style="background:#ff6b4a"></i>fire seasons</span>
 <span><i style="background:#f2a93c"></i>earth seasons</span>
@@ -621,10 +573,9 @@ header .h-date a{color:var(--ink-dim);text-decoration:none;border-bottom:1px sol
 
 </div>
 <nav id="tabbar">
-<button class="tab on" data-v="home" onclick="showView('home')">Today</button>
-<button class="tab" data-v="sky" onclick="showView('sky')">Sky</button>
-<button class="tab" data-v="journal" onclick="showView('journal')">Practice</button>
-<button class="tab" data-v="profile" onclick="showView('profile')">You</button>
+<button class="tab on" data-v="home" onclick="showView('home')">Home</button>
+<button class="tab" data-v="journal" onclick="showView('journal')">Journal</button>
+<button class="tab" data-v="profile" onclick="showView('profile')">Profile</button>
 </nav>
 </div>
 <div id="write-overlay">
@@ -642,7 +593,7 @@ header .h-date a{color:var(--ink-dim);text-decoration:none;border-bottom:1px sol
 <div id="w-teaser" class="write-teaser" style="display:none">
 <div class="wt-icon">&#9998;</div>
 <div class="wt-title">Write your reflection</div>
-<div class="wt-body">This is where you put today's test into words, and read it back on any day after. Journaling is the heart of the Full Codex.</div>
+<div class="wt-body">This is where you'd put today's test into words &mdash; and read it back on any day after. Journaling is the heart of the Full Codex.</div>
 <div class="wt-fake">Write it plainly, as if to yourself&hellip;</div>
 <button class="btn" onclick="closeWrite();goToPaywallFromApp()">Unlock Journaling</button>
 </div>
@@ -973,13 +924,13 @@ var PERSONAL_MONTH = {
 // ================================================================
 
 var DAY_DISCIPLINES = [
-  { name: "The Review", strategy: "end the week honestly: name one thing you did well, one you did poorly, one you left undone. No excuses." },
-  { name: "Premeditatio", strategy: "picture the day's most likely problem before it happens, so it meets a plan instead of a surprise." },
-  { name: "The Discipline of Action", strategy: "do the single next step on your most important task before touching anything easier." },
-  { name: "Prosoche", strategy: "do one thing at a time today; every switch costs you, and today you do not pay." },
-  { name: "Oikeiosis", strategy: "carry one weight for someone else today, or hand back one that was never yours." },
-  { name: "Temperance", strategy: "find the one want pulling hardest today, and say no to it once, on purpose." },
-  { name: "Memento", strategy: "end the day by naming one thing today made permanent, for better or worse." }
+  { name: "The Review", strategy: "end the week honestly: name one thing you did well, one you did poorly, one you left undone \u2014 no excuses" },
+  { name: "Premeditatio", strategy: "picture the day's most likely problem before it happens, so it meets a plan instead of a surprise" },
+  { name: "The Discipline of Action", strategy: "do the single next step on your most important task before touching anything easier" },
+  { name: "Prosoche", strategy: "do one thing at a time today; every switch costs you, and today you do not pay" },
+  { name: "Sympatheia", strategy: "carry one weight for someone else today \u2014 or hand back one that was never yours" },
+  { name: "Temperance", strategy: "find the one want pulling hardest today \u2014 treats, praise, more \u2014 and say no to it once, on purpose" },
+  { name: "Memento", strategy: "end the day by naming one thing today made permanent, for better or worse" }
 ];
 
 
@@ -1245,7 +1196,7 @@ window.shareCard = function () {
   x.fillStyle = "#8a6d3f"; x.textAlign = "center";
   x.font = "34px 'Courier New', monospace";
   x.fillText(f.sign.toUpperCase() + " \u00d7 " + (revealedAnimal || f.animal).toUpperCase() + " \u00b7 UNION " + f.num.replace("Frame ", ""), W / 2, 170);
-  // The Mucha plate — personal variant when it exists, archetype otherwise
+  // The Mucha plate \u2014 personal variant when it exists, archetype otherwise
   var CARD_W = 500, CARD_H = 750, CARD_X = (W - CARD_W) / 2, CARD_Y = 230;
   function drawCardArt(img) {
     if (img) {
@@ -1281,7 +1232,7 @@ window.shareCard = function () {
     x.fillStyle = "#8a6d3f";
     x.font = "italic 40px Georgia, serif";
     x.fillText(f.aztec, W / 2, 1190);
-    // The current — the same words as the birthday reveal
+    // The current \u2014 the same words as the birthday reveal
     x.fillStyle = "#4a3820";
     x.font = "italic 40px Georgia, serif";
     var words = (f.essence || "").split(" "), lines = [], cur = "";
@@ -1346,7 +1297,7 @@ window.shareFortune = function () {
   x.strokeRect(60, 60, W - 120, H - 120);
   x.fillStyle = "#8a6d3f"; x.textAlign = "center";
   x.font = "30px 'Courier New', monospace";
-  x.fillText("TODAY'S IMPRESSION \u00b7 " + dayLabel(today()).toUpperCase(), W / 2, 200);
+  x.fillText("TODAY'S FORTUNE \u00b7 " + dayLabel(today()).toUpperCase(), W / 2, 200);
   x.fillStyle = "#6b4a25";
   x.font = "italic 300 52px Georgia, 'Times New Roman', serif";
   var words = text.split(/\s+/), lines = [], cur = "";
@@ -1366,7 +1317,7 @@ window.shareFortune = function () {
   cv.toBlob(function (blob) {
     var file = new File([blob], "codex-fortune-" + today() + ".png", { type: "image/png" });
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      navigator.share({ files: [file], title: "Today's Impression" }).catch(function () {});
+      navigator.share({ files: [file], title: "Today's Fortune" }).catch(function () {});
     } else {
       var a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
@@ -1382,14 +1333,14 @@ window.toggleReadingExpand = function () {
   var open = el.style.display !== "none";
   if (open) {
     el.style.display = "none";
-    label.innerHTML = "What do these impressions mean? &darr;";
+    label.innerHTML = "What do these cards mean? &darr;";
     return;
   }
   var sp = spreadState();
   if (!sp.cards.length) {
     el.innerHTML = '<div style="text-align:center;font-size:0.8rem;color:var(--ink-faint)">' + (sp.loading ? "Loading\u2026" : "Couldn\u2019t reach today\u2019s pull.") + '</div>';
     el.style.display = "";
-    label.innerHTML = "What do these impressions mean? &uarr;";
+    label.innerHTML = "What do these cards mean? &uarr;";
     return;
   }
   el.innerHTML = "";
@@ -1424,7 +1375,7 @@ window.toggleReadingExpand = function () {
     el.appendChild(blk);
   });
   el.style.display = "";
-  label.innerHTML = "What do these impressions mean? &uarr;";
+  label.innerHTML = "What do these cards mean? &uarr;";
 };
 window.shareEntry = function (m) {
   if (!isPremium()) { goToPaywallFromApp(); return; }
@@ -1543,7 +1494,7 @@ window.skipCodex = function () { store("codex_tier", "free"); $("codex-overlay")
 window.profileReset = function () {
   try { localStorage.removeItem("codex_profile"); } catch (e) {}
   $("app").classList.remove("on");
-  ["ob-fields", "reveal-wait", "codex-result", "ob-primer", "ob-paywall", "ob-email"].forEach(function (id) {
+  ["ob-fields", "reveal-wait", "codex-result", "ob-paywall", "ob-email"].forEach(function (id) {
     var el = $(id);
     el.classList.remove("on");
     if (id === "ob-fields") { el.classList.add("on"); el.style.display = ""; }
@@ -1663,7 +1614,7 @@ window.signOutAccount = function () {
   if (renderAccountRow) renderAccountRow();
 };
 
-// ---------------- onboarding staging: reveal -> primer -> paywall -> email capture ----------------
+// ---------------- onboarding staging: reveal -> paywall -> email capture ----------------
 // MAKE_WEBHOOK_URL is a placeholder. Swap in the real Make.com webhook URL
 // once the scenario exists — nothing else in this flow needs to change.
 var MAKE_WEBHOOK_URL = "https://hook.make.com/REPLACE_WITH_REAL_WEBHOOK";
@@ -1680,27 +1631,6 @@ window.goToPaywall = function () {
   $("codex-result").style.display = "none";
   obShow("ob-paywall");
   obProgress(3);
-};
-var primerStep = 0;
-window.showPrimer = function () {
-  $("codex-result").style.display = "none";
-  $("ob-primer").classList.add("on");
-  primerStep = 0;
-  ["primer-1", "primer-2", "primer-3"].forEach(function (id, i) {
-    $(id).style.display = i === 0 ? "" : "none";
-  });
-  obProgress(3);
-};
-window.primerNext = function () {
-  primerStep++;
-  if (primerStep > 2) {
-    $("ob-primer").classList.remove("on");
-    goToPaywall();
-    return;
-  }
-  ["primer-1", "primer-2", "primer-3"].forEach(function (id, i) {
-    $(id).style.display = i === primerStep ? "" : "none";
-  });
 };
 window.selectPlan = function (plan) {
   selectedPlan = plan;
@@ -1764,16 +1694,15 @@ function persistArchived(l) { store("codex_archived", l); }
 
 // ---------------- app boot / views ----------------
 window.showView = function (v) {
-  ["home", "sky", "deck", "profile", "journal", "deity", "binding", "logic", "cycle", "lore"].forEach(function (n) {
+  ["home", "deck", "profile", "journal", "deity", "binding", "logic", "cycle", "lore"].forEach(function (n) {
     $("view-" + n).classList.toggle("on", n === v);
   });
-  // Deck is a sub-page reached from Practice (browse the full 22 majors), not its own
-  // tab — keep the Practice tab lit while browsing it so the tab bar still reads correctly.
+  // Deck is a sub-page reached from Journal (browse the full 22 majors), not its own tab —
+  // keep the Journal tab lit while browsing it so the tab bar still reads correctly.
   document.querySelectorAll(".tab").forEach(function (t) {
     t.classList.toggle("on", t.dataset.v === v || (v === "deck" && t.dataset.v === "journal"));
   });
   if (v === "home") { ppGoTo(0); }
-  if (v === "sky") renderSky();
   if (v === "deck") renderDeck();
   if (v === "profile") renderProfile();
   if (v === "journal") {
@@ -1782,7 +1711,7 @@ window.showView = function (v) {
     $("journal-unlocked-wrap").style.display = jLocked ? "none" : "";
     if (jLocked) {
       $("journal-lock").innerHTML = lockCardHTML("Your journal, saved",
-        "Free browsing shows today\u2019s pull. Saving your own reflections \u2014 and revisiting them \u2014 is part of the Full Codex.");
+        "Free browsing shows today&rsquo;s pull. Saving your own reflections \u2014 and revisiting them \u2014 is part of the Full Codex.");
     } else {
       $("journal-list").innerHTML = '<div class="empty">Loading\u2026</div>';
       loadFullDeck().then(function () { renderJournal(); renderArchived(); });
@@ -1801,7 +1730,7 @@ function lockCardHTML(title, body) {
 window.goToPaywallFromApp = function () {
   $("app").classList.remove("on");
   $("codex-overlay").classList.remove("hidden");
-  ["ob-fields", "reveal-wait", "codex-result", "ob-primer"].forEach(function (id) { $(id).style.display = "none"; $(id).classList.remove("on"); });
+  ["ob-fields", "reveal-wait", "codex-result"].forEach(function (id) { $(id).style.display = "none"; $(id).classList.remove("on"); });
   selectedPlan = "premium";
   $("plan-premium").classList.add("sel"); $("plan-free").classList.remove("sel");
   $("ob-paywall-cta").textContent = "Unlock Full Demo";
@@ -2006,14 +1935,6 @@ function celestialMini() {
   var moon = moonPhase(now);
   return "The sun is in " + curSign + " \u00b7 the moon is in " + moonSign(now) + " \u00b7 " + moon.name.toLowerCase() + " \u00b7 " + tonal.coef + " " + tonal.sign.n;
 }
-function renderSky() {
-  var now = new Date();
-  var el = $("sky-celestial"); if (el) el.textContent = celestialSummary();
-  var ny = nextFireYear(now.getFullYear());
-  var target = new Date(ny, 0, 1);
-  var days = Math.max(0, Math.ceil((target.getTime() - now.getTime()) / 86400000));
-  var cd = $("sky-countdown"); if (cd) cd.textContent = "the next New Fire comes in " + ny + " \u00b7 " + days + " days";
-}
 var RING_CIRC = 339.292; // 2 * PI * 54, matches the SVG circle radius
 var DAY_RULER_COLOR = ["#dd8f2c", "#5b7fd4", "#e2542b", "#279a6b", "#9b6bd4", "#c9548a", "#5b7280"];
 function renderPlaqueRing() {
@@ -2105,7 +2026,7 @@ function renderHome() {
     var chosen = read(actionKey(f), null);
     if (chosen !== null) {
       var label = chosen === 0 ? daily.discName : chosen === 1 ? "The Trap Rep" : "The Month's Vow";
-      var text = chosen === 0 ? daily.strategy : chosen === 1 ? "Catch yourself " + (f.watch || "").replace(/\.$/, "") + " \u2014 stop, and name it." : (f.vow || "");
+      var text = chosen === 0 ? daily.strategy : chosen === 1 ? "Catch yourself " + (f.watch || "").replace(/\.$/, "") + " — stop, and name it." : (f.vow || "");
       actEl.innerHTML = '<div class="blk green"><div class="t">Committed today \u00b7 ' + label + '</div><div class="b"></div></div>';
       actEl.querySelector(".b").textContent = text;
     } else actEl.innerHTML = "";
@@ -2113,7 +2034,6 @@ function renderHome() {
     $("pf-stats").textContent = meds.length + " journal " + (meds.length === 1 ? "entry" : "entries");
   }
   renderStreak();
-  renderReview();
   // Latest entries strip: top five, then a door to the journal.
   var strip = $("pf-strip"); strip.innerHTML = "";
   var meds = loadMeds();
@@ -2160,7 +2080,7 @@ function renderProfile() {
   var MONTHS = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   $("prof-birth").textContent = "Born " + MONTHS[p.m] + " " + p.d + ", " + p.y;
   $("prof-essence-blk").style.display = "";
-  $("prof-essence").textContent = f.essence || "Loading\u2026";
+  $("prof-essence").textContent = f.essence || "Loading…";
   $("prof-path-blk").style.display = "";
   $("prof-path").textContent = buildDaily(f, p.animal).strategy;
   renderPlaqueRing();
@@ -2213,7 +2133,7 @@ window.shareFromProfile = function () {
 // ---------------- streak ----------------
 var streakJustSaved = false;
 // The streak now counts any day the person showed up and used the app — saving a
-// journal entry, completing today's three-card reveal, or closing the day's review.
+// journal entry OR simply completing today's three-card reveal both qualify.
 function markStreakActivity() {
   var dates = read("codex_activity_dates", []);
   if (dates.indexOf(today()) === -1) {
@@ -2238,17 +2158,8 @@ function computeStreak() {
   }
   return { count: count, doneToday: hasToday };
 }
-function renderFireWidget() {
-  var el = $("pf-fire"); if (!el) return;
-  if (!loadProfile()) { el.innerHTML = ""; return; }
-  var s = computeStreak();
-  var emoji = s.count > 0 ? "\ud83d\udd25" : "\u2728";
-  el.innerHTML = '<div class="wrow"><span class="wn">' + s.count + '</span><span class="wg">' + emoji + '</span></div>' +
-    '<div class="wl">days the fire has burned</div>';
-}
 function renderStreak() {
   var badge = $("streak-badge"); if (!badge) return;
-  renderFireWidget();
   if (!loadProfile()) { badge.innerHTML = ""; return; }
   var s = computeStreak();
   var tonal = tonalpohualli(new Date());
@@ -2261,38 +2172,6 @@ function renderStreak() {
     streakJustSaved = false;
   }
 }
-// ---------------- the evening review ----------------
-function todayReview() {
-  var rs = read("codex_reviews", []);
-  for (var i = 0; i < rs.length; i++) if (rs[i].date === today()) return rs[i];
-  return null;
-}
-function renderReview() {
-  var state = $("review-state"), form = $("review-form");
-  if (!state) return;
-  var r = todayReview();
-  if (r) {
-    state.textContent = "The day is closed.";
-    $("review-text").value = r.text;
-    form.style.display = "none";
-  } else {
-    state.textContent = "The day doesn't end until it is reviewed.";
-    form.style.display = "";
-  }
-}
-window.closeTheDay = function () {
-  var text = ($("review-text").value || "").trim();
-  if (!text) return;
-  var rs = read("codex_reviews", []);
-  rs = rs.filter(function (r) { return r.date !== today(); });
-  rs.unshift({ date: today(), text: text });
-  store("codex_reviews", rs);
-  markStreakActivity();
-  streakJustSaved = true;
-  renderReview();
-  renderStreak();
-  renderHome();
-};
 window.openBindingInfo = function () {
   var start = read("codex_binding_start", null);
   var body = "The Binding is a 52\u2011week cycle, one for every year in the Aztec calendar round. It starts automatically the day you save your first journal entry, and each of the 13\u00d74 tiles in the ring fills in as a week passes with at least one entry saved. " +
@@ -2305,7 +2184,7 @@ window.openStreakInfo = function () {
   var s = computeStreak();
   var body = s.count > 0
     ? "You've used the Codex on <strong>" + s.count + " consecutive day" + (s.count === 1 ? "" : "s") + "</strong>, including today. Revealing today's pull keeps it alive on its own \u2014 saving a journal entry does too."
-    : "Your streak counts <strong>consecutive days</strong> you've shown up \u2014 revealing today's pull is enough, and saving a journal entry counts too. Open today's reading to light it.";
+    : "Your streak counts <strong>consecutive days</strong> you've shown up \u2014 revealing today's pull is enough, and saving a journal entry counts too. Open today's reading to light it."
   body += " Miss a day and it resets to zero \u2014 the number is always today's count, not a lifetime total.";
   openInfoPopup("Your Streak", body);
 };
@@ -2475,7 +2354,7 @@ function selfCard() {
 // card entry). Each gets its own color + short badge so entries are easy
 // to tell apart and filter in the Journal.
 var CATS = {
-  fortune:        { badge: "IMPRESSION",   color: "#d4af5a", label: "Today's Impression", note: "Written beneath today's impression." },
+  fortune:        { badge: "FORTUNE",      color: "#d4af5a", label: "Today's Fortune", note: "Written beneath today's fortune." },
   practice:       { badge: "PRACTICE",     color: "#6f9e83", label: "In Practice", note: "Written on today's practice." },
   "chakra-day":   { badge: "DAY CHAKRA",   color: "#4a90a4", label: "Today's Chakra", note: "Written on today's chakra." },
   "chakra-month": { badge: "MONTH CHAKRA", color: "#8a6fa8", label: "This Month's Chakra", note: "Written on this month's chakra." },
@@ -2602,7 +2481,7 @@ function renderSpread() {
   if (allOpen) {
     var head = document.createElement("div");
     head.className = "sec-label"; head.style.marginTop = "1rem";
-    head.textContent = "What These Impressions Represent";
+    head.textContent = "What These Cards Represent";
     det.appendChild(head);
     sp.cards.forEach(function (c, i) {
       var kind = SPREAD_KIND[i], t = TAROT[c.n];
@@ -2871,7 +2750,7 @@ var JOURNAL_FILTERS = [
   { key: "tarot", label: "Tarot", color: "#9a7ab0" },
   { key: "celestial", label: "Celestial", color: "#b08d3e" },
   { key: "self", label: "Self", color: "#8a8272" },
-  { key: "fortune", label: "Impression", color: CATS.fortune.color },
+  { key: "fortune", label: "Fortune", color: CATS.fortune.color },
   { key: "practice", label: "Practice", color: CATS.practice.color },
   { key: "chakra-day", label: "Day Chakra", color: CATS["chakra-day"].color },
   { key: "chakra-month", label: "Month Chakra", color: CATS["chakra-month"].color },
@@ -3129,9 +3008,9 @@ function renderLogicView() {
     '<div class="formula">tonalpohualli index &nbsp;=&nbsp; (104 + J &minus; J<sub>1521-08-13</sub>) mod 260<br>coefficient = index mod 13 + 1 &nbsp;&nbsp;&nbsp; day-sign = DAY_SIGNS[index mod 20]<br>xiuhpohualli day-of-year = (174 + J &minus; J<sub>1521-08-13</sub>) mod 365<br>veintena = floor(day / 20) &nbsp;&nbsp;&nbsp; day-within = day mod 20 + 1 &nbsp;&nbsp;&nbsp; (&ge;360 \u2192 nemontemi)</div>' +
     '<p>(1 Coatl is index 104 of the round: the unique n with n mod 13 = 0 and n mod 20 = 4.) The implementation was verified against a second documented Caso date \u2014 June 30, 1520, the Noche Triste, computes to <strong>8 Cozcacuauhtli</strong>, exactly as recorded.</p>' +
     '<div class="note"><p>Honest caveat: Caso\u2019s count applies no intercalary correction, so the xiuhpohualli drifts against the seasons by roughly one day every four years \u2014 a known and debated feature of the correlation, not a bug in this page. The tonalpohualli count, which is what the day-sign ring uses, is unaffected: it is a continuous 260-day count and needs no leap correction at all.</p></div>' +
-    '<h2>Wheel IV \u2014 The Stoic week (7)</h2><p>The daily layer is a practice calendar, not astrology: seven disciplines (the Review, Premeditatio, the Discipline of Action, Prosoche, Oikeiosis, Temperance, Memento) rotating on the weekday, combined with two real astronomical clocks computed live \u2014 the planetary day ruler (the traditional weekday assignment: Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn) and the actual moon phase, computed from the mean synodic month against the documented new moon of January 6, 2000.</p>' +
+    '<h2>Wheel IV \u2014 The Stoic week (7)</h2><p>The daily layer is a practice calendar, not astrology: seven disciplines (the Review, Premeditatio, the Discipline of Action, Prosoche, Sympatheia, Temperance, Memento) rotating on the weekday, combined with two real astronomical clocks computed live \u2014 the planetary day ruler (the traditional weekday assignment: Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn) and the actual moon phase, computed from the mean synodic month against the documented new moon of January 6, 2000.</p>' +
     '<h2>Why the fusion is legitimate \u2014 the 52 rhymes with the 60</h2><p>The Chinese 60-year cycle and the Aztec 52-year cycle are the same construction: two coprime wheels producing a great year. And naming worked the same way in both: an Aztec year took its name from a day-sign and a number (4 year-bearer signs \u00d7 13 numbers = 52 unique year names), exactly as a Chinese year is named animal \u00d7 element. The Codex\u2019s own naming move \u2014 <strong>month sign \u00d7 year animal</strong>, one Union per frame \u2014 is the combinatorial pattern both traditions had already made. It was rediscovered, not invented.</p>' +
-    '<h2>The Binding of the Weeks \u2014 the ceremony, scaled to a life</h2><p>The Codex maps the 52-year cosmic binding to a 52-week personal cycle:</p><ul><li>Your first saved entry lights your fire. From that date the Codex counts weeks.</li><li>At week 52 the binding comes due: the board is ceremonially closed here in the app, and a New Fire opens cycle two. A full downloadable archive is coming in a future update.</li><li>The board\u2019s week counter and the ceremony live on the Binding view, off the Sky tab.</li></ul>' +
+    '<h2>The Binding of the Weeks \u2014 the ceremony, scaled to a life</h2><p>The Codex maps the 52-year cosmic binding to a 52-week personal cycle:</p><ul><li>Your first saved entry lights your fire. From that date the Codex counts weeks.</li><li>At week 52 the binding comes due: the board is ceremonially closed here in the app, and a New Fire opens cycle two. A full downloadable archive is coming in a future update.</li><li>The board\u2019s week counter and the ceremony live on the Binding view, off Home.</li></ul>' +
     '<h2>The countdown \u2014 why 2027 matters</h2><p>The last New Fire ceremony actually performed was in <strong>1507</strong>, under Moctezuma II. Counting forward in 52-year bindings from that documented date:</p>' +
     '<div class="formula">1507, 1559, 1611, 1663, 1715, 1767, 1819, 1871, 1923, 1975, <strong>2027</strong></div>' +
     '<p>Which makes the present year the closing year of the current reconstructed binding \u2014 the countdown shown in the Codex header counts the days remaining until the next fire. This is arithmetic from a documented date, not marketing.</p>' +
